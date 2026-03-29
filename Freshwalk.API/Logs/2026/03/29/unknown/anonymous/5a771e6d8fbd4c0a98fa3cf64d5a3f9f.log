@@ -1,0 +1,56 @@
+﻿=== REQUEST ===
+POST /api/mpesa/callback
+CorrelationId: 5a771e6d8fbd4c0a98fa3cf64d5a3f9f
+Headers:
+  Accept: */*
+  Connection: keep-alive
+  Host: localhost:5089
+  User-Agent: PostmanRuntime/7.52.0
+  Accept-Encoding: gzip, deflate, br
+  Content-Type: application/json
+  Content-Length: 465
+  Postman-Token: 5bae858f-cce0-460f-befe-b9143b5640d5
+(Authorization header omitted)
+
+Body:
+{
+  "Body": {
+    "stkCallback": {
+      "MerchantRequestID": "d674-45d8-be04-b4b58b11804628251",
+      "CheckoutRequestID": "ws_CO_29032026131334846768220092",
+      "ResultCode": 0,
+      "ResultDesc": "Success",
+      "CallbackMetadata": {
+        "Item": [
+          { "Name": "Amount", "Value": 1170 },
+          { "Name": "MpesaReceiptNumber", "Value": "QJK2BLGT11" },
+          { "Name": "PhoneNumber", "Value": "254768220092" }
+        ]
+      }
+    }
+  }
+}
+
+=== DATABASE COMMANDS ===
+SELECT p."Id", p."Amount", p."BookingId", p."CreatedAt", p."MpesaCheckoutRequestId", p."MpesaMerchantRequestId", p."MpesaReceipt", p."PayerPhoneNumber", p."PaymentReference", p."Status", b."Id", b."AddOns", b."BookingReference", b."BundleDiscountPercent", b."CreatedAt", b."CustomerId", b."DiscountAmountKes", b."NubuckLines", b."OfficialLeatherLines", b."PickupAddress", b."PickupLatitude", b."PickupLocationUrl", b."PickupLongitude", b."PriceKes", b."SneakersLines", b."Status", b."SubtotalBeforeDiscountKes", b."SuedeLines", b."TotalPairs", o."Id", o."AgentId", o."BookingId", o."CleaningCompletedAt", o."CleaningStartedAt", o."CustomerId", o."DeliveredAt", o."DeliveryOtp", o."DeliveryOtpExpiresAt", o."DeliveryOtpVerifiedAt", o."OrderReference", o."PickedUpAt", o."PickupOtp", o."PickupOtpExpiresAt", o."PickupOtpVerifiedAt", o."Status"
+FROM "Payments" AS p
+INNER JOIN "Bookings" AS b ON p."BookingId" = b."Id"
+LEFT JOIN "Orders" AS o ON b."Id" = o."BookingId"
+WHERE p."MpesaCheckoutRequestId" = @__checkoutRequestId_0
+LIMIT 1
+  -- @__checkoutRequestId_0=ws_CO_29032026131334846768220092
+---
+UPDATE "Bookings" SET "Status" = @p0
+WHERE "Id" = @p1;
+INSERT INTO "Orders" ("Id", "AgentId", "BookingId", "CleaningCompletedAt", "CleaningStartedAt", "CustomerId", "DeliveredAt", "DeliveryOtp", "DeliveryOtpExpiresAt", "DeliveryOtpVerifiedAt", "OrderReference", "PickedUpAt", "PickupOtp", "PickupOtpExpiresAt", "PickupOtpVerifiedAt", "Status")
+VALUES (@p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12, @p13, @p14, @p15, @p16, @p17);
+UPDATE "Payments" SET "MpesaReceipt" = @p18, "Status" = @p19
+WHERE "Id" = @p20;
+
+  -- @p1=fe84829a-033b-48e4-90ec-be701ca528ca, @p0=PaymentConfirmed, @p2=21381961-9ec7-45ff-887a-288a0e1ea182, @p3=, @p4=fe84829a-033b-48e4-90ec-be701ca528ca, @p5=, @p6=, @p7=35040583-dcf4-4af7-abe2-6c7777644a6e, @p8=, @p9=, @p10=, @p11=, @p12=FW-20260328180153510-4949, @p13=, @p14=, @p15=, @p16=, @p17=AwaitingPickupRider, @p20=96d04fe7-9583-4c5b-8cd1-e1e666519beb, @p18=QJK2BLGT11, @p19=Success
+---
+
+=== RESPONSE ===
+Status: 200
+Body:
+{"resultCode":0,"resultDesc":"Accepted"}

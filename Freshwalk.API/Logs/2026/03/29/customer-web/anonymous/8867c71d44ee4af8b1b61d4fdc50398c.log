@@ -1,0 +1,45 @@
+﻿=== REQUEST ===
+POST /api/auth/google
+CorrelationId: 8867c71d44ee4af8b1b61d4fdc50398c
+Headers:
+  Accept: application/json, text/plain, */*
+  Connection: keep-alive
+  Host: localhost:5089
+  User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36
+  Accept-Encoding: gzip, deflate, br, zstd
+  Accept-Language: en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7
+  Content-Type: application/json
+  Origin: http://localhost:5173
+  Referer: http://localhost:5173/
+  Content-Length: 1238
+  sec-ch-ua-platform: "Windows"
+  sec-ch-ua: "Chromium";v="146", "Not-A.Brand";v="24", "Google Chrome";v="146"
+  sec-ch-ua-mobile: ?0
+  X-Client-Source: customer-web
+  DNT: 1
+  Sec-Fetch-Site: same-site
+  Sec-Fetch-Mode: cors
+  Sec-Fetch-Dest: empty
+(Authorization header omitted)
+
+Body:
+{"idToken":"eyJhbGciOiJSUzI1NiIsImtpZCI6ImExMGU1OGRmNTVlNzI4NTY2ZWM1NmJkYTZlYjNiZDQ1NDM5ZjM1ZDciLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2FjY291bnRzLmdvb2dsZS5jb20iLCJhenAiOiI5NzQ2NDY5MDYwNjQtb3RzaGg4ZGM2aThvaGhxZDZrbWU1cW1wOWdkMm9lZjYuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJhdWQiOiI5NzQ2NDY5MDYwNjQtb3RzaGg4ZGM2aThvaGhxZDZrbWU1cW1wOWdkMm9lZjYuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJzdWIiOiIxMDM5Mjk0MzczMjQ1MTAwNjEzMzMiLCJlbWFpbCI6ImtlbGx5cm9ubnk5ODVAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsIm5vbmNlIjoibm90X3Byb3ZpZGVkIiwibmJmIjoxNzc0Nzc4ODg2LCJuYW1lIjoia2VsbHkgcm9ubnkiLCJwaWN0dXJlIjoiaHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2EvQUNnOG9jSllCTHVscmFtYzZkZ2hKQng0bzBFUWh1ZzVwR29WNmtFT3V2TUlEeGMxU3NYWVFZanE9czk2LWMiLCJnaXZlbl9uYW1lIjoia2VsbHkiLCJmYW1pbHlfbmFtZSI6InJvbm55IiwiaWF0IjoxNzc0Nzc5MTg2LCJleHAiOjE3NzQ3ODI3ODYsImp0aSI6IjBjOGFmYWMyYTA4ODUzOTJkNjAxZTEzNzY4ZDZlZDA0ZGE4ZjE0MjYifQ.Sh1Ui25L08t6ajdZP7LpPYzTm63kTHpYXF5FG7KVDaEFDejUVvQY5hSnmDsqBJREvCh_xUKgWbRvoxLBYHWNEH5pqBRyQeRzGfYq7-309b-Q-DgRJoL_m11TZBs-7s04RveYM_awB4Ukb0IAuzn4uQNiDhhWmq8HJ_flFCFv4UlW-JNpsgqjZbGs-1yr7PD-ZF-OV69ttHkU1R0ITMlfEopnApetlcs5TAuROYb3wskjk-B-m9bLBIg2wOX_YcH6stiylY7B33zuM-8_lm08wDCQCxiccv-6kd5aoIvQsLE8XiXT8Q1kUXN3twKvz5KWfq4R8IBuThArSd25e1gpAg"}
+
+=== DATABASE COMMANDS ===
+SELECT f."Id", f."AccessFailedCount", f."Address", f."ConcurrencyStamp", f."CreatedAt", f."CustomerReference", f."Email", f."EmailConfirmed", f."FullName", f."IsActive", f."LockoutEnabled", f."LockoutEnd", f."NormalizedEmail", f."NormalizedUserName", f."PasswordHash", f."PhoneNumber", f."PhoneNumberConfirmed", f."SecurityStamp", f."TwoFactorEnabled", f."UserName"
+FROM "FreshwalkUsers" AS f
+WHERE f."NormalizedEmail" = @__normalizedEmail_0
+LIMIT 2
+  -- @__normalizedEmail_0=KELLYRONNY985@GMAIL.COM
+---
+SELECT f0."Name"
+FROM "FreshwalkUserRoles" AS f
+INNER JOIN "FreshwalkRoles" AS f0 ON f."RoleId" = f0."Id"
+WHERE f."UserId" = @__userId_0
+  -- @__userId_0=35040583-dcf4-4af7-abe2-6c7777644a6e
+---
+
+=== RESPONSE ===
+Status: 200
+Body:
+{"accessToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzNTA0MDU4My1kY2Y0LTRhZjctYWJlMi02Yzc3Nzc2NDRhNmUiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjM1MDQwNTgzLWRjZjQtNGFmNy1hYmUyLTZjNzc3NzY0NGE2ZSIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWUiOiJrZWxseSByb25ueSIsImVtYWlsIjoia2VsbHlyb25ueTk4NUBnbWFpbC5jb20iLCJmdWxsX25hbWUiOiJrZWxseSByb25ueSIsImN1c3RvbWVyX3JlZiI6IktFLTAwMDAwMDA2IiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQ3VzdG9tZXIiLCJleHAiOjE3NzQ3ODI3OTQsImlzcyI6IkZyZXNod2Fsay5BUEkiLCJhdWQiOiJGcmVzaHdhbGsuQ2xpZW50In0.tBkD3xY6WOn5pj-JNE9N1ynbQNUHM3dCbORsdBKlShQ","expiresAt":"2026-03-29T11:13:14.1606123+00:00","email":"kellyronny985@gmail.com","fullName":"kelly ronny","customerReference":"KE-00000006","roles":["Customer"]}

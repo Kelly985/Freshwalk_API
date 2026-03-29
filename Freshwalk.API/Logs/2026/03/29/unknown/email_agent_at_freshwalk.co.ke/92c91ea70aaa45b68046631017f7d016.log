@@ -1,0 +1,44 @@
+﻿=== REQUEST ===
+POST /api/auth/login
+CorrelationId: 92c91ea70aaa45b68046631017f7d016
+Headers:
+  Accept: application/json, text/plain, */*
+  Connection: keep-alive
+  Host: localhost:5089
+  User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36
+  Accept-Encoding: gzip, deflate, br, zstd
+  Accept-Language: en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7
+  Content-Type: application/json
+  Origin: http://localhost:5174
+  Referer: http://localhost:5174/
+  Content-Length: 60
+  sec-ch-ua-platform: "Windows"
+  sec-ch-ua: "Chromium";v="146", "Not-A.Brand";v="24", "Google Chrome";v="146"
+  DNT: 1
+  sec-ch-ua-mobile: ?0
+  Sec-Fetch-Site: same-site
+  Sec-Fetch-Mode: cors
+  Sec-Fetch-Dest: empty
+(Authorization header omitted)
+
+Body:
+{"email":"agent@freshwalk.co.ke","password":"Freshwalk@123"}
+
+=== DATABASE COMMANDS ===
+SELECT f."Id", f."AccessFailedCount", f."Address", f."ConcurrencyStamp", f."CreatedAt", f."CustomerReference", f."Email", f."EmailConfirmed", f."FullName", f."IsActive", f."LockoutEnabled", f."LockoutEnd", f."NormalizedEmail", f."NormalizedUserName", f."PasswordHash", f."PhoneNumber", f."PhoneNumberConfirmed", f."SecurityStamp", f."TwoFactorEnabled", f."UserName"
+FROM "FreshwalkUsers" AS f
+WHERE f."NormalizedEmail" = @__normalizedEmail_0
+LIMIT 2
+  -- @__normalizedEmail_0=AGENT@FRESHWALK.CO.KE
+---
+SELECT f0."Name"
+FROM "FreshwalkUserRoles" AS f
+INNER JOIN "FreshwalkRoles" AS f0 ON f."RoleId" = f0."Id"
+WHERE f."UserId" = @__userId_0
+  -- @__userId_0=d3ea9e8e-baeb-4f01-bbcd-a712a07e43c5
+---
+
+=== RESPONSE ===
+Status: 200
+Body:
+{"accessToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkM2VhOWU4ZS1iYWViLTRmMDEtYmJjZC1hNzEyYTA3ZTQzYzUiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6ImQzZWE5ZThlLWJhZWItNGYwMS1iYmNkLWE3MTJhMDdlNDNjNSIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWUiOiJEZW1vIEFnZW50IiwiZW1haWwiOiJhZ2VudEBmcmVzaHdhbGsuY28ua2UiLCJmdWxsX25hbWUiOiJEZW1vIEFnZW50IiwiY3VzdG9tZXJfcmVmIjoiS0UtMDAwMDAwMDIiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBZ2VudCIsImV4cCI6MTc3NDc4MjM1MCwiaXNzIjoiRnJlc2h3YWxrLkFQSSIsImF1ZCI6IkZyZXNod2Fsay5DbGllbnQifQ.pOj9nOWwnwtexf_ii_r8D1coDCUBfKBuwFfiJ7cgXiM","expiresAt":"2026-03-29T11:05:50.5901875+00:00","email":"agent@freshwalk.co.ke","fullName":"Demo Agent","customerReference":"KE-00000002","roles":["Agent"]}

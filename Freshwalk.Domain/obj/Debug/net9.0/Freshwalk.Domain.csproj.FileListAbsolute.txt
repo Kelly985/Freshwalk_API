@@ -1,0 +1,12 @@
+D:\Projects\Freshwalk Shoe Cleaning web app\API\Freshwalk.Domain\bin\Debug\net9.0\Freshwalk.Domain.deps.json
+D:\Projects\Freshwalk Shoe Cleaning web app\API\Freshwalk.Domain\bin\Debug\net9.0\Freshwalk.Domain.dll
+D:\Projects\Freshwalk Shoe Cleaning web app\API\Freshwalk.Domain\bin\Debug\net9.0\Freshwalk.Domain.pdb
+D:\Projects\Freshwalk Shoe Cleaning web app\API\Freshwalk.Domain\obj\Debug\net9.0\Freshwalk.Domain.csproj.AssemblyReference.cache
+D:\Projects\Freshwalk Shoe Cleaning web app\API\Freshwalk.Domain\obj\Debug\net9.0\Freshwalk.Domain.GeneratedMSBuildEditorConfig.editorconfig
+D:\Projects\Freshwalk Shoe Cleaning web app\API\Freshwalk.Domain\obj\Debug\net9.0\Freshwalk.Domain.AssemblyInfoInputs.cache
+D:\Projects\Freshwalk Shoe Cleaning web app\API\Freshwalk.Domain\obj\Debug\net9.0\Freshwalk.Domain.AssemblyInfo.cs
+D:\Projects\Freshwalk Shoe Cleaning web app\API\Freshwalk.Domain\obj\Debug\net9.0\Freshwalk.Domain.csproj.CoreCompileInputs.cache
+D:\Projects\Freshwalk Shoe Cleaning web app\API\Freshwalk.Domain\obj\Debug\net9.0\Freshwalk.Domain.dll
+D:\Projects\Freshwalk Shoe Cleaning web app\API\Freshwalk.Domain\obj\Debug\net9.0\refint\Freshwalk.Domain.dll
+D:\Projects\Freshwalk Shoe Cleaning web app\API\Freshwalk.Domain\obj\Debug\net9.0\Freshwalk.Domain.pdb
+D:\Projects\Freshwalk Shoe Cleaning web app\API\Freshwalk.Domain\obj\Debug\net9.0\ref\Freshwalk.Domain.dll

@@ -1,0 +1,51 @@
+﻿=== REQUEST ===
+POST /api/mpesa/initiatestkpush
+CorrelationId: 0deafac5dbcc4292b8de391cf9cc18ba
+Headers:
+  Accept: application/json, text/plain, */*
+  Connection: keep-alive
+  Host: localhost:5089
+  User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36
+  Accept-Encoding: gzip, deflate, br, zstd
+  Accept-Language: en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7
+  Content-Type: application/json
+  Origin: http://localhost:5173
+  Referer: http://localhost:5173/
+  Content-Length: 77
+  sec-ch-ua-platform: "Windows"
+  sec-ch-ua: "Chromium";v="146", "Not-A.Brand";v="24", "Google Chrome";v="146"
+  sec-ch-ua-mobile: ?0
+  X-Client-Source: customer-web
+  DNT: 1
+  Sec-Fetch-Site: same-site
+  Sec-Fetch-Mode: cors
+  Sec-Fetch-Dest: empty
+(Authorization header omitted)
+
+Body:
+{"bookingReference":"FW-20260328180153510-4949","phoneNumber":"254768220092"}
+
+=== DATABASE COMMANDS ===
+SELECT b."Id", b."AddOns", b."BookingReference", b."BundleDiscountPercent", b."CreatedAt", b."CustomerId", b."DiscountAmountKes", b."NubuckLines", b."OfficialLeatherLines", b."PickupAddress", b."PickupLatitude", b."PickupLocationUrl", b."PickupLongitude", b."PriceKes", b."SneakersLines", b."Status", b."SubtotalBeforeDiscountKes", b."SuedeLines", b."TotalPairs", p."Id", p."Amount", p."BookingId", p."CreatedAt", p."MpesaCheckoutRequestId", p."MpesaMerchantRequestId", p."MpesaReceipt", p."PayerPhoneNumber", p."PaymentReference", p."Status"
+FROM "Bookings" AS b
+LEFT JOIN "Payments" AS p ON b."Id" = p."BookingId"
+WHERE lower(b."BookingReference") = @__ToLower_0
+LIMIT 1
+  -- @__ToLower_0=fw-20260328180153510-4949
+---
+UPDATE "Payments" SET "MpesaCheckoutRequestId" = @p0, "MpesaMerchantRequestId" = @p1, "PayerPhoneNumber" = @p2, "Status" = @p3
+WHERE "Id" = @p4;
+
+  -- @p4=96d04fe7-9583-4c5b-8cd1-e1e666519beb, @p0=ws_CO_29032026131334846768220092, @p1=d674-45d8-be04-b4b58b11804628251, @p2=254768220092, @p3=Initiated
+---
+SELECT f."Id", f."AccessFailedCount", f."Address", f."ConcurrencyStamp", f."CreatedAt", f."CustomerReference", f."Email", f."EmailConfirmed", f."FullName", f."IsActive", f."LockoutEnabled", f."LockoutEnd", f."NormalizedEmail", f."NormalizedUserName", f."PasswordHash", f."PhoneNumber", f."PhoneNumberConfirmed", f."SecurityStamp", f."TwoFactorEnabled", f."UserName"
+FROM "FreshwalkUsers" AS f
+WHERE f."Id" = @__p_0
+LIMIT 1
+  -- @__p_0=35040583-dcf4-4af7-abe2-6c7777644a6e
+---
+
+=== RESPONSE ===
+Status: 200
+Body:
+{"message":"Success. Request accepted for processing","merchantRequestId":"d674-45d8-be04-b4b58b11804628251","checkoutRequestId":"ws_CO_29032026131334846768220092"}

@@ -1,0 +1,258 @@
+using System.Security.Claims;
+using Freshwalk.Application;
+using Freshwalk.Domain;
+using Freshwalk.Infrastructure.Data;
+using Freshwalk.Infrastructure.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+
+namespace Freshwalk.API.Controllers;
+
+[ApiController]
+[Route("api/bookings")]
+[Authorize]
+public class BookingsController(
+    AppDbContext db,
+    IPricingService pricingService,
+    UserManager<ApplicationUser> userManager,
+    IMpesaStkService mpesaStkService,
+    IReferenceCodeIssuer referenceIssuer) : ControllerBase
+{
+    private static readonly HashSet<string> ValidAddOnNames =
+        Enum.GetNames<AddOnType>().ToHashSet(StringComparer.OrdinalIgnoreCase);
+
+    [HttpPost]
+    public async Task<IActionResult> Create([FromBody] CreateBookingRequest request, CancellationToken cancellationToken)
+    {
+        if (request.Items is null || request.Items.Count == 0)
+            return BadRequest(new { message = "At least one shoe item is required." });
+
+        var addOns = NormalizeAddOns(request.AddOns);
+        var customerId = ResolveUserId();
+        var pricing = pricingService.CalculateBreakdown(request.Items, addOns);
+        var totalPairs = request.Items.Sum(i => i.PairCount);
+
+        string? locationUrl = null;
+        if (request.PickupLatitude.HasValue && request.PickupLongitude.HasValue)
+            locationUrl = $"https://www.google.com/maps?q={request.PickupLatitude.Value},{request.PickupLongitude.Value}";
+
+        var bookingRef = await referenceIssuer.IssueAsync(ReferencePrefixes.Booking, cancellationToken);
+        var paymentRef = await referenceIssuer.IssueAsync(ReferencePrefixes.Payment, cancellationToken);
+
+        var booking = new Booking
+        {
+            Id = Guid.NewGuid(),
+            CustomerId = customerId,
+            BookingReference = bookingRef,
+            TotalPairs = totalPairs,
+            PickupAddress = request.PickupAddress,
+            PickupLatitude = request.PickupLatitude,
+            PickupLongitude = request.PickupLongitude,
+            PickupLocationUrl = locationUrl,
+            AddOns = addOns,
+            SubtotalBeforeDiscountKes = pricing.SubtotalBeforeDiscountKes,
+            BundleDiscountPercent = pricing.BundleDiscountPercent,
+            DiscountAmountKes = pricing.DiscountAmountKes,
+            PriceKes = pricing.FinalPriceKes,
+            Status = BookingStatus.PendingPayment,
+            CreatedAt = DateTimeOffset.UtcNow
+        };
+
+        foreach (var item in request.Items)
+        {
+            var line = new ShoeLineItem { Color = item.ColorTier, Quantity = item.PairCount };
+            switch (item.ShoeType)
+            {
+                case "Sneakers": booking.SneakersLines.Add(line); break;
+                case "Suede": booking.SuedeLines.Add(line); break;
+                case "Nubuck": booking.NubuckLines.Add(line); break;
+                case "OfficialLeather": booking.OfficialLeatherLines.Add(line); break;
+            }
+        }
+
+        var payment = new Payment
+        {
+            Id = Guid.NewGuid(),
+            BookingId = booking.Id,
+            PaymentReference = paymentRef,
+            Amount = pricing.FinalPriceKes,
+            Status = PaymentStatus.Pending
+        };
+
+        db.Bookings.Add(booking);
+        db.Payments.Add(payment);
+        await db.SaveChangesAsync();
+
+        await TrySendInitialStkAsync(booking, payment, customerId, cancellationToken);
+
+        var customer = await userManager.FindByIdAsync(customerId.ToString());
+        return Ok(ToResponse(booking, customer?.CustomerReference));
+    }
+
+    [HttpGet("mine")]
+    public async Task<IActionResult> GetMine(
+        [FromQuery] string? bookingStatus,
+        [FromQuery] string? paymentStatus,
+        [FromQuery] string? orderStatus,
+        [FromQuery] string? from,
+        [FromQuery] string? to)
+    {
+        var customerId = ResolveUserId();
+        if (customerId == Guid.Empty)
+            return Unauthorized();
+
+        var customerRef = await db.Users.AsNoTracking()
+            .Where(u => u.Id == customerId)
+            .Select(u => u.CustomerReference)
+            .FirstOrDefaultAsync() ?? string.Empty;
+
+        var query = db.Bookings
+            .AsNoTracking()
+            .Include(b => b.Payment)
+            .Include(b => b.Order)
+            .Where(b => b.CustomerId == customerId);
+
+        if (!string.IsNullOrWhiteSpace(bookingStatus)
+            && Enum.TryParse<BookingStatus>(bookingStatus, true, out var bs))
+            query = query.Where(b => b.Status == bs);
+
+        if (!string.IsNullOrWhiteSpace(paymentStatus)
+            && Enum.TryParse<PaymentStatus>(paymentStatus, true, out var ps))
+            query = query.Where(b => b.Payment != null && b.Payment.Status == ps);
+
+        if (!string.IsNullOrWhiteSpace(orderStatus)
+            && Enum.TryParse<OrderStatus>(orderStatus, true, out var os))
+            query = query.Where(b => b.Order != null && b.Order.Status == os);
+
+        if (!string.IsNullOrWhiteSpace(from) && DateOnly.TryParse(from, out var fromDate))
+        {
+            var start = new DateTimeOffset(fromDate, TimeOnly.MinValue, TimeSpan.Zero);
+            query = query.Where(b => b.CreatedAt >= start);
+        }
+
+        if (!string.IsNullOrWhiteSpace(to) && DateOnly.TryParse(to, out var toDate))
+        {
+            var end = new DateTimeOffset(toDate.AddDays(1), TimeOnly.MinValue, TimeSpan.Zero);
+            query = query.Where(b => b.CreatedAt < end);
+        }
+
+        var rows = await query
+            .OrderByDescending(b => b.CreatedAt)
+            .ToListAsync();
+
+        var dto = rows.Select(b => new CustomerBookingTrackingDto(
+            b.Id,
+            b.BookingReference,
+            b.Order?.OrderReference,
+            b.Payment?.PaymentReference,
+            customerRef,
+            b.PriceKes,
+            b.Status,
+            b.Payment?.Status,
+            b.Payment?.Amount,
+            b.Order?.Status,
+            b.Order?.Id,
+            b.CreatedAt,
+            b.PickupAddress,
+            b.PickupLocationUrl,
+            b.Order != null && b.Order.Status == OrderStatus.PickupRiderAssigned,
+            b.Order != null && b.Order.Status == OrderStatus.DeliveryRiderAssigned ? b.Order.DeliveryOtp : null)).ToList();
+
+        return Ok(dto);
+    }
+
+    [HttpGet]
+    [Authorize(Roles = "Agent,Admin")]
+    public async Task<IActionResult> GetAll()
+    {
+        var bookings = await db.Bookings
+            .Include(x => x.Customer)
+            .Include(x => x.Order)
+            .OrderByDescending(x => x.CreatedAt)
+            .ToListAsync();
+        return Ok(bookings.Select(b => ToResponse(b)));
+    }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetById([FromRoute] Guid id)
+    {
+        var b = await db.Bookings
+            .Include(x => x.Customer)
+            .Include(x => x.Order)
+            .FirstOrDefaultAsync(x => x.Id == id);
+        if (b is null) return NotFound();
+
+        var uid = ResolveUserId();
+        if (!User.IsInRole("Admin") && !User.IsInRole("Agent") && b.CustomerId != uid)
+            return Forbid();
+
+        return Ok(ToResponse(b));
+    }
+
+    private async Task TrySendInitialStkAsync(Booking booking, Payment payment, Guid customerId, CancellationToken cancellationToken)
+    {
+        var user = await userManager.FindByIdAsync(customerId.ToString());
+        var phone = user?.PhoneNumber;
+        if (string.IsNullOrWhiteSpace(phone))
+            return;
+
+        var result = await mpesaStkService.InitiateAsync(
+            payment.Amount,
+            phone,
+            ReferenceCodeFormatting.ForMpesaAccountReference(booking.BookingReference, booking.Id),
+            "Freshwalk shoe cleaning",
+            cancellationToken);
+
+        if (!result.Ok)
+            return;
+
+        payment.MpesaMerchantRequestId = result.MerchantRequestId;
+        payment.MpesaCheckoutRequestId = result.CheckoutRequestId;
+        payment.Status = PaymentStatus.Initiated;
+        await db.SaveChangesAsync(cancellationToken);
+    }
+
+    private static List<string> NormalizeAddOns(List<string>? raw)
+    {
+        if (raw is null || raw.Count == 0) return new List<string>();
+        return raw
+            .Where(a => !string.IsNullOrWhiteSpace(a) && ValidAddOnNames.Contains(a.Trim()))
+            .Select(a => Enum.Parse<AddOnType>(a.Trim(), true).ToString())
+            .Distinct(StringComparer.OrdinalIgnoreCase)
+            .ToList();
+    }
+
+    private static BookingResponse ToResponse(Booking b, string? customerReferenceOverride = null)
+    {
+        var customerRef = customerReferenceOverride
+            ?? b.Customer?.CustomerReference
+            ?? string.Empty;
+        return new BookingResponse(
+            b.Id,
+            customerRef,
+            b.BookingReference,
+            b.Order?.OrderReference,
+            b.PriceKes,
+            b.SubtotalBeforeDiscountKes,
+            b.BundleDiscountPercent,
+            b.DiscountAmountKes,
+            b.TotalPairs,
+            b.Status,
+            b.CreatedAt,
+            b.PickupAddress,
+            b.PickupLocationUrl,
+            b.AddOns,
+            b.SneakersLines.Select(x => new ShoeLineItemDto(x.Color, x.Quantity)).ToList(),
+            b.SuedeLines.Select(x => new ShoeLineItemDto(x.Color, x.Quantity)).ToList(),
+            b.NubuckLines.Select(x => new ShoeLineItemDto(x.Color, x.Quantity)).ToList(),
+            b.OfficialLeatherLines.Select(x => new ShoeLineItemDto(x.Color, x.Quantity)).ToList());
+    }
+
+    private Guid ResolveUserId()
+    {
+        var claim = User.FindFirstValue(ClaimTypes.NameIdentifier) ?? User.FindFirstValue("sub");
+        return Guid.TryParse(claim, out var id) ? id : Guid.Empty;
+    }
+}

@@ -1,0 +1,45 @@
+﻿=== REQUEST ===
+POST /api/orders/d14bdb84-949d-4ba8-92ba-5799879538f8/assign-pickup-rider
+CorrelationId: 5c78064b80ce4b82846dd661daca14cd
+Headers:
+  Accept: application/json, text/plain, */*
+  Connection: keep-alive
+  Host: localhost:5089
+  User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36
+  Accept-Encoding: gzip, deflate, br, zstd
+  Accept-Language: en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7
+  Content-Type: application/json
+  Origin: http://localhost:5174
+  Referer: http://localhost:5174/
+  Content-Length: 50
+  sec-ch-ua-platform: "Windows"
+  sec-ch-ua: "Chromium";v="146", "Not-A.Brand";v="24", "Google Chrome";v="146"
+  sec-ch-ua-mobile: ?0
+  X-Client-Source: agent-portal
+  DNT: 1
+  Sec-Fetch-Site: same-site
+  Sec-Fetch-Mode: cors
+  Sec-Fetch-Dest: empty
+(Authorization header omitted)
+
+Body:
+{"riderId":"9da150f3-8997-4d83-984f-8c917207220c"}
+
+=== DATABASE COMMANDS ===
+SELECT o."Id", o."AgentId", o."BookingId", o."CleaningCompletedAt", o."CleaningStartedAt", o."CustomerId", o."DeliveredAt", o."DeliveryOtp", o."DeliveryOtpExpiresAt", o."DeliveryOtpVerifiedAt", o."OrderReference", o."PickedUpAt", o."PickupOtp", o."PickupOtpExpiresAt", o."PickupOtpVerifiedAt", o."Status"
+FROM "Orders" AS o
+WHERE o."Id" = @__id_0
+LIMIT 1
+  -- @__id_0=d14bdb84-949d-4ba8-92ba-5799879538f8
+---
+SELECT f."Id", f."AccessFailedCount", f."Address", f."ConcurrencyStamp", f."CreatedAt", f."CustomerReference", f."Email", f."EmailConfirmed", f."FullName", f."IsActive", f."LockoutEnabled", f."LockoutEnd", f."NormalizedEmail", f."NormalizedUserName", f."PasswordHash", f."PhoneNumber", f."PhoneNumberConfirmed", f."SecurityStamp", f."TwoFactorEnabled", f."UserName"
+FROM "FreshwalkUsers" AS f
+WHERE f."Id" = @__p_0
+LIMIT 1
+  -- @__p_0=d3ea9e8e-baeb-4f01-bbcd-a712a07e43c5
+---
+
+=== RESPONSE ===
+Status: 400
+Body:
+{"message":"Order is not waiting for a pickup rider assignment."}
