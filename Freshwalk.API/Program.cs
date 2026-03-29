@@ -8,6 +8,11 @@ using Serilog.Events;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Render and other hosts set PORT; bind Kestrel explicitly (Docker / PaaS).
+var port = Environment.GetEnvironmentVariable("PORT");
+if (!string.IsNullOrEmpty(port))
+    builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
+
 var auditLogSection = builder.Configuration.GetSection(AuditLoggingOptions.SectionName).Get<AuditLoggingOptions>();
 var logRoot = string.IsNullOrWhiteSpace(auditLogSection?.RootPath)
     ? Path.Combine(Directory.GetCurrentDirectory(), "Logs")
