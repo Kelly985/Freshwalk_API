@@ -23,7 +23,12 @@ public record CreateBookingRequest(
     double? PickupLatitude,
     double? PickupLongitude);
 
+public record PromotionAppliedDto(string CategoryKey, string Label, decimal AmountSavedKes);
+
 public record PricingBreakdown(
+    decimal ShoesSubtotalGrossKes,
+    decimal PromotionalDiscountKes,
+    IReadOnlyList<PromotionAppliedDto> AppliedPromotions,
     decimal SubtotalBeforeDiscountKes,
     decimal BundleDiscountPercent,
     decimal DiscountAmountKes,
@@ -35,6 +40,9 @@ public record BookingResponse(
     string BookingReference,
     string? OrderReference,
     decimal PriceKes,
+    decimal ShoesSubtotalGrossKes,
+    decimal PromotionalDiscountKes,
+    IReadOnlyList<PromotionAppliedDto> AppliedPromotions,
     decimal SubtotalBeforeDiscountKes,
     decimal BundleDiscountPercent,
     decimal DiscountAmountKes,
@@ -47,7 +55,7 @@ public record BookingResponse(
     IReadOnlyList<ShoeLineItemDto> SneakersLines,
     IReadOnlyList<ShoeLineItemDto> SuedeLines,
     IReadOnlyList<ShoeLineItemDto> NubuckLines,
-    IReadOnlyList<ShoeLineItemDto> OfficialLeatherLines);
+    IReadOnlyList<ShoeLineItemDto> CanvasLines);
 
 /// <summary>Customer-facing booking list for order tracking (payment + fulfilment).</summary>
 public record CustomerBookingTrackingDto(
@@ -80,5 +88,34 @@ public interface IJwtTokenService
 
 public interface IPricingService
 {
-    PricingBreakdown CalculateBreakdown(List<BookingItemDto> items, IReadOnlyList<string> addOns);
+    Task<PricingBreakdown> CalculateBreakdownAsync(
+        List<BookingItemDto> items,
+        IReadOnlyList<string> addOns,
+        CancellationToken cancellationToken = default);
 }
+
+public record ShoeServiceTierPriceDto(string ColorTierKey, decimal PriceKes, int SortOrder);
+
+/// <summary>Active time-boxed offer for a category (if any).</summary>
+public record ShoeServiceActivePromotionDto(
+    string Label,
+    string DiscountKind,
+    decimal? PercentOff,
+    decimal? FixedOffPerPairKes,
+    DateTimeOffset? ValidFrom,
+    DateTimeOffset? ValidTo);
+
+public record ShoeServiceCategoryCatalogDto(
+    string Key,
+    string DisplayName,
+    string? Tagline,
+    string? ThemeColorHex,
+    string? ImageBeforeUrl,
+    string? ImageAfterUrl,
+    int SortOrder,
+    IReadOnlyList<ShoeServiceTierPriceDto> TierPrices,
+    ShoeServiceActivePromotionDto? ActivePromotion);
+
+public record PreviewPricingRequest(
+    List<BookingItemDto> Items,
+    List<string>? AddOns);

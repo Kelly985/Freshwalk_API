@@ -12,7 +12,11 @@ public record RiderOrderListItemDto(
     Guid AssignmentId,
     string PickupAddress,
     string? PickupLocationUrl,
-    DateTimeOffset BookingCreatedAt);
+    DateTimeOffset BookingCreatedAt,
+    string CustomerName,
+    string? CustomerEmail,
+    string? CustomerPhone,
+    string? PayerPhoneNumber);
 
 public record RiderOrderDetailDto(
     Guid OrderId,
@@ -30,11 +34,19 @@ public record RiderOrderDetailDto(
     string? PickupOtpForRiderToShare,
     DateTimeOffset? PickupOtpExpiresAt,
     string CustomerName,
+    string? CustomerEmail,
     string? CustomerPhone,
+    string? PayerPhoneNumber,
     IReadOnlyList<ShoeLineItemDto> SneakersLines,
     IReadOnlyList<ShoeLineItemDto> SuedeLines,
     IReadOnlyList<ShoeLineItemDto> NubuckLines,
-    IReadOnlyList<ShoeLineItemDto> OfficialLeatherLines,
+    IReadOnlyList<ShoeLineItemDto> CanvasLines,
     IReadOnlyList<string> AddOns,
     int TotalPairs,
-    decimal PriceKes);
+    decimal PriceKes,
+    decimal ShoesSubtotalGrossKes,
+    decimal PromotionalDiscountKes,
+    IReadOnlyList<PromotionAppliedDto> AppliedPromotions,
+    decimal SubtotalBeforeDiscountKes,
+    decimal BundleDiscountPercent,
+    decimal DiscountAmountKes);

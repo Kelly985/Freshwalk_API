@@ -26,6 +26,9 @@ public class AppDbContext : IdentityDbContext<ApplicationUser, IdentityRole<Guid
     public DbSet<Notification> Notifications => Set<Notification>();
     public DbSet<OrderAuditLog> OrderAuditLogs => Set<OrderAuditLog>();
     public DbSet<OrderOtpCode> OrderOtpCodes => Set<OrderOtpCode>();
+    public DbSet<ShoeServiceCategory> ShoeServiceCategories => Set<ShoeServiceCategory>();
+    public DbSet<ShoeServiceTierPrice> ShoeServiceTierPrices => Set<ShoeServiceTierPrice>();
+    public DbSet<ShoeServicePromotion> ShoeServicePromotions => Set<ShoeServicePromotion>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -53,6 +56,8 @@ public class AppDbContext : IdentityDbContext<ApplicationUser, IdentityRole<Guid
             e.Property(x => x.SubtotalBeforeDiscountKes).HasPrecision(10, 2);
             e.Property(x => x.BundleDiscountPercent).HasPrecision(5, 4);
             e.Property(x => x.DiscountAmountKes).HasPrecision(10, 2);
+            e.Property(x => x.ShoesSubtotalGrossKes).HasPrecision(10, 2);
+            e.Property(x => x.PromotionalDiscountKes).HasPrecision(10, 2);
             e.Property(x => x.Status).HasConversion<string>().HasMaxLength(30);
             var addOnsComparer = new ValueComparer<List<string>>(
                 (a, b) => a!.SequenceEqual(b!),
@@ -62,6 +67,11 @@ public class AppDbContext : IdentityDbContext<ApplicationUser, IdentityRole<Guid
                 (a, b) => a!.Count == b!.Count && a.Zip(b).All(p => p.First.Color == p.Second.Color && p.First.Quantity == p.Second.Quantity),
                 v => v.Aggregate(0, (h, x) => HashCode.Combine(h, x.Color.GetHashCode(StringComparison.Ordinal), x.Quantity)),
                 v => v.Select(x => new ShoeLineItem { Color = x.Color, Quantity = x.Quantity }).ToList());
+            var promoSnapComparer = new ValueComparer<List<PromotionAppliedSnapshot>>(
+                (a, b) => a!.Count == b!.Count && a.Zip(b).All(p =>
+                    p.First.CategoryKey == p.Second.CategoryKey && p.First.Label == p.Second.Label && p.First.AmountSavedKes == p.Second.AmountSavedKes),
+                v => v.Aggregate(0, (h, x) => HashCode.Combine(h, x.CategoryKey.GetHashCode(StringComparison.Ordinal), x.Label.GetHashCode(StringComparison.Ordinal), x.AmountSavedKes.GetHashCode())),
+                v => v.Select(x => new PromotionAppliedSnapshot { CategoryKey = x.CategoryKey, Label = x.Label, AmountSavedKes = x.AmountSavedKes }).ToList());
 
             e.Property(x => x.AddOns).HasColumnType("jsonb")
                 .HasConversion(
@@ -83,11 +93,16 @@ public class AppDbContext : IdentityDbContext<ApplicationUser, IdentityRole<Guid
                     v => JsonSerializer.Serialize(v, BookingJsonOptions),
                     v => JsonSerializer.Deserialize<List<ShoeLineItem>>(v, BookingJsonOptions) ?? new List<ShoeLineItem>())
                 .Metadata.SetValueComparer(linesComparer);
-            e.Property(x => x.OfficialLeatherLines).HasColumnType("jsonb")
+            e.Property(x => x.CanvasLines).HasColumnType("jsonb")
                 .HasConversion(
                     v => JsonSerializer.Serialize(v, BookingJsonOptions),
                     v => JsonSerializer.Deserialize<List<ShoeLineItem>>(v, BookingJsonOptions) ?? new List<ShoeLineItem>())
                 .Metadata.SetValueComparer(linesComparer);
+            e.Property(x => x.AppliedPromotions).HasColumnType("jsonb")
+                .HasConversion(
+                    v => JsonSerializer.Serialize(v, BookingJsonOptions),
+                    v => JsonSerializer.Deserialize<List<PromotionAppliedSnapshot>>(v, BookingJsonOptions) ?? new List<PromotionAppliedSnapshot>())
+                .Metadata.SetValueComparer(promoSnapComparer);
             e.Property(x => x.BookingReference).HasMaxLength(40).IsRequired();
             e.HasIndex(x => x.BookingReference).IsUnique();
             e.HasOne(x => x.Payment).WithOne(x => x.Booking).HasForeignKey<Payment>(x => x.BookingId);
@@ -137,6 +152,37 @@ public class AppDbContext : IdentityDbContext<ApplicationUser, IdentityRole<Guid
         {
             e.Property(x => x.FromStatus).HasConversion<string>().HasMaxLength(40);
             e.Property(x => x.ToStatus).HasConversion<string>().HasMaxLength(40);
+        });
+
+        builder.Entity<ShoeServiceCategory>(e =>
+        {
+            e.ToTable("ShoeServiceCategories");
+            e.Property(x => x.Key).HasMaxLength(40).IsRequired();
+            e.Property(x => x.DisplayName).HasMaxLength(120).IsRequired();
+            e.Property(x => x.Tagline).HasMaxLength(300);
+            e.Property(x => x.ThemeColorHex).HasMaxLength(20);
+            e.Property(x => x.ImageBeforeUrl).HasMaxLength(800);
+            e.Property(x => x.ImageAfterUrl).HasMaxLength(800);
+            e.HasIndex(x => x.Key).IsUnique();
+            e.HasMany(x => x.TierPrices).WithOne(x => x.Category).HasForeignKey(x => x.CategoryId).OnDelete(DeleteBehavior.Cascade);
+            e.HasMany(x => x.Promotions).WithOne(x => x.Category).HasForeignKey(x => x.CategoryId).OnDelete(DeleteBehavior.Cascade);
+        });
+
+        builder.Entity<ShoeServiceTierPrice>(e =>
+        {
+            e.ToTable("ShoeServiceTierPrices");
+            e.Property(x => x.ColorTierKey).HasMaxLength(40).IsRequired();
+            e.Property(x => x.PriceKes).HasPrecision(10, 2);
+            e.HasIndex(x => new { x.CategoryId, x.ColorTierKey }).IsUnique();
+        });
+
+        builder.Entity<ShoeServicePromotion>(e =>
+        {
+            e.ToTable("ShoeServicePromotions");
+            e.Property(x => x.Label).HasMaxLength(120).IsRequired();
+            e.Property(x => x.DiscountKind).HasConversion<string>().HasMaxLength(40);
+            e.Property(x => x.PercentOff).HasPrecision(6, 2);
+            e.Property(x => x.FixedOffPerPairKes).HasPrecision(10, 2);
         });
 
         var roles = new[]

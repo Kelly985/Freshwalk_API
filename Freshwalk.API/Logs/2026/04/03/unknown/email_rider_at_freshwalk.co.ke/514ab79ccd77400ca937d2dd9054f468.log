@@ -1,0 +1,44 @@
+﻿=== REQUEST ===
+POST /api/auth/login
+CorrelationId: 514ab79ccd77400ca937d2dd9054f468
+Headers:
+  Accept: application/json, text/plain, */*
+  Connection: keep-alive
+  Host: localhost:5089
+  User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36
+  Accept-Encoding: gzip, deflate, br, zstd
+  Accept-Language: en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7
+  Content-Type: application/json
+  Origin: http://localhost:5175
+  Referer: http://localhost:5175/
+  Content-Length: 60
+  sec-ch-ua-platform: "Windows"
+  sec-ch-ua: "Chromium";v="146", "Not-A.Brand";v="24", "Google Chrome";v="146"
+  DNT: 1
+  sec-ch-ua-mobile: ?0
+  Sec-Fetch-Site: same-site
+  Sec-Fetch-Mode: cors
+  Sec-Fetch-Dest: empty
+(Authorization header omitted)
+
+Body:
+{"email":"rider@freshwalk.co.ke","password":"Freshwalk@123"}
+
+=== DATABASE COMMANDS ===
+SELECT f."Id", f."AccessFailedCount", f."Address", f."ConcurrencyStamp", f."CreatedAt", f."CustomerReference", f."Email", f."EmailConfirmed", f."FullName", f."IsActive", f."LockoutEnabled", f."LockoutEnd", f."NormalizedEmail", f."NormalizedUserName", f."PasswordHash", f."PhoneNumber", f."PhoneNumberConfirmed", f."SecurityStamp", f."TwoFactorEnabled", f."UserName"
+FROM "FreshwalkUsers" AS f
+WHERE f."NormalizedEmail" = @__normalizedEmail_0
+LIMIT 2
+  -- @__normalizedEmail_0=RIDER@FRESHWALK.CO.KE
+---
+SELECT f0."Name"
+FROM "FreshwalkUserRoles" AS f
+INNER JOIN "FreshwalkRoles" AS f0 ON f."RoleId" = f0."Id"
+WHERE f."UserId" = @__userId_0
+  -- @__userId_0=9da150f3-8997-4d83-984f-8c917207220c
+---
+
+=== RESPONSE ===
+Status: 200
+Body:
+{"accessToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI5ZGExNTBmMy04OTk3LTRkODMtOTg0Zi04YzkxNzIwNzIyMGMiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjlkYTE1MGYzLTg5OTctNGQ4My05ODRmLThjOTE3MjA3MjIwYyIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWUiOiJEZW1vIFJpZGVyIiwiZW1haWwiOiJyaWRlckBmcmVzaHdhbGsuY28ua2UiLCJmdWxsX25hbWUiOiJEZW1vIFJpZGVyIiwiY3VzdG9tZXJfcmVmIjoiS0UtMDAwMDAwMDMiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJSaWRlciIsImV4cCI6MTc3NTI0NTQ0MCwiaXNzIjoiRnJlc2h3YWxrLkFQSSIsImF1ZCI6IkZyZXNod2Fsay5DbGllbnQifQ.-SxKiwyklStIwKeUjarPTFjKvYzI6B1Bj74Wfxo_pyg","expiresAt":"2026-04-03T19:44:00.9221999+00:00","email":"rider@freshwalk.co.ke","fullName":"Demo Rider","customerReference":"KE-00000003","roles":["Rider"]}

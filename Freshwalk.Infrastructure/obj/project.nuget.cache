@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "DLuKPspk7Bg=",
+  "dgSpecHash": "LEwEYzedpZk=",
   "success": true,
-  "projectFilePath": "D:\\Projects\\Freshwalk Shoe Cleaning web app\\API\\Freshwalk.Infrastructure\\Freshwalk.Infrastructure.csproj",
+  "projectFilePath": "d:\\Projects\\Freshwalk Shoe Cleaning web app\\API\\Freshwalk.Infrastructure\\Freshwalk.Infrastructure.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\user\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\user\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\9.0.8\\microsoft.aspnetcore.authentication.jwtbearer.9.0.8.nupkg.sha512",

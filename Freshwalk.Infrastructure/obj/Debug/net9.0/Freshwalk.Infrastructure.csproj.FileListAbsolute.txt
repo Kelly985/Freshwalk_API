@@ -17,3 +17,4 @@ D:\Projects\Freshwalk Shoe Cleaning web app\API\Freshwalk.Infrastructure\obj\Deb
 D:\Projects\Freshwalk Shoe Cleaning web app\API\Freshwalk.Infrastructure\obj\Debug\net9.0\Freshwalk.Infrastructure.pdb
 D:\Projects\Freshwalk Shoe Cleaning web app\API\Freshwalk.Infrastructure\obj\Debug\net9.0\Freshwalk.Infrastructure.genruntimeconfig.cache
 D:\Projects\Freshwalk Shoe Cleaning web app\API\Freshwalk.Infrastructure\obj\Debug\net9.0\ref\Freshwalk.Infrastructure.dll
+D:\Projects\Freshwalk Shoe Cleaning web app\API\Freshwalk.Infrastructure\obj\Debug\net9.0\Freshwalk.Infrastructure.sourcelink.json

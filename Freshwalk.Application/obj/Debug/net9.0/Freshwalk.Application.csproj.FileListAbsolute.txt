@@ -13,3 +13,4 @@ D:\Projects\Freshwalk Shoe Cleaning web app\API\Freshwalk.Application\obj\Debug\
 D:\Projects\Freshwalk Shoe Cleaning web app\API\Freshwalk.Application\obj\Debug\net9.0\refint\Freshwalk.Application.dll
 D:\Projects\Freshwalk Shoe Cleaning web app\API\Freshwalk.Application\obj\Debug\net9.0\Freshwalk.Application.pdb
 D:\Projects\Freshwalk Shoe Cleaning web app\API\Freshwalk.Application\obj\Debug\net9.0\ref\Freshwalk.Application.dll
+D:\Projects\Freshwalk Shoe Cleaning web app\API\Freshwalk.Application\obj\Debug\net9.0\Freshwalk.Application.sourcelink.json

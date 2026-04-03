@@ -1,0 +1,43 @@
+﻿=== REQUEST ===
+GET /api/catalog/shoe-services
+CorrelationId: c52d3f9f4b6945cb97406f1c738fce67
+Headers:
+  Accept: application/json, text/plain, */*
+  Connection: keep-alive
+  Host: localhost:5089
+  User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36
+  Accept-Encoding: gzip, deflate, br, zstd
+  Accept-Language: en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7
+  Origin: http://localhost:5173
+  Referer: http://localhost:5173/
+  sec-ch-ua-platform: "Windows"
+  sec-ch-ua: "Chromium";v="146", "Not-A.Brand";v="24", "Google Chrome";v="146"
+  sec-ch-ua-mobile: ?0
+  X-Client-Source: customer-web
+  DNT: 1
+  Sec-Fetch-Site: same-site
+  Sec-Fetch-Mode: cors
+  Sec-Fetch-Dest: empty
+(Authorization header omitted)
+
+Body:
+
+
+=== DATABASE COMMANDS ===
+SELECT s."Id", s."DisplayName", s."ImageAfterUrl", s."ImageBeforeUrl", s."Key", s."SortOrder", s."Tagline", s."ThemeColorHex", s0."Id", s0."CategoryId", s0."ColorTierKey", s0."PriceKes", s0."SortOrder", s1."Id", s1."CategoryId", s1."DiscountKind", s1."FixedOffPerPairKes", s1."IsActive", s1."Label", s1."PercentOff", s1."Priority", s1."ValidFrom", s1."ValidTo"
+FROM "ShoeServiceCategories" AS s
+LEFT JOIN "ShoeServiceTierPrices" AS s0 ON s."Id" = s0."CategoryId"
+LEFT JOIN "ShoeServicePromotions" AS s1 ON s."Id" = s1."CategoryId"
+ORDER BY s."SortOrder", s."Id", s0."Id"
+---
+SELECT f."Id", f."AccessFailedCount", f."Address", f."ConcurrencyStamp", f."CreatedAt", f."CustomerReference", f."Email", f."EmailConfirmed", f."FullName", f."IsActive", f."LockoutEnabled", f."LockoutEnd", f."NormalizedEmail", f."NormalizedUserName", f."PasswordHash", f."PhoneNumber", f."PhoneNumberConfirmed", f."SecurityStamp", f."TwoFactorEnabled", f."UserName"
+FROM "FreshwalkUsers" AS f
+WHERE f."Id" = @__p_0
+LIMIT 1
+  -- @__p_0=35040583-dcf4-4af7-abe2-6c7777644a6e
+---
+
+=== RESPONSE ===
+Status: 200
+Body:
+[{"key":"Sneakers","displayName":"Sneaker cleaning & care","tagline":"Deep clean · sole whitening · deodorizing","themeColorHex":"#E31E24","imageBeforeUrl":"https://images.unsplash.com/photo-1549298916-b41d501d3772?w=640&q=80","imageAfterUrl":"https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=640&q=80","sortOrder":1,"tierPrices":[{"colorTierKey":"BlackDark","priceKes":350.00,"sortOrder":1},{"colorTierKey":"MixedColored","priceKes":450.00,"sortOrder":2},{"colorTierKey":"WhiteLight","priceKes":550.00,"sortOrder":3}],"activePromotion":{"label":"Easter","discountKind":"PercentOff","percentOff":10.00,"fixedOffPerPairKes":null,"validFrom":"2026-04-01T00:00:00+00:00","validTo":"2026-04-30T23:59:59+00:00"}},{"key":"Suede","displayName":"Suede shoe cleaning & care","tagline":"Nap revival · color correction · deodorizing","themeColorHex":"#00ADEF","imageBeforeUrl":"https://images.unsplash.com/photo-1551107696-a4b0c5a0d9a2?w=640&q=80","imageAfterUrl":"https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=640&q=80","sortOrder":2,"tierPrices":[{"colorTierKey":"BlackDark","priceKes":350.00,"sortOrder":1},{"colorTierKey":"MixedColored","priceKes":400.00,"sortOrder":2},{"colorTierKey":"WhiteLight","priceKes":500.00,"sortOrder":3}],"activePromotion":null},{"key":"Nubuck","displayName":"Nubuck shoe care","tagline":"Texture-safe cleaning · nap restoration","themeColorHex":"#1D2B59","imageBeforeUrl":"https://images.unsplash.com/photo-1533867617858-e7b97e060509?w=640&q=80","imageAfterUrl":"https://images.unsplash.com/photo-1582897085656-c636d006a246?w=640&q=80","sortOrder":3,"tierPrices":[{"colorTierKey":"BlackDark","priceKes":350.00,"sortOrder":1},{"colorTierKey":"MixedColored","priceKes":400.00,"sortOrder":2},{"colorTierKey":"WhiteLight","priceKes":550.00,"sortOrder":3}],"activePromotion":null},{"key":"Canvas","displayName":"Canvas shoe care","tagline":"Deep clean · midsole refresh · deodorizing","themeColorHex":"#2E7D32","imageBeforeUrl":"https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=640&q=80","imageAfterUrl":"https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?w=640&q=80","sortOrder":4,"tierPrices":[{"colorTierKey":"BlackDark","priceKes":350.00,"sortOrder":1},{"colorTierKey":"MixedColored","priceKes":400.00,"sortOrder":2},{"colorTierKey":"WhiteLight","priceKes":550.00,"sortOrder":3}],"activePromotion":null}]

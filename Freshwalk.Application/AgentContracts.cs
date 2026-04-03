@@ -45,6 +45,9 @@ public record AgentBookingDetailDto(
     decimal? PaymentAmountKes,
     OrderStatus? OrderStatus,
     decimal PriceKes,
+    decimal ShoesSubtotalGrossKes,
+    decimal PromotionalDiscountKes,
+    IReadOnlyList<PromotionAppliedDto> AppliedPromotions,
     decimal SubtotalBeforeDiscountKes,
     decimal BundleDiscountPercent,
     decimal DiscountAmountKes,
@@ -57,7 +60,7 @@ public record AgentBookingDetailDto(
     IReadOnlyList<ShoeLineItemDto> SneakersLines,
     IReadOnlyList<ShoeLineItemDto> SuedeLines,
     IReadOnlyList<ShoeLineItemDto> NubuckLines,
-    IReadOnlyList<ShoeLineItemDto> OfficialLeatherLines,
+    IReadOnlyList<ShoeLineItemDto> CanvasLines,
     IReadOnlyList<AgentRiderAssignmentDto> RiderAssignments,
     DateTimeOffset CreatedAt);
 

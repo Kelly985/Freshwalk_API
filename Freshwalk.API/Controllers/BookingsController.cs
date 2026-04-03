@@ -20,18 +20,15 @@ public class BookingsController(
     IMpesaStkService mpesaStkService,
     IReferenceCodeIssuer referenceIssuer) : ControllerBase
 {
-    private static readonly HashSet<string> ValidAddOnNames =
-        Enum.GetNames<AddOnType>().ToHashSet(StringComparer.OrdinalIgnoreCase);
-
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] CreateBookingRequest request, CancellationToken cancellationToken)
     {
         if (request.Items is null || request.Items.Count == 0)
             return BadRequest(new { message = "At least one shoe item is required." });
 
-        var addOns = NormalizeAddOns(request.AddOns);
+        var addOns = BookingAddOns.Normalize(request.AddOns);
         var customerId = ResolveUserId();
-        var pricing = pricingService.CalculateBreakdown(request.Items, addOns);
+        var pricing = await pricingService.CalculateBreakdownAsync(request.Items, addOns, cancellationToken);
         var totalPairs = request.Items.Sum(i => i.PairCount);
 
         string? locationUrl = null;
@@ -52,6 +49,16 @@ public class BookingsController(
             PickupLongitude = request.PickupLongitude,
             PickupLocationUrl = locationUrl,
             AddOns = addOns,
+            ShoesSubtotalGrossKes = pricing.ShoesSubtotalGrossKes,
+            PromotionalDiscountKes = pricing.PromotionalDiscountKes,
+            AppliedPromotions = pricing.AppliedPromotions
+                .Select(p => new PromotionAppliedSnapshot
+                {
+                    CategoryKey = p.CategoryKey,
+                    Label = p.Label,
+                    AmountSavedKes = p.AmountSavedKes
+                })
+                .ToList(),
             SubtotalBeforeDiscountKes = pricing.SubtotalBeforeDiscountKes,
             BundleDiscountPercent = pricing.BundleDiscountPercent,
             DiscountAmountKes = pricing.DiscountAmountKes,
@@ -68,7 +75,10 @@ public class BookingsController(
                 case "Sneakers": booking.SneakersLines.Add(line); break;
                 case "Suede": booking.SuedeLines.Add(line); break;
                 case "Nubuck": booking.NubuckLines.Add(line); break;
-                case "OfficialLeather": booking.OfficialLeatherLines.Add(line); break;
+                case "Canvas":
+                case "OfficialLeather":
+                    booking.CanvasLines.Add(line);
+                    break;
             }
         }
 
@@ -214,16 +224,6 @@ public class BookingsController(
         await db.SaveChangesAsync(cancellationToken);
     }
 
-    private static List<string> NormalizeAddOns(List<string>? raw)
-    {
-        if (raw is null || raw.Count == 0) return new List<string>();
-        return raw
-            .Where(a => !string.IsNullOrWhiteSpace(a) && ValidAddOnNames.Contains(a.Trim()))
-            .Select(a => Enum.Parse<AddOnType>(a.Trim(), true).ToString())
-            .Distinct(StringComparer.OrdinalIgnoreCase)
-            .ToList();
-    }
-
     private static BookingResponse ToResponse(Booking b, string? customerReferenceOverride = null)
     {
         var customerRef = customerReferenceOverride
@@ -235,6 +235,9 @@ public class BookingsController(
             b.BookingReference,
             b.Order?.OrderReference,
             b.PriceKes,
+            b.ShoesSubtotalGrossKes,
+            b.PromotionalDiscountKes,
+            b.AppliedPromotions.Select(x => new PromotionAppliedDto(x.CategoryKey, x.Label, x.AmountSavedKes)).ToList(),
             b.SubtotalBeforeDiscountKes,
             b.BundleDiscountPercent,
             b.DiscountAmountKes,
@@ -247,7 +250,7 @@ public class BookingsController(
             b.SneakersLines.Select(x => new ShoeLineItemDto(x.Color, x.Quantity)).ToList(),
             b.SuedeLines.Select(x => new ShoeLineItemDto(x.Color, x.Quantity)).ToList(),
             b.NubuckLines.Select(x => new ShoeLineItemDto(x.Color, x.Quantity)).ToList(),
-            b.OfficialLeatherLines.Select(x => new ShoeLineItemDto(x.Color, x.Quantity)).ToList());
+            b.CanvasLines.Select(x => new ShoeLineItemDto(x.Color, x.Quantity)).ToList());
     }
 
     private Guid ResolveUserId()

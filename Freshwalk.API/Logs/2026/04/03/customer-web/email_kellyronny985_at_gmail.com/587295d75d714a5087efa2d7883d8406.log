@@ -1,0 +1,64 @@
+﻿=== REQUEST ===
+POST /api/bookings
+CorrelationId: 587295d75d714a5087efa2d7883d8406
+Headers:
+  Accept: application/json, text/plain, */*
+  Connection: keep-alive
+  Host: localhost:5089
+  User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36
+  Accept-Encoding: gzip, deflate, br, zstd
+  Accept-Language: en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7
+  Content-Type: application/json
+  Origin: http://localhost:5173
+  Referer: http://localhost:5173/
+  Content-Length: 324
+  sec-ch-ua-platform: "Windows"
+  sec-ch-ua: "Chromium";v="146", "Not-A.Brand";v="24", "Google Chrome";v="146"
+  sec-ch-ua-mobile: ?0
+  X-Client-Source: customer-web
+  DNT: 1
+  Sec-Fetch-Site: same-site
+  Sec-Fetch-Mode: cors
+  Sec-Fetch-Dest: empty
+(Authorization header omitted)
+
+Body:
+{"items":[{"shoeType":"Sneakers","colorTier":"BlackDark","pairCount":2},{"shoeType":"Suede","colorTier":"BlackDark","pairCount":1},{"shoeType":"Canvas","colorTier":"WhiteLight","pairCount":1}],"addOns":[],"pickupAddress":"Deloitte Waruku, Waiyaki Wy, Nairobi, Kenya","pickupLatitude":-1.2636733,"pickupLongitude":36.7633495}
+
+=== DATABASE COMMANDS ===
+SELECT s."Id", s."DisplayName", s."ImageAfterUrl", s."ImageBeforeUrl", s."Key", s."SortOrder", s."Tagline", s."ThemeColorHex", s0."Id", s0."CategoryId", s0."ColorTierKey", s0."PriceKes", s0."SortOrder", s1."Id", s1."CategoryId", s1."DiscountKind", s1."FixedOffPerPairKes", s1."IsActive", s1."Label", s1."PercentOff", s1."Priority", s1."ValidFrom", s1."ValidTo"
+FROM "ShoeServiceCategories" AS s
+LEFT JOIN "ShoeServiceTierPrices" AS s0 ON s."Id" = s0."CategoryId"
+LEFT JOIN "ShoeServicePromotions" AS s1 ON s."Id" = s1."CategoryId"
+ORDER BY s."Id", s0."Id"
+---
+SELECT EXISTS (
+    SELECT 1
+    FROM "Bookings" AS b
+    WHERE b."BookingReference" = @__code_0)
+  -- @__code_0=FW-20260403190156997-8897
+---
+SELECT EXISTS (
+    SELECT 1
+    FROM "Payments" AS p
+    WHERE p."PaymentReference" = @__code_0)
+  -- @__code_0=PM-20260403190157349-7479
+---
+INSERT INTO "Bookings" ("Id", "AddOns", "AppliedPromotions", "BookingReference", "BundleDiscountPercent", "CanvasLines", "CreatedAt", "CustomerId", "DiscountAmountKes", "NubuckLines", "PickupAddress", "PickupLatitude", "PickupLocationUrl", "PickupLongitude", "PriceKes", "PromotionalDiscountKes", "ShoesSubtotalGrossKes", "SneakersLines", "Status", "SubtotalBeforeDiscountKes", "SuedeLines", "TotalPairs")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12, @p13, @p14, @p15, @p16, @p17, @p18, @p19, @p20, @p21);
+INSERT INTO "Payments" ("Id", "Amount", "BookingId", "CreatedAt", "MpesaCheckoutRequestId", "MpesaMerchantRequestId", "MpesaReceipt", "PayerPhoneNumber", "PaymentReference", "Status")
+VALUES (@p22, @p23, @p24, @p25, @p26, @p27, @p28, @p29, @p30, @p31);
+
+  -- @p0=c21f3d94-0cc8-48ea-a7a6-0d2c05fc895d, @p1=[], @p2=[{"categoryKey":"Sneakers","label":"Easter","amountSavedKes":70.00}], @p3=FW-20260403190156997-8897, @p4=0.15, @p5=[{"color":"WhiteLight","quantity":1}], @p6=03/04/2026 19:01:57 +00:00, @p7=35040583-dcf4-4af7-abe2-6c7777644a6e, @p8=229.50, @p9=[], @p10=Deloitte Waruku, Waiyaki Wy, Nairobi, Kenya, @p11=-1.2636733, @p12=https://www.google.com/maps?q=-1.2636733,36.7633495, @p13=36.7633495, @p14=1300.50, @p15=70.00, @p16=1600.00, @p17=[{"color":"BlackDark","quantity":2}], @p18=PendingPayment, @p19=1530.00, @p20=[{"color":"BlackDark","quantity":1}], @p21=4, @p22=aa1c4315-ce42-4770-85fb-24bfbc9781b3, @p23=1300.50, @p24=c21f3d94-0cc8-48ea-a7a6-0d2c05fc895d, @p25=03/04/2026 19:01:57 +00:00, @p26=, @p27=, @p28=, @p29=, @p30=PM-20260403190157349-7479, @p31=Pending
+---
+SELECT f."Id", f."AccessFailedCount", f."Address", f."ConcurrencyStamp", f."CreatedAt", f."CustomerReference", f."Email", f."EmailConfirmed", f."FullName", f."IsActive", f."LockoutEnabled", f."LockoutEnd", f."NormalizedEmail", f."NormalizedUserName", f."PasswordHash", f."PhoneNumber", f."PhoneNumberConfirmed", f."SecurityStamp", f."TwoFactorEnabled", f."UserName"
+FROM "FreshwalkUsers" AS f
+WHERE f."Id" = @__p_0
+LIMIT 1
+  -- @__p_0=35040583-dcf4-4af7-abe2-6c7777644a6e
+---
+
+=== RESPONSE ===
+Status: 200
+Body:
+{"id":"c21f3d94-0cc8-48ea-a7a6-0d2c05fc895d","customerReference":"KE-00000006","bookingReference":"FW-20260403190156997-8897","orderReference":null,"priceKes":1300.50,"shoesSubtotalGrossKes":1600.00,"promotionalDiscountKes":70.00,"appliedPromotions":[{"categoryKey":"Sneakers","label":"Easter","amountSavedKes":70.00}],"subtotalBeforeDiscountKes":1530.00,"bundleDiscountPercent":0.15,"discountAmountKes":229.50,"totalPairs":4,"status":"PendingPayment","createdAt":"2026-04-03T19:01:57.6893446+00:00","pickupAddress":"Deloitte Waruku, Waiyaki Wy, Nairobi, Kenya","pickupLocationUrl":"https://www.google.com/maps?q=-1.2636733,36.7633495","addOns":[],"sneakersLines":[{"color":"BlackDark","quantity":2}],"suedeLines":[{"color":"BlackDark","quantity":1}],"nubuckLines":[],"canvasLines":[{"color":"WhiteLight","quantity":1}]}

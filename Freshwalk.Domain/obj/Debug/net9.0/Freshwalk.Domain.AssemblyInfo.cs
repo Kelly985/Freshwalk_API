@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Freshwalk.Domain")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+41082b4e801f58db86c6258d8a262ad28f75c9b5")]
 [assembly: System.Reflection.AssemblyProductAttribute("Freshwalk.Domain")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Freshwalk.Domain")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

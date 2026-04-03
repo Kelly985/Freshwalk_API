@@ -31,7 +31,8 @@ public class MpesaStkService(IOptions<MpesaOptions> options, ILogger<MpesaStkSer
             || string.IsNullOrWhiteSpace(cfg.CallbackUrl))
             return new StkInitiateResult(false, null, null, null, "M-Pesa is not configured. Set Mpesa section in appsettings.");
 
-        var kes = (int)Math.Ceiling(amountKes);
+        // Match checkout: payable amounts are whole KES (floored discounts); never round up vs quoted price.
+        var kes = (int)Math.Floor(amountKes);
         if (kes < 1) kes = 1;
 
         if (string.IsNullOrWhiteSpace(phoneNumber))

@@ -1,0 +1,52 @@
+﻿=== REQUEST ===
+GET /api/agent/riders
+CorrelationId: 5a1ef5b4b84645ebb5917139f444915e
+Headers:
+  Accept: application/json, text/plain, */*
+  Connection: keep-alive
+  Host: localhost:5089
+  User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36
+  Accept-Encoding: gzip, deflate, br, zstd
+  Accept-Language: en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7
+  Origin: http://localhost:5174
+  Referer: http://localhost:5174/
+  sec-ch-ua-platform: "Windows"
+  sec-ch-ua: "Chromium";v="146", "Not-A.Brand";v="24", "Google Chrome";v="146"
+  sec-ch-ua-mobile: ?0
+  X-Client-Source: agent-portal
+  DNT: 1
+  Sec-Fetch-Site: same-site
+  Sec-Fetch-Mode: cors
+  Sec-Fetch-Dest: empty
+(Authorization header omitted)
+
+Body:
+
+
+=== DATABASE COMMANDS ===
+SELECT f."Id", f."ConcurrencyStamp", f."Name", f."NormalizedName"
+FROM "FreshwalkRoles" AS f
+WHERE f."NormalizedName" = @__normalizedRoleName_0
+LIMIT 2
+  -- @__normalizedRoleName_0=RIDER
+---
+SELECT f0."Id", f0."AccessFailedCount", f0."Address", f0."ConcurrencyStamp", f0."CreatedAt", f0."CustomerReference", f0."Email", f0."EmailConfirmed", f0."FullName", f0."IsActive", f0."LockoutEnabled", f0."LockoutEnd", f0."NormalizedEmail", f0."NormalizedUserName", f0."PasswordHash", f0."PhoneNumber", f0."PhoneNumberConfirmed", f0."SecurityStamp", f0."TwoFactorEnabled", f0."UserName"
+FROM "FreshwalkUserRoles" AS f
+INNER JOIN "FreshwalkUsers" AS f0 ON f."UserId" = f0."Id"
+WHERE f."RoleId" = @__role_Id_0
+  -- @__role_Id_0=285df5e0-a4e0-4e10-8db0-f481446cd241
+---
+SELECT r."Id", r."BikeRegistration", r."IsAvailable", r."UserId"
+FROM "RiderProfiles" AS r
+---
+SELECT f."Id", f."AccessFailedCount", f."Address", f."ConcurrencyStamp", f."CreatedAt", f."CustomerReference", f."Email", f."EmailConfirmed", f."FullName", f."IsActive", f."LockoutEnabled", f."LockoutEnd", f."NormalizedEmail", f."NormalizedUserName", f."PasswordHash", f."PhoneNumber", f."PhoneNumberConfirmed", f."SecurityStamp", f."TwoFactorEnabled", f."UserName"
+FROM "FreshwalkUsers" AS f
+WHERE f."Id" = @__p_0
+LIMIT 1
+  -- @__p_0=d3ea9e8e-baeb-4f01-bbcd-a712a07e43c5
+---
+
+=== RESPONSE ===
+Status: 200
+Body:
+[{"id":"9da150f3-8997-4d83-984f-8c917207220c","fullName":"Demo Rider","email":"rider@freshwalk.co.ke","phoneNumber":"254700333333","bikeRegistration":null,"isAvailable":true}]

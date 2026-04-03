@@ -122,6 +122,10 @@ namespace Freshwalk.Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasColumnType("jsonb");
 
+                    b.Property<string>("AppliedPromotions")
+                        .IsRequired()
+                        .HasColumnType("jsonb");
+
                     b.Property<string>("BookingReference")
                         .IsRequired()
                         .HasMaxLength(40)
@@ -130,6 +134,10 @@ namespace Freshwalk.Infrastructure.Data.Migrations
                     b.Property<decimal>("BundleDiscountPercent")
                         .HasPrecision(5, 4)
                         .HasColumnType("numeric(5,4)");
+
+                    b.Property<string>("CanvasLines")
+                        .IsRequired()
+                        .HasColumnType("jsonb");
 
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -142,10 +150,6 @@ namespace Freshwalk.Infrastructure.Data.Migrations
                         .HasColumnType("numeric(10,2)");
 
                     b.Property<string>("NubuckLines")
-                        .IsRequired()
-                        .HasColumnType("jsonb");
-
-                    b.Property<string>("OfficialLeatherLines")
                         .IsRequired()
                         .HasColumnType("jsonb");
 
@@ -163,6 +167,14 @@ namespace Freshwalk.Infrastructure.Data.Migrations
                         .HasColumnType("double precision");
 
                     b.Property<decimal>("PriceKes")
+                        .HasPrecision(10, 2)
+                        .HasColumnType("numeric(10,2)");
+
+                    b.Property<decimal>("PromotionalDiscountKes")
+                        .HasPrecision(10, 2)
+                        .HasColumnType("numeric(10,2)");
+
+                    b.Property<decimal>("ShoesSubtotalGrossKes")
                         .HasPrecision(10, 2)
                         .HasColumnType("numeric(10,2)");
 
@@ -500,6 +512,130 @@ namespace Freshwalk.Infrastructure.Data.Migrations
                     b.ToTable("RiderProfiles");
                 });
 
+            modelBuilder.Entity("Freshwalk.Domain.ShoeServiceCategory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("DisplayName")
+                        .IsRequired()
+                        .HasMaxLength(120)
+                        .HasColumnType("character varying(120)");
+
+                    b.Property<string>("ImageAfterUrl")
+                        .HasMaxLength(800)
+                        .HasColumnType("character varying(800)");
+
+                    b.Property<string>("ImageBeforeUrl")
+                        .HasMaxLength(800)
+                        .HasColumnType("character varying(800)");
+
+                    b.Property<string>("Key")
+                        .IsRequired()
+                        .HasMaxLength(40)
+                        .HasColumnType("character varying(40)");
+
+                    b.Property<int>("SortOrder")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Tagline")
+                        .HasMaxLength(300)
+                        .HasColumnType("character varying(300)");
+
+                    b.Property<string>("ThemeColorHex")
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Key")
+                        .IsUnique();
+
+                    b.ToTable("ShoeServiceCategories", (string)null);
+                });
+
+            modelBuilder.Entity("Freshwalk.Domain.ShoeServicePromotion", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("DiscountKind")
+                        .IsRequired()
+                        .HasMaxLength(40)
+                        .HasColumnType("character varying(40)");
+
+                    b.Property<decimal?>("FixedOffPerPairKes")
+                        .HasPrecision(10, 2)
+                        .HasColumnType("numeric(10,2)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Label")
+                        .IsRequired()
+                        .HasMaxLength(120)
+                        .HasColumnType("character varying(120)");
+
+                    b.Property<decimal?>("PercentOff")
+                        .HasPrecision(6, 2)
+                        .HasColumnType("numeric(6,2)");
+
+                    b.Property<int>("Priority")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTimeOffset?>("ValidFrom")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTimeOffset?>("ValidTo")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("ShoeServicePromotions", (string)null);
+                });
+
+            modelBuilder.Entity("Freshwalk.Domain.ShoeServiceTierPrice", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("ColorTierKey")
+                        .IsRequired()
+                        .HasMaxLength(40)
+                        .HasColumnType("character varying(40)");
+
+                    b.Property<decimal>("PriceKes")
+                        .HasPrecision(10, 2)
+                        .HasColumnType("numeric(10,2)");
+
+                    b.Property<int>("SortOrder")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId", "ColorTierKey")
+                        .IsUnique();
+
+                    b.ToTable("ShoeServiceTierPrices", (string)null);
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", b =>
                 {
                     b.Property<Guid>("Id")
@@ -772,6 +908,28 @@ namespace Freshwalk.Infrastructure.Data.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Freshwalk.Domain.ShoeServicePromotion", b =>
+                {
+                    b.HasOne("Freshwalk.Domain.ShoeServiceCategory", "Category")
+                        .WithMany("Promotions")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("Freshwalk.Domain.ShoeServiceTierPrice", b =>
+                {
+                    b.HasOne("Freshwalk.Domain.ShoeServiceCategory", "Category")
+                        .WithMany("TierPrices")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", null)
@@ -844,6 +1002,13 @@ namespace Freshwalk.Infrastructure.Data.Migrations
                     b.Navigation("Notifications");
 
                     b.Navigation("RiderAssignments");
+                });
+
+            modelBuilder.Entity("Freshwalk.Domain.ShoeServiceCategory", b =>
+                {
+                    b.Navigation("Promotions");
+
+                    b.Navigation("TierPrices");
                 });
 #pragma warning restore 612, 618
         }

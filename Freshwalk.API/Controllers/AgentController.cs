@@ -47,12 +47,18 @@ public class AgentController(AppDbContext db, UserManager<ApplicationUser> userM
 
         if (!string.IsNullOrWhiteSpace(search))
         {
-            var s = search.Trim().ToLower();
-            var sCompact = s.Replace(" ", "", StringComparison.Ordinal);
+            var raw = search.Trim();
+            var s = raw.ToLowerInvariant();
+            var digitsOnly = new string(raw.Where(char.IsDigit).ToArray());
             q = q.Where(b =>
+                (b.BookingReference != null && b.BookingReference.ToLower().Contains(s)) ||
+                (b.Customer.FullName != null && b.Customer.FullName.ToLower().Contains(s)) ||
                 (b.Customer.Email != null && b.Customer.Email.ToLower().Contains(s)) ||
-                (b.Customer.PhoneNumber != null &&
-                 b.Customer.PhoneNumber.Replace(" ", "", StringComparison.Ordinal).ToLower().Contains(sCompact)));
+                (b.Customer.CustomerReference != null && b.Customer.CustomerReference.ToLower().Contains(s)) ||
+                (digitsOnly.Length > 0 && b.Customer.PhoneNumber != null &&
+                 b.Customer.PhoneNumber.Replace(" ", "").Replace("-", "").ToLower().Contains(digitsOnly)) ||
+                (digitsOnly.Length > 0 && b.Payment != null && b.Payment.PayerPhoneNumber != null &&
+                 b.Payment.PayerPhoneNumber.Replace(" ", "").Replace("-", "").ToLower().Contains(digitsOnly)));
         }
 
         var rows = await q.OrderByDescending(b => b.CreatedAt).ToListAsync();
@@ -119,6 +125,9 @@ public class AgentController(AppDbContext db, UserManager<ApplicationUser> userM
             b.Payment?.Amount,
             b.Order?.Status,
             b.PriceKes,
+            b.ShoesSubtotalGrossKes,
+            b.PromotionalDiscountKes,
+            b.AppliedPromotions.Select(x => new PromotionAppliedDto(x.CategoryKey, x.Label, x.AmountSavedKes)).ToList(),
             b.SubtotalBeforeDiscountKes,
             b.BundleDiscountPercent,
             b.DiscountAmountKes,
@@ -131,7 +140,7 @@ public class AgentController(AppDbContext db, UserManager<ApplicationUser> userM
             b.SneakersLines.Select(x => new ShoeLineItemDto(x.Color, x.Quantity)).ToList(),
             b.SuedeLines.Select(x => new ShoeLineItemDto(x.Color, x.Quantity)).ToList(),
             b.NubuckLines.Select(x => new ShoeLineItemDto(x.Color, x.Quantity)).ToList(),
-            b.OfficialLeatherLines.Select(x => new ShoeLineItemDto(x.Color, x.Quantity)).ToList(),
+            b.CanvasLines.Select(x => new ShoeLineItemDto(x.Color, x.Quantity)).ToList(),
             assignments,
             b.CreatedAt);
 

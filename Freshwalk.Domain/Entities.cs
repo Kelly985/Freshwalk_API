@@ -32,6 +32,14 @@ public class ShoeLineItem
     public int Quantity { get; set; }
 }
 
+/// <summary>JSON snapshot on <see cref="Booking"/> of promo savings at checkout.</summary>
+public class PromotionAppliedSnapshot
+{
+    public string CategoryKey { get; set; } = string.Empty;
+    public string Label { get; set; } = string.Empty;
+    public decimal AmountSavedKes { get; set; }
+}
+
 public class Booking
 {
     public Guid Id { get; set; }
@@ -47,9 +55,12 @@ public class Booking
     public List<ShoeLineItem> SneakersLines { get; set; } = new();
     public List<ShoeLineItem> SuedeLines { get; set; } = new();
     public List<ShoeLineItem> NubuckLines { get; set; } = new();
-    public List<ShoeLineItem> OfficialLeatherLines { get; set; } = new();
+    public List<ShoeLineItem> CanvasLines { get; set; } = new();
 
     public int TotalPairs { get; set; }
+
+    /// <summary>Sum of catalog shoe line prices × pairs before category promotions (add-ons excluded).</summary>
+    public decimal ShoesSubtotalGrossKes { get; set; }
 
     /// <summary>Line items + add-ons + delivery, before bundle discount.</summary>
     public decimal SubtotalBeforeDiscountKes { get; set; }
@@ -59,6 +70,12 @@ public class Booking
 
     /// <summary>KES removed by bundle discount (subtotal × percent, aligned with final total).</summary>
     public decimal DiscountAmountKes { get; set; }
+
+    /// <summary>KES saved from active shoe-category promotions (add-ons not discounted).</summary>
+    public decimal PromotionalDiscountKes { get; set; }
+
+    /// <summary>Snapshot of per-category promo savings at booking time (JSON array).</summary>
+    public List<PromotionAppliedSnapshot> AppliedPromotions { get; set; } = new();
 
     /// <summary>Amount payable after discount (matches Payment.Amount).</summary>
     public decimal PriceKes { get; set; }
@@ -172,4 +189,69 @@ public class OrderAuditLog
 
     public Order Order { get; set; } = null!;
     public ApplicationUser? Actor { get; set; }
+}
+
+/// <summary>Public-facing shoe category (before/after imagery, theme, display copy).</summary>
+public class ShoeServiceCategory
+{
+    public int Id { get; set; }
+
+    /// <summary>API key matching booking shoe type, e.g. Sneakers, Canvas.</summary>
+    public string Key { get; set; } = string.Empty;
+
+    public string DisplayName { get; set; } = string.Empty;
+    public string? Tagline { get; set; }
+
+    /// <summary>Accent hex for cards (e.g. #E31E24).</summary>
+    public string? ThemeColorHex { get; set; }
+
+    public string? ImageBeforeUrl { get; set; }
+    public string? ImageAfterUrl { get; set; }
+    public int SortOrder { get; set; }
+
+    public ICollection<ShoeServiceTierPrice> TierPrices { get; set; } = new List<ShoeServiceTierPrice>();
+
+    public ICollection<ShoeServicePromotion> Promotions { get; set; } = new List<ShoeServicePromotion>();
+}
+
+/// <summary>Time-boxed offer on a shoe category (e.g. Easter). Drives catalog badges and checkout math.</summary>
+public class ShoeServicePromotion
+{
+    public int Id { get; set; }
+    public int CategoryId { get; set; }
+
+    /// <summary>Shown on service cards and checkout, e.g. &quot;Easter&quot;.</summary>
+    public string Label { get; set; } = string.Empty;
+
+    public PromotionDiscountKind DiscountKind { get; set; }
+
+    /// <summary>When <see cref="DiscountKind"/> is <see cref="PromotionDiscountKind.PercentOff"/>.</summary>
+    public decimal? PercentOff { get; set; }
+
+    /// <summary>When <see cref="DiscountKind"/> is <see cref="PromotionDiscountKind.FixedAmountPerPair"/> — KES off per pair for that category only.</summary>
+    public decimal? FixedOffPerPairKes { get; set; }
+
+    public DateTimeOffset? ValidFrom { get; set; }
+    public DateTimeOffset? ValidTo { get; set; }
+    public bool IsActive { get; set; } = true;
+
+    /// <summary>Higher runs first when multiple rows match; only the top match applies per category.</summary>
+    public int Priority { get; set; }
+
+    public ShoeServiceCategory Category { get; set; } = null!;
+}
+
+/// <summary>Per color-tier price for a category (editable in DB).</summary>
+public class ShoeServiceTierPrice
+{
+    public int Id { get; set; }
+    public int CategoryId { get; set; }
+
+    /// <summary>BlackDark, MixedColored, WhiteLight.</summary>
+    public string ColorTierKey { get; set; } = string.Empty;
+
+    public decimal PriceKes { get; set; }
+    public int SortOrder { get; set; }
+
+    public ShoeServiceCategory Category { get; set; } = null!;
 }

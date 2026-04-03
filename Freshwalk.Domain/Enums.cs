@@ -13,7 +13,7 @@ public enum ShoeType
     Sneakers = 1,
     Suede = 2,
     Nubuck = 3,
-    OfficialLeather = 4
+    Canvas = 4
 }
 
 public enum ColorTier
@@ -21,6 +21,13 @@ public enum ColorTier
     BlackDark = 1,
     MixedColored = 2,
     WhiteLight = 3
+}
+
+/// <summary>How a time-limited shoe-category promotion reduces the shoe line subtotal (add-ons excluded).</summary>
+public enum PromotionDiscountKind
+{
+    PercentOff = 1,
+    FixedAmountPerPair = 2
 }
 
 public enum AddOnType
