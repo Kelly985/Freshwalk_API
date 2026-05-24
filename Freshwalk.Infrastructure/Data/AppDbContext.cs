@@ -29,6 +29,7 @@ public class AppDbContext : IdentityDbContext<ApplicationUser, IdentityRole<Guid
     public DbSet<ShoeServiceCategory> ShoeServiceCategories => Set<ShoeServiceCategory>();
     public DbSet<ShoeServiceTierPrice> ShoeServiceTierPrices => Set<ShoeServiceTierPrice>();
     public DbSet<ShoeServicePromotion> ShoeServicePromotions => Set<ShoeServicePromotion>();
+    public DbSet<GalleryMediaItem> GalleryMediaItems => Set<GalleryMediaItem>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -183,6 +184,19 @@ public class AppDbContext : IdentityDbContext<ApplicationUser, IdentityRole<Guid
             e.Property(x => x.DiscountKind).HasConversion<string>().HasMaxLength(40);
             e.Property(x => x.PercentOff).HasPrecision(6, 2);
             e.Property(x => x.FixedOffPerPairKes).HasPrecision(10, 2);
+        });
+
+        builder.Entity<GalleryMediaItem>(e =>
+        {
+            e.ToTable("GalleryMediaItems");
+            e.Property(x => x.Label).HasMaxLength(200).IsRequired();
+            e.Property(x => x.Category).HasConversion<string>().HasMaxLength(20);
+            e.Property(x => x.MediaType).HasConversion<string>().HasMaxLength(10);
+            e.Property(x => x.BeforeUrl).HasMaxLength(1000).IsRequired();
+            e.Property(x => x.AfterUrl).HasMaxLength(1000).IsRequired();
+            e.Property(x => x.CloudinaryPublicIdBefore).HasMaxLength(300);
+            e.Property(x => x.CloudinaryPublicIdAfter).HasMaxLength(300);
+            e.Property(x => x.AccentColor).HasMaxLength(20);
         });
 
         var roles = new[]

@@ -1,0 +1,35 @@
+﻿=== REQUEST ===
+GET /api/gallery
+CorrelationId: daf12d4b372e491e8bb742907cceab54
+Headers:
+  Accept: application/json, text/plain, */*
+  Connection: keep-alive
+  Host: localhost:5089
+  User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36
+  Accept-Encoding: gzip, deflate, br, zstd
+  Accept-Language: en-US,en;q=0.9
+  Origin: http://localhost:5173
+  Referer: http://localhost:5173/
+  X-Client-Source: customer-web
+  sec-ch-ua-platform: "Windows"
+  sec-ch-ua: "Chromium";v="148", "Google Chrome";v="148", "Not/A)Brand";v="99"
+  sec-ch-ua-mobile: ?0
+  Sec-Fetch-Site: same-site
+  Sec-Fetch-Mode: cors
+  Sec-Fetch-Dest: empty
+(Authorization header omitted)
+
+Body:
+
+
+=== DATABASE COMMANDS ===
+SELECT g."Id", g."AccentColor", g."AfterUrl", g."BeforeUrl", g."Category", g."CloudinaryPublicIdAfter", g."CloudinaryPublicIdBefore", g."CreatedAt", g."IsActive", g."IsHero", g."Label", g."MediaType", g."SortOrder", g."UpdatedAt"
+FROM "GalleryMediaItems" AS g
+WHERE g."IsActive"
+ORDER BY g."SortOrder", g."CreatedAt" DESC
+---
+
+=== RESPONSE ===
+Status: 200
+Body:
+[{"id":"d39ec595-887b-4f14-bdef-ab1f6ca2e326","label":"Sneaker Deep clean","category":"Sneakers","mediaType":"Video","beforeUrl":"https://res.cloudinary.com/dlvaqdgqe/image/upload/v1779625858/freshwalk/gallery/sneakers/laoq0zzg9pbbym05xkbr.jpg","afterUrl":"https://res.cloudinary.com/dlvaqdgqe/image/upload/v1779625860/freshwalk/gallery/sneakers/lfcu958workqgi5m4tgt.jpg","isHero":false,"accentColor":"#E31E24","sortOrder":0,"createdAt":"2026-05-24T12:31:01.218894+00:00"}]

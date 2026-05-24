@@ -1,0 +1,42 @@
+﻿=== REQUEST ===
+GET /api/gallery
+CorrelationId: 004363778072407796aea93e53d4fa1d
+Headers:
+  Accept: application/json, text/plain, */*
+  Connection: keep-alive
+  Host: localhost:5089
+  User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36
+  Accept-Encoding: gzip, deflate, br, zstd
+  Accept-Language: en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7
+  Origin: http://localhost:5175
+  Referer: http://localhost:5175/
+  sec-ch-ua-platform: "Windows"
+  sec-ch-ua: "Chromium";v="148", "Google Chrome";v="148", "Not/A)Brand";v="99"
+  sec-ch-ua-mobile: ?0
+  X-Client-Source: agent-portal
+  DNT: 1
+  Sec-Fetch-Site: same-site
+  Sec-Fetch-Mode: cors
+  Sec-Fetch-Dest: empty
+(Authorization header omitted)
+
+Body:
+
+
+=== DATABASE COMMANDS ===
+SELECT g."Id", g."AccentColor", g."AfterUrl", g."BeforeUrl", g."Category", g."CloudinaryPublicIdAfter", g."CloudinaryPublicIdBefore", g."CreatedAt", g."IsActive", g."IsHero", g."Label", g."MediaType", g."SortOrder", g."UpdatedAt"
+FROM "GalleryMediaItems" AS g
+WHERE g."IsActive"
+ORDER BY g."SortOrder", g."CreatedAt" DESC
+---
+SELECT f."Id", f."AccessFailedCount", f."Address", f."ConcurrencyStamp", f."CreatedAt", f."CustomerReference", f."Email", f."EmailConfirmed", f."FullName", f."IsActive", f."LockoutEnabled", f."LockoutEnd", f."NormalizedEmail", f."NormalizedUserName", f."PasswordHash", f."PhoneNumber", f."PhoneNumberConfirmed", f."SecurityStamp", f."TwoFactorEnabled", f."UserName"
+FROM "FreshwalkUsers" AS f
+WHERE f."Id" = @__p_0
+LIMIT 1
+  -- @__p_0=d3ea9e8e-baeb-4f01-bbcd-a712a07e43c5
+---
+
+=== RESPONSE ===
+Status: 200
+Body:
+[{"id":"ff474f07-b8a8-4edc-b85b-8e0c1d634009","label":"Brown white sneaker","category":"Sneakers","mediaType":"Image","beforeUrl":"https://res.cloudinary.com/dlvaqdgqe/image/upload/v1779626259/freshwalk/gallery/sneakers/dql89un3znb1odnnzzcu.jpg","afterUrl":"https://res.cloudinary.com/dlvaqdgqe/image/upload/v1779626261/freshwalk/gallery/sneakers/vzuk7xkfso8wgnuibdy2.jpg","isHero":true,"accentColor":"#E31E24","sortOrder":0,"createdAt":"2026-05-24T12:37:42.57764+00:00"}]

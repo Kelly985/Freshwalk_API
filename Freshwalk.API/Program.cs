@@ -36,6 +36,12 @@ builder.Host.UseSerilog((_, _, cfg) =>
 builder.Services.Configure<AuditLoggingOptions>(builder.Configuration.GetSection(AuditLoggingOptions.SectionName));
 builder.Services.AddScoped<AuditRequestLoggingMiddleware>();
 
+// Allow up to 200 MB per file (two files per gallery upload = 200 MB each).
+builder.Services.Configure<Microsoft.AspNetCore.Http.Features.FormOptions>(o =>
+    o.MultipartBodyLengthLimit = 210_000_000);
+builder.WebHost.ConfigureKestrel(o =>
+    o.Limits.MaxRequestBodySize = 210_000_000);
+
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {

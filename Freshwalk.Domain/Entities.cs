@@ -255,3 +255,29 @@ public class ShoeServiceTierPrice
 
     public ShoeServiceCategory Category { get; set; } = null!;
 }
+
+public enum GalleryCategory  { Sneakers = 1, Canvas = 2, Suede = 3, Nubuck = 4 }
+public enum GalleryMediaType { Image = 1, Video = 2 }
+
+/// <summary>Before/after media pair uploaded via AgentPortal and served to the public gallery.</summary>
+public class GalleryMediaItem
+{
+    public Guid Id { get; set; }
+    public string Label { get; set; } = string.Empty;
+    public GalleryCategory Category { get; set; }
+    public GalleryMediaType MediaType { get; set; } = GalleryMediaType.Image;
+    public string BeforeUrl { get; set; } = string.Empty;
+    public string AfterUrl  { get; set; } = string.Empty;
+    public string? CloudinaryPublicIdBefore { get; set; }
+    public string? CloudinaryPublicIdAfter  { get; set; }
+
+    /// <summary>When true, this image pair is included in the home hero cycling carousel.</summary>
+    public bool IsHero { get; set; } = false;
+
+    /// <summary>Hex accent colour for the gallery card (e.g. #E31E24).</summary>
+    public string? AccentColor { get; set; }
+    public int SortOrder { get; set; } = 0;
+    public bool IsActive { get; set; } = true;
+    public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.UtcNow;
+    public DateTimeOffset UpdatedAt { get; set; } = DateTimeOffset.UtcNow;
+}

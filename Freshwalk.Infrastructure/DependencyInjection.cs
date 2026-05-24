@@ -21,6 +21,8 @@ public static class DependencyInjection
     {
         services.Configure<JwtSettings>(configuration.GetSection(JwtSettings.SectionName));
         services.Configure<MpesaOptions>(configuration.GetSection(MpesaOptions.SectionName));
+        services.Configure<CloudinaryOptions>(configuration.GetSection(CloudinaryOptions.SectionName));
+        services.AddScoped<ICloudinaryService, CloudinaryService>();
 
         services.AddHttpContextAccessor();
         services.AddSingleton<EfAuditInterceptor>();
