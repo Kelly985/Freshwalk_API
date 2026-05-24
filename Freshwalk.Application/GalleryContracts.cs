@@ -16,6 +16,13 @@ public record UploadGalleryItemRequest(
     string? AccentColor,
     int SortOrder);
 
+public record UpdateGalleryItemRequest(
+    string Label,
+    string Category,
+    bool IsHero,
+    string? AccentColor,
+    int SortOrder);
+
 public record GalleryItemDto(
     Guid Id,
     string Label,

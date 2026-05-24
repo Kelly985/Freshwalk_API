@@ -107,6 +107,28 @@ public class GalleryController(AppDbContext db, ICloudinaryService cloudinary) :
         return Ok(Map(item));
     }
 
+    // ── PUT /api/gallery/{id} ────────────────────────────────── [Authorize Agent,Admin]
+    [HttpPut("{id:guid}")]
+    [Authorize(Roles = "Agent,Admin")]
+    public async Task<IActionResult> Update(Guid id, [FromBody] UpdateGalleryItemRequest request, CancellationToken ct)
+    {
+        var item = await db.GalleryMediaItems.FindAsync([id], ct);
+        if (item is null) return NotFound();
+
+        if (!Enum.TryParse<GalleryCategory>(request.Category, ignoreCase: true, out var category))
+            return BadRequest(new { message = "Invalid category. Valid values: Sneakers, Canvas, Suede, Nubuck." });
+
+        item.Label       = request.Label.Trim();
+        item.Category    = category;
+        item.IsHero      = request.IsHero;
+        item.AccentColor = request.AccentColor?.Trim();
+        item.SortOrder   = request.SortOrder;
+        item.UpdatedAt   = DateTimeOffset.UtcNow;
+
+        await db.SaveChangesAsync(ct);
+        return Ok(Map(item));
+    }
+
     // ── DELETE /api/gallery/{id} ──────────────────────────────── [Authorize Agent,Admin]
     [HttpDelete("{id:guid}")]
     [Authorize(Roles = "Agent,Admin")]
