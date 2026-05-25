@@ -186,6 +186,20 @@ public class AppDbContext : IdentityDbContext<ApplicationUser, IdentityRole<Guid
             e.Property(x => x.FixedOffPerPairKes).HasPrecision(10, 2);
         });
 
+        builder.Entity<RiderProfile>(e =>
+        {
+            e.Property(x => x.BikeRegistration).HasMaxLength(30);
+            e.Property(x => x.SelfieUrl).HasMaxLength(1000);
+            e.Property(x => x.CloudinaryPublicIdSelfie).HasMaxLength(300);
+            e.Property(x => x.IdFrontUrl).HasMaxLength(1000);
+            e.Property(x => x.CloudinaryPublicIdIdFront).HasMaxLength(300);
+            e.Property(x => x.IdBackUrl).HasMaxLength(1000);
+            e.Property(x => x.CloudinaryPublicIdIdBack).HasMaxLength(300);
+            e.Property(x => x.EmergencyContactName).HasMaxLength(150);
+            e.Property(x => x.EmergencyContactPhone).HasMaxLength(20);
+            e.Property(x => x.Notes).HasMaxLength(1000);
+        });
+
         builder.Entity<GalleryMediaItem>(e =>
         {
             e.ToTable("GalleryMediaItems");

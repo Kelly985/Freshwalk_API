@@ -22,6 +22,17 @@ public class RiderProfile
     public Guid UserId { get; set; }
     public string BikeRegistration { get; set; } = string.Empty;
     public bool IsAvailable { get; set; } = true;
+
+    public string? SelfieUrl { get; set; }
+    public string? CloudinaryPublicIdSelfie { get; set; }
+    public string? IdFrontUrl { get; set; }
+    public string? CloudinaryPublicIdIdFront { get; set; }
+    public string? IdBackUrl { get; set; }
+    public string? CloudinaryPublicIdIdBack { get; set; }
+    public string? EmergencyContactName { get; set; }
+    public string? EmergencyContactPhone { get; set; }
+    public string? Notes { get; set; }
+
     public ApplicationUser User { get; set; } = null!;
 }
 

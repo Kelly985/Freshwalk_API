@@ -1,0 +1,73 @@
+2026-05-25 23:23:04.383 +03:00 [INF] Executed DbCommand (390ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "MigrationId", "ProductVersion"
+FROM "__EFMigrationsHistory"
+ORDER BY "MigrationId";
+2026-05-25 23:23:07.514 +03:00 [INF] Executed DbCommand (259ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE IF NOT EXISTS "__EFMigrationsHistory" (
+    "MigrationId" character varying(150) NOT NULL,
+    "ProductVersion" character varying(32) NOT NULL,
+    CONSTRAINT "PK___EFMigrationsHistory" PRIMARY KEY ("MigrationId")
+);
+2026-05-25 23:23:07.787 +03:00 [INF] Executed DbCommand (236ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+LOCK TABLE "__EFMigrationsHistory" IN ACCESS EXCLUSIVE MODE
+2026-05-25 23:23:08.150 +03:00 [INF] Executed DbCommand (332ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "MigrationId", "ProductVersion"
+FROM "__EFMigrationsHistory"
+ORDER BY "MigrationId";
+2026-05-25 23:23:08.159 +03:00 [INF] Applying migration '20260525105933_AddRiderDocuments'.
+2026-05-25 23:23:08.495 +03:00 [INF] Executed DbCommand (299ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE "RiderProfiles" ALTER COLUMN "BikeRegistration" TYPE character varying(30);
+2026-05-25 23:23:08.750 +03:00 [INF] Executed DbCommand (250ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE "RiderProfiles" ADD "CloudinaryPublicIdIdBack" character varying(300);
+2026-05-25 23:23:09.071 +03:00 [INF] Executed DbCommand (318ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE "RiderProfiles" ADD "CloudinaryPublicIdIdFront" character varying(300);
+2026-05-25 23:23:09.379 +03:00 [INF] Executed DbCommand (301ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE "RiderProfiles" ADD "CloudinaryPublicIdSelfie" character varying(300);
+2026-05-25 23:23:09.788 +03:00 [INF] Executed DbCommand (405ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE "RiderProfiles" ADD "EmergencyContactName" character varying(150);
+2026-05-25 23:23:10.096 +03:00 [INF] Executed DbCommand (306ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE "RiderProfiles" ADD "EmergencyContactPhone" character varying(20);
+2026-05-25 23:23:10.403 +03:00 [INF] Executed DbCommand (299ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE "RiderProfiles" ADD "IdBackUrl" character varying(1000);
+2026-05-25 23:23:10.658 +03:00 [INF] Executed DbCommand (253ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE "RiderProfiles" ADD "IdFrontUrl" character varying(1000);
+2026-05-25 23:23:10.914 +03:00 [INF] Executed DbCommand (253ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE "RiderProfiles" ADD "Notes" character varying(1000);
+2026-05-25 23:23:11.222 +03:00 [INF] Executed DbCommand (306ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE "RiderProfiles" ADD "SelfieUrl" character varying(1000);
+2026-05-25 23:23:11.530 +03:00 [INF] Executed DbCommand (300ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20260525105933_AddRiderDocuments', '9.0.8');
+2026-05-25 23:23:12.450 +03:00 [INF] Executed DbCommand (326ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (
+    SELECT 1
+    FROM "ShoeServiceCategories" AS s)
+2026-05-25 23:23:12.759 +03:00 [INF] Executed DbCommand (252ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (
+    SELECT 1
+    FROM "ShoeServicePromotions" AS s)
+2026-05-25 23:23:13.169 +03:00 [INF] Executed DbCommand (280ms) [Parameters=[@__normalizedEmail_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT f."Id", f."AccessFailedCount", f."Address", f."ConcurrencyStamp", f."CreatedAt", f."CustomerReference", f."Email", f."EmailConfirmed", f."FullName", f."IsActive", f."LockoutEnabled", f."LockoutEnd", f."NormalizedEmail", f."NormalizedUserName", f."PasswordHash", f."PhoneNumber", f."PhoneNumberConfirmed", f."SecurityStamp", f."TwoFactorEnabled", f."UserName"
+FROM "FreshwalkUsers" AS f
+WHERE f."NormalizedEmail" = @__normalizedEmail_0
+LIMIT 2
+2026-05-25 23:23:13.497 +03:00 [INF] Executed DbCommand (252ms) [Parameters=[@__normalizedEmail_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT f."Id", f."AccessFailedCount", f."Address", f."ConcurrencyStamp", f."CreatedAt", f."CustomerReference", f."Email", f."EmailConfirmed", f."FullName", f."IsActive", f."LockoutEnabled", f."LockoutEnd", f."NormalizedEmail", f."NormalizedUserName", f."PasswordHash", f."PhoneNumber", f."PhoneNumberConfirmed", f."SecurityStamp", f."TwoFactorEnabled", f."UserName"
+FROM "FreshwalkUsers" AS f
+WHERE f."NormalizedEmail" = @__normalizedEmail_0
+LIMIT 2
+2026-05-25 23:23:13.888 +03:00 [INF] Executed DbCommand (389ms) [Parameters=[@__normalizedEmail_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT f."Id", f."AccessFailedCount", f."Address", f."ConcurrencyStamp", f."CreatedAt", f."CustomerReference", f."Email", f."EmailConfirmed", f."FullName", f."IsActive", f."LockoutEnabled", f."LockoutEnd", f."NormalizedEmail", f."NormalizedUserName", f."PasswordHash", f."PhoneNumber", f."PhoneNumberConfirmed", f."SecurityStamp", f."TwoFactorEnabled", f."UserName"
+FROM "FreshwalkUsers" AS f
+WHERE f."NormalizedEmail" = @__normalizedEmail_0
+LIMIT 2
+2026-05-25 23:23:14.191 +03:00 [INF] Executed DbCommand (298ms) [Parameters=[@__normalizedEmail_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT f."Id", f."AccessFailedCount", f."Address", f."ConcurrencyStamp", f."CreatedAt", f."CustomerReference", f."Email", f."EmailConfirmed", f."FullName", f."IsActive", f."LockoutEnabled", f."LockoutEnd", f."NormalizedEmail", f."NormalizedUserName", f."PasswordHash", f."PhoneNumber", f."PhoneNumberConfirmed", f."SecurityStamp", f."TwoFactorEnabled", f."UserName"
+FROM "FreshwalkUsers" AS f
+WHERE f."NormalizedEmail" = @__normalizedEmail_0
+LIMIT 2
+2026-05-25 23:23:14.402 +03:00 [INF] Now listening on: http://localhost:5089
+2026-05-25 23:23:14.404 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2026-05-25 23:23:14.406 +03:00 [INF] Hosting environment: Development
+2026-05-25 23:23:14.407 +03:00 [INF] Content root path: D:\Projects\Freshwalk Shoe Cleaning web app\API\Freshwalk.API
+2026-05-25 23:24:43.951 +03:00 [INF] Application is shutting down...

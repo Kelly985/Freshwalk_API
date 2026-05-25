@@ -81,6 +81,13 @@ public record CustomerBookingTrackingDto(
 /// <summary>Provide either <see cref="BookingId"/> or <see cref="BookingReference"/> (e.g. FW-20260328145632001-9043).</summary>
 public record InitiateBookingStkRequest(string PhoneNumber, Guid? BookingId, string? BookingReference);
 
+public interface IEmailService
+{
+    Task SendAsync(string toEmail, string toName, string subject, string htmlBody, CancellationToken ct = default);
+}
+
+public record ChangePasswordRequest(string CurrentPassword, string NewPassword);
+
 public interface IJwtTokenService
 {
     Task<AuthResponse> GenerateForUserAsync(ApplicationUser user);

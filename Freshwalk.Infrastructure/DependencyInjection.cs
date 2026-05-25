@@ -6,6 +6,8 @@ using Freshwalk.Infrastructure.Configuration;
 using Freshwalk.Infrastructure.Data;
 using Freshwalk.Infrastructure.Logging;
 using Freshwalk.Infrastructure.Services;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -23,6 +25,14 @@ public static class DependencyInjection
         services.Configure<MpesaOptions>(configuration.GetSection(MpesaOptions.SectionName));
         services.Configure<CloudinaryOptions>(configuration.GetSection(CloudinaryOptions.SectionName));
         services.AddScoped<ICloudinaryService, CloudinaryService>();
+        services.Configure<EmailOptions>(configuration.GetSection(EmailOptions.SectionName));
+        services.AddHttpClient("Resend", (sp, client) =>
+        {
+            var key = sp.GetRequiredService<IOptions<EmailOptions>>().Value.ApiKey;
+            client.DefaultRequestHeaders.Authorization =
+                new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", key);
+        });
+        services.AddScoped<IEmailService, EmailService>();
 
         services.AddHttpContextAccessor();
         services.AddSingleton<EfAuditInterceptor>();
