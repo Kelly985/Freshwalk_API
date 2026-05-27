@@ -1,0 +1,72 @@
+2026-05-26 00:01:18.430 +03:00 [INF] HTTP OPTIONS /api/riders responded 204 in 0.8260 ms
+2026-05-26 00:01:21.085 +03:00 [INF] Executed DbCommand (307ms) [Parameters=[@__normalizedEmail_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT f."Id", f."AccessFailedCount", f."Address", f."ConcurrencyStamp", f."CreatedAt", f."CustomerReference", f."Email", f."EmailConfirmed", f."FullName", f."IsActive", f."LockoutEnabled", f."LockoutEnd", f."NormalizedEmail", f."NormalizedUserName", f."PasswordHash", f."PhoneNumber", f."PhoneNumberConfirmed", f."SecurityStamp", f."TwoFactorEnabled", f."UserName"
+FROM "FreshwalkUsers" AS f
+WHERE f."NormalizedEmail" = @__normalizedEmail_0
+LIMIT 2
+2026-05-26 00:01:21.323 +03:00 [INF] Executed DbCommand (229ms) [Parameters=[@__request_PhoneNumber_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT f."Id", f."AccessFailedCount", f."Address", f."ConcurrencyStamp", f."CreatedAt", f."CustomerReference", f."Email", f."EmailConfirmed", f."FullName", f."IsActive", f."LockoutEnabled", f."LockoutEnd", f."NormalizedEmail", f."NormalizedUserName", f."PasswordHash", f."PhoneNumber", f."PhoneNumberConfirmed", f."SecurityStamp", f."TwoFactorEnabled", f."UserName"
+FROM "FreshwalkUsers" AS f
+WHERE f."PhoneNumber" = @__request_PhoneNumber_0
+LIMIT 1
+2026-05-26 00:01:21.802 +03:00 [INF] Executed DbCommand (441ms) [Parameters=[@__code_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (
+    SELECT 1
+    FROM "FreshwalkUsers" AS f
+    WHERE f."CustomerReference" = @__code_0)
+2026-05-26 00:01:22.313 +03:00 [INF] Executed DbCommand (261ms) [Parameters=[@__normalizedUserName_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT f."Id", f."AccessFailedCount", f."Address", f."ConcurrencyStamp", f."CreatedAt", f."CustomerReference", f."Email", f."EmailConfirmed", f."FullName", f."IsActive", f."LockoutEnabled", f."LockoutEnd", f."NormalizedEmail", f."NormalizedUserName", f."PasswordHash", f."PhoneNumber", f."PhoneNumberConfirmed", f."SecurityStamp", f."TwoFactorEnabled", f."UserName"
+FROM "FreshwalkUsers" AS f
+WHERE f."NormalizedUserName" = @__normalizedUserName_0
+LIMIT 1
+2026-05-26 00:01:22.621 +03:00 [INF] Executed DbCommand (300ms) [Parameters=[@__normalizedEmail_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT f."Id", f."AccessFailedCount", f."Address", f."ConcurrencyStamp", f."CreatedAt", f."CustomerReference", f."Email", f."EmailConfirmed", f."FullName", f."IsActive", f."LockoutEnabled", f."LockoutEnd", f."NormalizedEmail", f."NormalizedUserName", f."PasswordHash", f."PhoneNumber", f."PhoneNumberConfirmed", f."SecurityStamp", f."TwoFactorEnabled", f."UserName"
+FROM "FreshwalkUsers" AS f
+WHERE f."NormalizedEmail" = @__normalizedEmail_0
+LIMIT 2
+2026-05-26 00:01:22.929 +03:00 [INF] Executed DbCommand (297ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (DbType = Int32), @p2='?', @p3='?', @p4='?' (DbType = DateTime), @p5='?', @p6='?', @p7='?' (DbType = Boolean), @p8='?', @p9='?' (DbType = Boolean), @p10='?' (DbType = Boolean), @p11='?' (DbType = DateTime), @p12='?', @p13='?', @p14='?', @p15='?', @p16='?' (DbType = Boolean), @p17='?', @p18='?' (DbType = Boolean), @p19='?'], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "FreshwalkUsers" ("Id", "AccessFailedCount", "Address", "ConcurrencyStamp", "CreatedAt", "CustomerReference", "Email", "EmailConfirmed", "FullName", "IsActive", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12, @p13, @p14, @p15, @p16, @p17, @p18, @p19);
+2026-05-26 00:01:23.235 +03:00 [INF] Executed DbCommand (296ms) [Parameters=[@__normalizedRoleName_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT f."Id", f."ConcurrencyStamp", f."Name", f."NormalizedName"
+FROM "FreshwalkRoles" AS f
+WHERE f."NormalizedName" = @__normalizedRoleName_0
+LIMIT 2
+2026-05-26 00:01:23.645 +03:00 [INF] Executed DbCommand (406ms) [Parameters=[@__p_0='?' (DbType = Guid), @__p_1='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SELECT f."UserId", f."RoleId"
+FROM "FreshwalkUserRoles" AS f
+WHERE f."UserId" = @__p_0 AND f."RoleId" = @__p_1
+LIMIT 1
+2026-05-26 00:01:24.055 +03:00 [INF] Executed DbCommand (401ms) [Parameters=[@__normalizedRoleName_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT f."Id", f."ConcurrencyStamp", f."Name", f."NormalizedName"
+FROM "FreshwalkRoles" AS f
+WHERE f."NormalizedName" = @__normalizedRoleName_0
+LIMIT 2
+2026-05-26 00:01:24.362 +03:00 [INF] Executed DbCommand (300ms) [Parameters=[@__normalizedUserName_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT f."Id", f."AccessFailedCount", f."Address", f."ConcurrencyStamp", f."CreatedAt", f."CustomerReference", f."Email", f."EmailConfirmed", f."FullName", f."IsActive", f."LockoutEnabled", f."LockoutEnd", f."NormalizedEmail", f."NormalizedUserName", f."PasswordHash", f."PhoneNumber", f."PhoneNumberConfirmed", f."SecurityStamp", f."TwoFactorEnabled", f."UserName"
+FROM "FreshwalkUsers" AS f
+WHERE f."NormalizedUserName" = @__normalizedUserName_0
+LIMIT 1
+2026-05-26 00:01:24.626 +03:00 [INF] Executed DbCommand (254ms) [Parameters=[@__normalizedEmail_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT f."Id", f."AccessFailedCount", f."Address", f."ConcurrencyStamp", f."CreatedAt", f."CustomerReference", f."Email", f."EmailConfirmed", f."FullName", f."IsActive", f."LockoutEnabled", f."LockoutEnd", f."NormalizedEmail", f."NormalizedUserName", f."PasswordHash", f."PhoneNumber", f."PhoneNumberConfirmed", f."SecurityStamp", f."TwoFactorEnabled", f."UserName"
+FROM "FreshwalkUsers" AS f
+WHERE f."NormalizedEmail" = @__normalizedEmail_0
+LIMIT 2
+2026-05-26 00:01:24.977 +03:00 [INF] Executed DbCommand (344ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (DbType = Guid), @p21='?' (DbType = Guid), @p2='?' (DbType = Int32), @p3='?', @p4='?', @p22='?', @p5='?' (DbType = DateTime), @p6='?', @p7='?', @p8='?' (DbType = Boolean), @p9='?', @p10='?' (DbType = Boolean), @p11='?' (DbType = Boolean), @p12='?' (DbType = DateTime), @p13='?', @p14='?', @p15='?', @p16='?', @p17='?' (DbType = Boolean), @p18='?', @p19='?' (DbType = Boolean), @p20='?'], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "FreshwalkUserRoles" ("RoleId", "UserId")
+VALUES (@p0, @p1);
+UPDATE "FreshwalkUsers" SET "AccessFailedCount" = @p2, "Address" = @p3, "ConcurrencyStamp" = @p4, "CreatedAt" = @p5, "CustomerReference" = @p6, "Email" = @p7, "EmailConfirmed" = @p8, "FullName" = @p9, "IsActive" = @p10, "LockoutEnabled" = @p11, "LockoutEnd" = @p12, "NormalizedEmail" = @p13, "NormalizedUserName" = @p14, "PasswordHash" = @p15, "PhoneNumber" = @p16, "PhoneNumberConfirmed" = @p17, "SecurityStamp" = @p18, "TwoFactorEnabled" = @p19, "UserName" = @p20
+WHERE "Id" = @p21 AND "ConcurrencyStamp" = @p22;
+2026-05-26 00:01:25.488 +03:00 [INF] Executed DbCommand (268ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?', @p2='?', @p3='?', @p4='?', @p5='?', @p6='?', @p7='?', @p8='?', @p9='?' (DbType = Boolean), @p10='?', @p11='?', @p12='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "RiderProfiles" ("Id", "BikeRegistration", "CloudinaryPublicIdIdBack", "CloudinaryPublicIdIdFront", "CloudinaryPublicIdSelfie", "EmergencyContactName", "EmergencyContactPhone", "IdBackUrl", "IdFrontUrl", "IsAvailable", "Notes", "SelfieUrl", "UserId")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12);
+2026-05-26 00:01:25.495 +03:00 [INF] Start processing HTTP request POST https://api.resend.com/emails
+2026-05-26 00:01:25.501 +03:00 [INF] Sending HTTP request POST https://api.resend.com/emails
+2026-05-26 00:01:27.230 +03:00 [INF] Received HTTP response headers after 1724.1898ms - 200
+2026-05-26 00:01:27.234 +03:00 [INF] End processing HTTP request after 1739.2806ms - 200
+2026-05-26 00:01:27.639 +03:00 [INF] Executed DbCommand (398ms) [Parameters=[@__p_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SELECT f."Id", f."AccessFailedCount", f."Address", f."ConcurrencyStamp", f."CreatedAt", f."CustomerReference", f."Email", f."EmailConfirmed", f."FullName", f."IsActive", f."LockoutEnabled", f."LockoutEnd", f."NormalizedEmail", f."NormalizedUserName", f."PasswordHash", f."PhoneNumber", f."PhoneNumberConfirmed", f."SecurityStamp", f."TwoFactorEnabled", f."UserName"
+FROM "FreshwalkUsers" AS f
+WHERE f."Id" = @__p_0
+LIMIT 1
+2026-05-26 00:01:27.654 +03:00 [INF] HTTP POST /api/riders responded 200 in 9205.1465 ms

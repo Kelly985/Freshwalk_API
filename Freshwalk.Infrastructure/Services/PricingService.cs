@@ -68,6 +68,7 @@ public class PricingService(AppDbContext db) : IPricingService
         if (Has(addOns, nameof(AddOnType.PickupDelivery)) && totalPairs < 3) deliveryFee = 150;
 
         var promoAgg = new Dictionary<(string CategoryKey, string Label), decimal>();
+        var lineBreakdowns = new List<LineBreakdownDto>();
 
         decimal shoesGross = 0;
         decimal shoesAfterPromo = 0;
@@ -79,6 +80,12 @@ public class PricingService(AppDbContext db) : IPricingService
             var unit = ResolveUnitPrice(tierMap, shoe, color);
             var qty = item.PairCount;
             shoesGross += unit * qty;
+
+            lineBreakdowns.Add(new LineBreakdownDto(
+                categoryKeyByShoe.GetValueOrDefault(shoe, shoe),
+                color,
+                qty,
+                unit));
 
             var promo = promoByShoe.GetValueOrDefault(shoe);
             var discountedUnit = ApplyPromoToUnit(unit, promo, out var savePerPair);
@@ -116,6 +123,7 @@ public class PricingService(AppDbContext db) : IPricingService
         var finalPrice = subtotalBeforeBundle - bundleDiscountAmount;
 
         return new PricingBreakdown(
+            lineBreakdowns.AsReadOnly(),
             decimal.Round(shoesGross, 2),
             promotionalDiscount,
             applied,

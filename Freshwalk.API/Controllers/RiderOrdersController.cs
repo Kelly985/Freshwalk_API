@@ -12,7 +12,7 @@ namespace Freshwalk.API.Controllers;
 [ApiController]
 [Route("api/rider")]
 [Authorize(Roles = "Rider")]
-public class RiderOrdersController(AppDbContext db, OrderOtpService otpService) : ControllerBase
+public class RiderOrdersController(AppDbContext db, OrderOtpService otpService, IMpesaStkService stkService) : ControllerBase
 {
     [HttpGet("orders")]
     public async Task<IActionResult> ActiveOrders(
@@ -175,7 +175,8 @@ public class RiderOrdersController(AppDbContext db, OrderOtpService otpService) 
             ? o.PickupOtpExpiresAt
             : null;
 
-        var payerPhone = pay?.PayerPhoneNumber;
+        var payerPhone = pay?.PayerPhoneNumber ?? b.Customer.PhoneNumber;
+        var isPaymentConfirmed = pay?.Status == PaymentStatus.Success;
 
         var dto = new RiderOrderDetailDto(
             o.Id,
@@ -207,9 +208,78 @@ public class RiderOrdersController(AppDbContext db, OrderOtpService otpService) 
             b.AppliedPromotions.Select(x => new PromotionAppliedDto(x.CategoryKey, x.Label, x.AmountSavedKes)).ToList(),
             b.SubtotalBeforeDiscountKes,
             b.BundleDiscountPercent,
-            b.DiscountAmountKes);
+            b.DiscountAmountKes,
+            // Payment fields
+            isPaymentConfirmed,
+            pay?.Status.ToString(),
+            pay?.Amount,
+            pay?.MpesaReceipt);
 
         return Ok(dto);
+    }
+
+    /// <summary>
+    /// Rider initiates M-Pesa STK push to the customer's phone before delivery.
+    /// Only callable when assignment type is Delivery and order is in DeliveryRiderAssigned status.
+    /// </summary>
+    [HttpPost("orders/{orderId:guid}/initiate-payment")]
+    public async Task<IActionResult> InitiatePayment(
+        [FromRoute] Guid orderId,
+        [FromBody] RiderInitiatePaymentRequest body,
+        CancellationToken cancellationToken)
+    {
+        var riderId = ResolveUserId();
+        if (riderId == Guid.Empty) return Unauthorized();
+
+        if (string.IsNullOrWhiteSpace(body.PhoneNumber))
+            return BadRequest(new { message = "Phone number is required." });
+
+        var assignment = await db.OrderRiderAssignments
+            .Include(a => a.Order)
+            .ThenInclude(o => o.Booking)
+            .ThenInclude(b => b.Payment)
+            .Where(a => a.OrderId == orderId && a.RiderId == riderId && a.AssignmentType == AssignmentType.Delivery)
+            .OrderByDescending(a => a.AssignedAt)
+            .FirstOrDefaultAsync(cancellationToken);
+
+        if (assignment is null)
+            return NotFound(new { message = "No delivery assignment found for this order." });
+
+        var order = assignment.Order;
+        if (order.Status != OrderStatus.DeliveryRiderAssigned)
+            return BadRequest(new { message = "Payment can only be initiated during active delivery." });
+
+        var payment = order.Booking.Payment;
+        if (payment is null)
+            return BadRequest(new { message = "No payment record found for this order." });
+
+        if (payment.Status == PaymentStatus.Success)
+            return BadRequest(new { message = "Payment is already confirmed." });
+
+        var acct = ReferenceCodeFormatting.ForMpesaAccountReference(order.Booking.BookingReference, order.BookingId);
+
+        var result = await stkService.InitiateAsync(
+            payment.Amount,
+            body.PhoneNumber,
+            accountReference: acct,
+            description: "Freshwalk shoe cleaning",
+            cancellationToken);
+
+        if (!result.Ok)
+            return StatusCode(500, new { message = result.Error ?? "STK Push failed. Please try again." });
+
+        payment.MpesaMerchantRequestId = result.MerchantRequestId;
+        payment.MpesaCheckoutRequestId = result.CheckoutRequestId;
+        payment.PayerPhoneNumber = NormalizeMsisdn(body.PhoneNumber);
+        payment.Status = PaymentStatus.Initiated;
+        await db.SaveChangesAsync(cancellationToken);
+
+        return Ok(new
+        {
+            message = result.CustomerMessage ?? "M-Pesa prompt sent. Ask the customer to complete payment on their phone.",
+            merchantRequestId = result.MerchantRequestId,
+            checkoutRequestId = result.CheckoutRequestId
+        });
     }
 
     [HttpPost("orders/{orderId:guid}/verify-delivery-otp")]
@@ -221,6 +291,7 @@ public class RiderOrdersController(AppDbContext db, OrderOtpService otpService) 
         var assignment = await db.OrderRiderAssignments
             .Include(a => a.Order)
             .ThenInclude(o => o.Booking)
+            .ThenInclude(b => b.Payment)
             .Where(a => a.OrderId == orderId && a.RiderId == riderId && a.AssignmentType == AssignmentType.Delivery)
             .OrderByDescending(a => a.AssignedAt)
             .FirstOrDefaultAsync();
@@ -231,6 +302,10 @@ public class RiderOrdersController(AppDbContext db, OrderOtpService otpService) 
         var order = assignment.Order;
         if (order.Status != OrderStatus.DeliveryRiderAssigned)
             return BadRequest(new { message = "Delivery OTP can only be verified when you are assigned for delivery." });
+
+        // Payment must be confirmed before completing delivery
+        if (order.Booking.Payment?.Status != PaymentStatus.Success)
+            return BadRequest(new { message = "Payment must be confirmed before completing delivery. Please send the customer an M-Pesa prompt first." });
 
         if (!await otpService.ValidateDeliveryAsync(orderId, body.Otp, HttpContext.RequestAborted))
             return BadRequest(new { message = "Invalid or expired OTP." });
@@ -243,6 +318,13 @@ public class RiderOrdersController(AppDbContext db, OrderOtpService otpService) 
 
         await db.SaveChangesAsync();
         return Ok(new { order.Id, order.Status, message = "Delivery confirmed. Order completed." });
+    }
+
+    private static string? NormalizeMsisdn(string? raw)
+    {
+        if (string.IsNullOrWhiteSpace(raw)) return null;
+        var d = new string(raw.Where(char.IsDigit).ToArray());
+        return d.Length == 0 ? null : d;
     }
 
     private Guid ResolveUserId()

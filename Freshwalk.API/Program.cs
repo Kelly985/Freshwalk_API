@@ -4,8 +4,12 @@ using Freshwalk.API.Logging;
 using Freshwalk.Infrastructure;
 using Freshwalk.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
+using QuestPDF.Infrastructure;
 using Serilog;
 using Serilog.Events;
+
+// QuestPDF community licence (free for small businesses)
+QuestPDF.Settings.License = LicenseType.Community;
 
 var builder = WebApplication.CreateBuilder(args);
 

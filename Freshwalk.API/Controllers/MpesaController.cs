@@ -150,7 +150,6 @@ public class MpesaController(AppDbContext db, IMpesaStkService stkService, ILogg
     {
         var payment = await db.Payments
             .Include(p => p.Booking)
-            .ThenInclude(b => b.Order)
             .FirstOrDefaultAsync(p => p.MpesaCheckoutRequestId == checkoutRequestId, cancellationToken);
 
         if (payment is null)
@@ -170,28 +169,12 @@ public class MpesaController(AppDbContext db, IMpesaStkService stkService, ILogg
             if (!string.IsNullOrEmpty(payerPhoneNormalized))
                 payment.PayerPhoneNumber = payerPhoneNormalized;
 
-            var booking = payment.Booking;
-            booking.Status = BookingStatus.PaymentConfirmed;
-
-            if (booking.Order is null)
-            {
-                db.Orders.Add(new Order
-                {
-                    Id = Guid.NewGuid(),
-                    BookingId = booking.Id,
-                    CustomerId = booking.CustomerId,
-                    OrderReference = booking.BookingReference,
-                    Status = OrderStatus.AwaitingPickupRider
-                });
-            }
-            else if (string.IsNullOrWhiteSpace(booking.Order.OrderReference)
-                     && !string.IsNullOrWhiteSpace(booking.BookingReference))
-            {
-                booking.Order.OrderReference = booking.BookingReference;
-            }
+            // Mark booking as payment confirmed.
+            // The order was created at booking time and is already progressing through the pipeline.
+            payment.Booking.Status = BookingStatus.PaymentConfirmed;
 
             await db.SaveChangesAsync(cancellationToken);
-            log.LogInformation("M-Pesa payment confirmed for booking {BookingId}", booking.Id);
+            log.LogInformation("M-Pesa payment confirmed for booking {BookingId}", payment.Booking.Id);
         }
         else
         {

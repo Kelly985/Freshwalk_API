@@ -1,0 +1,66 @@
+﻿=== REQUEST ===
+POST /api/bookings
+CorrelationId: db946258284947acbe0406245dc41071
+Headers:
+  Accept: application/json, text/plain, */*
+  Connection: keep-alive
+  Host: localhost:5089
+  User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36
+  Accept-Encoding: gzip, deflate, br, zstd
+  Accept-Language: en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7
+  Content-Type: application/json
+  Origin: http://localhost:5173
+  Referer: http://localhost:5173/
+  Content-Length: 227
+  sec-ch-ua-platform: "Windows"
+  sec-ch-ua: "Chromium";v="148", "Google Chrome";v="148", "Not/A)Brand";v="99"
+  sec-ch-ua-mobile: ?0
+  X-Client-Source: customer-web
+  DNT: 1
+  Sec-Fetch-Site: same-site
+  Sec-Fetch-Mode: cors
+  Sec-Fetch-Dest: empty
+(Authorization header omitted)
+
+Body:
+{"items":[{"shoeType":"Sneakers","colorTier":"WhiteLight","pairCount":1}],"addOns":["PickupDelivery"],"pickupAddress":"Naivas Parking Lot, QVJW+PFV, Nairobi, Kenya","pickupLatitude":-1.21813,"pickupLongitude":36.89615879999999}
+
+=== DATABASE COMMANDS ===
+SELECT s."Id", s."DisplayName", s."ImageAfterUrl", s."ImageBeforeUrl", s."Key", s."SortOrder", s."Tagline", s."ThemeColorHex", s0."Id", s0."CategoryId", s0."ColorTierKey", s0."PriceKes", s0."SortOrder", s1."Id", s1."CategoryId", s1."DiscountKind", s1."FixedOffPerPairKes", s1."IsActive", s1."Label", s1."PercentOff", s1."Priority", s1."ValidFrom", s1."ValidTo"
+FROM "ShoeServiceCategories" AS s
+LEFT JOIN "ShoeServiceTierPrices" AS s0 ON s."Id" = s0."CategoryId"
+LEFT JOIN "ShoeServicePromotions" AS s1 ON s."Id" = s1."CategoryId"
+ORDER BY s."Id", s0."Id"
+---
+SELECT EXISTS (
+    SELECT 1
+    FROM "Bookings" AS b
+    WHERE b."BookingReference" = @__code_0)
+  -- @__code_0=FW-20260527201003985-7532
+---
+SELECT EXISTS (
+    SELECT 1
+    FROM "Payments" AS p
+    WHERE p."PaymentReference" = @__code_0)
+  -- @__code_0=PM-20260527201004252-1411
+---
+INSERT INTO "Bookings" ("Id", "AddOns", "AppliedPromotions", "BookingReference", "BundleDiscountPercent", "CanvasLines", "CreatedAt", "CustomerId", "DiscountAmountKes", "NubuckLines", "PickupAddress", "PickupLatitude", "PickupLocationUrl", "PickupLongitude", "PriceKes", "PromotionalDiscountKes", "ShoesSubtotalGrossKes", "SneakersLines", "Status", "SubtotalBeforeDiscountKes", "SuedeLines", "TotalPairs")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12, @p13, @p14, @p15, @p16, @p17, @p18, @p19, @p20, @p21);
+INSERT INTO "Orders" ("Id", "AgentId", "BookingId", "CleaningCompletedAt", "CleaningStartedAt", "CustomerId", "DeliveredAt", "DeliveryOtp", "DeliveryOtpExpiresAt", "DeliveryOtpVerifiedAt", "OrderReference", "PickedUpAt", "PickupOtp", "PickupOtpExpiresAt", "PickupOtpVerifiedAt", "Status")
+VALUES (@p22, @p23, @p24, @p25, @p26, @p27, @p28, @p29, @p30, @p31, @p32, @p33, @p34, @p35, @p36, @p37);
+INSERT INTO "Payments" ("Id", "Amount", "BookingId", "CreatedAt", "MpesaCheckoutRequestId", "MpesaMerchantRequestId", "MpesaReceipt", "PayerPhoneNumber", "PaymentReference", "Status")
+VALUES (@p38, @p39, @p40, @p41, @p42, @p43, @p44, @p45, @p46, @p47);
+
+  -- @p0=184a21f4-56b4-4184-8147-d17c9a0bbe3b, @p1=["PickupDelivery"], @p2=[], @p3=FW-20260527201003985-7532, @p4=0, @p5=[], @p6=27/05/2026 20:10:04 +00:00, @p7=35040583-dcf4-4af7-abe2-6c7777644a6e, @p8=0, @p9=[], @p10=Naivas Parking Lot, QVJW+PFV, Nairobi, Kenya, @p11=-1.21813, @p12=https://www.google.com/maps?q=-1.21813,36.89615879999999, @p13=36.89615879999999, @p14=700.00, @p15=0, @p16=550.00, @p17=[{"color":"WhiteLight","quantity":1}], @p18=PendingPayment, @p19=700.00, @p20=[], @p21=1, @p22=db281f6f-ece4-4f47-b5dd-3ed3216d418c, @p23=, @p24=184a21f4-56b4-4184-8147-d17c9a0bbe3b, @p25=, @p26=, @p27=35040583-dcf4-4af7-abe2-6c7777644a6e, @p28=, @p29=, @p30=, @p31=, @p32=FW-20260527201003985-7532, @p33=, @p34=, @p35=, @p36=, @p37=AwaitingPickupRider, @p38=f3f47c13-dd6a-4472-84f8-ccfe5e5bcf3f, @p39=700.00, @p40=184a21f4-56b4-4184-8147-d17c9a0bbe3b, @p41=27/05/2026 20:10:04 +00:00, @p42=, @p43=, @p44=, @p45=, @p46=PM-20260527201004252-1411, @p47=Pending
+---
+SELECT f."Id", f."AccessFailedCount", f."Address", f."ConcurrencyStamp", f."CreatedAt", f."CustomerReference", f."Email", f."EmailConfirmed", f."FullName", f."IsActive", f."LockoutEnabled", f."LockoutEnd", f."NormalizedEmail", f."NormalizedUserName", f."PasswordHash", f."PhoneNumber", f."PhoneNumberConfirmed", f."SecurityStamp", f."TwoFactorEnabled", f."UserName"
+FROM "FreshwalkUsers" AS f
+WHERE f."Id" = @__p_0
+LIMIT 1
+  -- @__p_0=35040583-dcf4-4af7-abe2-6c7777644a6e
+---
+
+=== RESPONSE ===
+Status: 200
+Body:
+{"id":"184a21f4-56b4-4184-8147-d17c9a0bbe3b","customerReference":"KE-00000006","bookingReference":"FW-20260527201003985-7532","orderReference":"FW-20260527201003985-7532","priceKes":700.00,"shoesSubtotalGrossKes":550.00,"promotionalDiscountKes":0,"appliedPromotions":[],"subtotalBeforeDiscountKes":700.00,"bundleDiscountPercent":0,"discountAmountKes":0,"totalPairs":1,"status":"PendingPayment","createdAt":"2026-05-27T20:10:04.5020391+00:00","pickupAddress":"Naivas Parking Lot, QVJW+PFV, Nairobi, Kenya","pickupLocationUrl":"https://www.google.com/maps?q=-1.21813,36.89615879999999","addOns":["PickupDelivery"],"sneakersLines":[{"color":"WhiteLight","quantity":1}],"suedeLines":[],"nubuckLines":[],"canvasLines":[]}

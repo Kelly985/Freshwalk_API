@@ -1,0 +1,128 @@
+﻿=== REQUEST ===
+POST /api/riders
+CorrelationId: 9206aa232f7c4f03864cc896fcbb3976
+Headers:
+  Accept: application/json, text/plain, */*
+  Connection: keep-alive
+  Host: localhost:5089
+  User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36
+  Accept-Encoding: gzip, deflate, br, zstd
+  Accept-Language: en-GB,en-US;q=0.9,en;q=0.8
+  Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryyECUAFRpGU1C2aQQ
+  Origin: http://localhost:5174
+  Referer: http://localhost:5174/
+  Content-Length: 373
+  sec-ch-ua-platform: "Windows"
+  sec-ch-ua: "Chromium";v="148", "Google Chrome";v="148", "Not/A)Brand";v="99"
+  sec-ch-ua-mobile: ?0
+  X-Client-Source: agent-portal
+  Sec-Fetch-Site: same-site
+  Sec-Fetch-Mode: cors
+  Sec-Fetch-Dest: empty
+(Authorization header omitted)
+
+Body:
+------WebKitFormBoundaryyECUAFRpGU1C2aQQ
+Content-Disposition: form-data; name="fullName"
+
+darren2
+------WebKitFormBoundaryyECUAFRpGU1C2aQQ
+Content-Disposition: form-data; name="email"
+
+darrenmiller091@gmail.com
+------WebKitFormBoundaryyECUAFRpGU1C2aQQ
+Content-Disposition: form-data; name="phoneNumber"
+
+254712332100
+------WebKitFormBoundaryyECUAFRpGU1C2aQQ--
+
+
+=== DATABASE COMMANDS ===
+SELECT f."Id", f."AccessFailedCount", f."Address", f."ConcurrencyStamp", f."CreatedAt", f."CustomerReference", f."Email", f."EmailConfirmed", f."FullName", f."IsActive", f."LockoutEnabled", f."LockoutEnd", f."NormalizedEmail", f."NormalizedUserName", f."PasswordHash", f."PhoneNumber", f."PhoneNumberConfirmed", f."SecurityStamp", f."TwoFactorEnabled", f."UserName"
+FROM "FreshwalkUsers" AS f
+WHERE f."NormalizedEmail" = @__normalizedEmail_0
+LIMIT 2
+  -- @__normalizedEmail_0=DARRENMILLER091@GMAIL.COM
+---
+SELECT f."Id", f."AccessFailedCount", f."Address", f."ConcurrencyStamp", f."CreatedAt", f."CustomerReference", f."Email", f."EmailConfirmed", f."FullName", f."IsActive", f."LockoutEnabled", f."LockoutEnd", f."NormalizedEmail", f."NormalizedUserName", f."PasswordHash", f."PhoneNumber", f."PhoneNumberConfirmed", f."SecurityStamp", f."TwoFactorEnabled", f."UserName"
+FROM "FreshwalkUsers" AS f
+WHERE f."PhoneNumber" = @__request_PhoneNumber_0
+LIMIT 1
+  -- @__request_PhoneNumber_0=254712332100
+---
+SELECT EXISTS (
+    SELECT 1
+    FROM "FreshwalkUsers" AS f
+    WHERE f."CustomerReference" = @__code_0)
+  -- @__code_0=KE-20260527165358672-7031
+---
+SELECT f."Id", f."AccessFailedCount", f."Address", f."ConcurrencyStamp", f."CreatedAt", f."CustomerReference", f."Email", f."EmailConfirmed", f."FullName", f."IsActive", f."LockoutEnabled", f."LockoutEnd", f."NormalizedEmail", f."NormalizedUserName", f."PasswordHash", f."PhoneNumber", f."PhoneNumberConfirmed", f."SecurityStamp", f."TwoFactorEnabled", f."UserName"
+FROM "FreshwalkUsers" AS f
+WHERE f."NormalizedUserName" = @__normalizedUserName_0
+LIMIT 1
+  -- @__normalizedUserName_0=DARRENMILLER091@GMAIL.COM
+---
+SELECT f."Id", f."AccessFailedCount", f."Address", f."ConcurrencyStamp", f."CreatedAt", f."CustomerReference", f."Email", f."EmailConfirmed", f."FullName", f."IsActive", f."LockoutEnabled", f."LockoutEnd", f."NormalizedEmail", f."NormalizedUserName", f."PasswordHash", f."PhoneNumber", f."PhoneNumberConfirmed", f."SecurityStamp", f."TwoFactorEnabled", f."UserName"
+FROM "FreshwalkUsers" AS f
+WHERE f."NormalizedEmail" = @__normalizedEmail_0
+LIMIT 2
+  -- @__normalizedEmail_0=DARRENMILLER091@GMAIL.COM
+---
+INSERT INTO "FreshwalkUsers" ("Id", "AccessFailedCount", "Address", "ConcurrencyStamp", "CreatedAt", "CustomerReference", "Email", "EmailConfirmed", "FullName", "IsActive", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12, @p13, @p14, @p15, @p16, @p17, @p18, @p19);
+
+  -- @p0=eb859618-8d77-4496-939d-35af5023d0f4, @p1=0, @p2=, @p3=945556cb-3056-427e-88f9-df6855d62729, @p4=27/05/2026 16:53:58 +00:00, @p5=KE-20260527165358672-7031, @p6=darrenmiller091@gmail.com, @p7=False, @p8=darren2, @p9=True, @p10=True, @p11=, @p12=DARRENMILLER091@GMAIL.COM, @p13=DARRENMILLER091@GMAIL.COM, @p14=AQAAAAIAAYagAAAAEFzSCCdtDwB8KcVydfPzjiMTWq1v9jJsk32qJeL9Gu7CR1uK6ApLpHlolFYj1STYGg==, @p15=254712332100, @p16=False, @p17=OEIMHUWMCD3OKAE4IDVT4GULEJGY3DEG, @p18=False, @p19=darrenmiller091@gmail.com
+---
+SELECT f."Id", f."ConcurrencyStamp", f."Name", f."NormalizedName"
+FROM "FreshwalkRoles" AS f
+WHERE f."NormalizedName" = @__normalizedRoleName_0
+LIMIT 2
+  -- @__normalizedRoleName_0=RIDER
+---
+SELECT f."UserId", f."RoleId"
+FROM "FreshwalkUserRoles" AS f
+WHERE f."UserId" = @__p_0 AND f."RoleId" = @__p_1
+LIMIT 1
+  -- @__p_0=eb859618-8d77-4496-939d-35af5023d0f4, @__p_1=285df5e0-a4e0-4e10-8db0-f481446cd241
+---
+SELECT f."Id", f."ConcurrencyStamp", f."Name", f."NormalizedName"
+FROM "FreshwalkRoles" AS f
+WHERE f."NormalizedName" = @__normalizedRoleName_0
+LIMIT 2
+  -- @__normalizedRoleName_0=RIDER
+---
+SELECT f."Id", f."AccessFailedCount", f."Address", f."ConcurrencyStamp", f."CreatedAt", f."CustomerReference", f."Email", f."EmailConfirmed", f."FullName", f."IsActive", f."LockoutEnabled", f."LockoutEnd", f."NormalizedEmail", f."NormalizedUserName", f."PasswordHash", f."PhoneNumber", f."PhoneNumberConfirmed", f."SecurityStamp", f."TwoFactorEnabled", f."UserName"
+FROM "FreshwalkUsers" AS f
+WHERE f."NormalizedUserName" = @__normalizedUserName_0
+LIMIT 1
+  -- @__normalizedUserName_0=DARRENMILLER091@GMAIL.COM
+---
+SELECT f."Id", f."AccessFailedCount", f."Address", f."ConcurrencyStamp", f."CreatedAt", f."CustomerReference", f."Email", f."EmailConfirmed", f."FullName", f."IsActive", f."LockoutEnabled", f."LockoutEnd", f."NormalizedEmail", f."NormalizedUserName", f."PasswordHash", f."PhoneNumber", f."PhoneNumberConfirmed", f."SecurityStamp", f."TwoFactorEnabled", f."UserName"
+FROM "FreshwalkUsers" AS f
+WHERE f."NormalizedEmail" = @__normalizedEmail_0
+LIMIT 2
+  -- @__normalizedEmail_0=DARRENMILLER091@GMAIL.COM
+---
+INSERT INTO "FreshwalkUserRoles" ("RoleId", "UserId")
+VALUES (@p0, @p1);
+UPDATE "FreshwalkUsers" SET "AccessFailedCount" = @p2, "Address" = @p3, "ConcurrencyStamp" = @p4, "CreatedAt" = @p5, "CustomerReference" = @p6, "Email" = @p7, "EmailConfirmed" = @p8, "FullName" = @p9, "IsActive" = @p10, "LockoutEnabled" = @p11, "LockoutEnd" = @p12, "NormalizedEmail" = @p13, "NormalizedUserName" = @p14, "PasswordHash" = @p15, "PhoneNumber" = @p16, "PhoneNumberConfirmed" = @p17, "SecurityStamp" = @p18, "TwoFactorEnabled" = @p19, "UserName" = @p20
+WHERE "Id" = @p21 AND "ConcurrencyStamp" = @p22;
+
+  -- @p0=285df5e0-a4e0-4e10-8db0-f481446cd241, @p1=eb859618-8d77-4496-939d-35af5023d0f4, @p21=eb859618-8d77-4496-939d-35af5023d0f4, @p2=0, @p3=, @p4=e831dd9c-1cc2-4e3f-8c94-eff7d69888aa, @p22=945556cb-3056-427e-88f9-df6855d62729, @p5=27/05/2026 16:53:58 +00:00, @p6=KE-20260527165358672-7031, @p7=darrenmiller091@gmail.com, @p8=False, @p9=darren2, @p10=True, @p11=True, @p12=, @p13=DARRENMILLER091@GMAIL.COM, @p14=DARRENMILLER091@GMAIL.COM, @p15=AQAAAAIAAYagAAAAEFzSCCdtDwB8KcVydfPzjiMTWq1v9jJsk32qJeL9Gu7CR1uK6ApLpHlolFYj1STYGg==, @p16=254712332100, @p17=False, @p18=OEIMHUWMCD3OKAE4IDVT4GULEJGY3DEG, @p19=False, @p20=darrenmiller091@gmail.com
+---
+INSERT INTO "RiderProfiles" ("Id", "BikeRegistration", "CloudinaryPublicIdIdBack", "CloudinaryPublicIdIdFront", "CloudinaryPublicIdSelfie", "EmergencyContactName", "EmergencyContactPhone", "IdBackUrl", "IdFrontUrl", "IsAvailable", "Notes", "SelfieUrl", "UserId")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12);
+
+  -- @p0=4ee1e141-91a1-46a5-a296-f34977d2be40, @p1=, @p2=, @p3=, @p4=, @p5=, @p6=, @p7=, @p8=, @p9=True, @p10=, @p11=, @p12=eb859618-8d77-4496-939d-35af5023d0f4
+---
+SELECT f."Id", f."AccessFailedCount", f."Address", f."ConcurrencyStamp", f."CreatedAt", f."CustomerReference", f."Email", f."EmailConfirmed", f."FullName", f."IsActive", f."LockoutEnabled", f."LockoutEnd", f."NormalizedEmail", f."NormalizedUserName", f."PasswordHash", f."PhoneNumber", f."PhoneNumberConfirmed", f."SecurityStamp", f."TwoFactorEnabled", f."UserName"
+FROM "FreshwalkUsers" AS f
+WHERE f."Id" = @__p_0
+LIMIT 1
+  -- @__p_0=d3ea9e8e-baeb-4f01-bbcd-a712a07e43c5
+---
+
+=== RESPONSE ===
+Status: 200
+Body:
+{"id":"eb859618-8d77-4496-939d-35af5023d0f4","fullName":"darren2","email":"darrenmiller091@gmail.com","phoneNumber":"254712332100","address":null,"bikeRegistration":"","isAvailable":true,"isActive":true,"selfieUrl":null,"idFrontUrl":null,"idBackUrl":null,"emergencyContactName":null,"emergencyContactPhone":null,"notes":null,"createdAt":"2026-05-27T16:53:58.9764999+00:00"}

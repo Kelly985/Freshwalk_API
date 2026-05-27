@@ -1,0 +1,47 @@
+﻿=== REQUEST ===
+GET /api/rider/orders
+CorrelationId: ef81e58c46b348d5b30be132d68386e1
+Headers:
+  Accept: application/json, text/plain, */*
+  Connection: keep-alive
+  Host: localhost:5089
+  User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36
+  Accept-Encoding: gzip, deflate, br, zstd
+  Accept-Language: en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7
+  Origin: http://localhost:5175
+  Referer: http://localhost:5175/
+  sec-ch-ua-platform: "Windows"
+  sec-ch-ua: "Chromium";v="148", "Google Chrome";v="148", "Not/A)Brand";v="99"
+  sec-ch-ua-mobile: ?0
+  X-Client-Source: rider-portal
+  DNT: 1
+  Sec-Fetch-Site: same-site
+  Sec-Fetch-Mode: cors
+  Sec-Fetch-Dest: empty
+(Authorization header omitted)
+
+Body:
+
+
+=== DATABASE COMMANDS ===
+SELECT o."Id", o."AssignedAt", o."AssignmentReference", o."AssignmentType", o."CompletedAt", o."Notes", o."OrderId", o."RiderId", o."Status", o0."Id", o0."AgentId", o0."BookingId", o0."CleaningCompletedAt", o0."CleaningStartedAt", o0."CustomerId", o0."DeliveredAt", o0."DeliveryOtp", o0."DeliveryOtpExpiresAt", o0."DeliveryOtpVerifiedAt", o0."OrderReference", o0."PickedUpAt", o0."PickupOtp", o0."PickupOtpExpiresAt", o0."PickupOtpVerifiedAt", o0."Status", b."Id", b."AddOns", b."AppliedPromotions", b."BookingReference", b."BundleDiscountPercent", b."CanvasLines", b."CreatedAt", b."CustomerId", b."DiscountAmountKes", b."NubuckLines", b."PickupAddress", b."PickupLatitude", b."PickupLocationUrl", b."PickupLongitude", b."PriceKes", b."PromotionalDiscountKes", b."ShoesSubtotalGrossKes", b."SneakersLines", b."Status", b."SubtotalBeforeDiscountKes", b."SuedeLines", b."TotalPairs", f."Id", f."AccessFailedCount", f."Address", f."ConcurrencyStamp", f."CreatedAt", f."CustomerReference", f."Email", f."EmailConfirmed", f."FullName", f."IsActive", f."LockoutEnabled", f."LockoutEnd", f."NormalizedEmail", f."NormalizedUserName", f."PasswordHash", f."PhoneNumber", f."PhoneNumberConfirmed", f."SecurityStamp", f."TwoFactorEnabled", f."UserName", p."Id", p."Amount", p."BookingId", p."CreatedAt", p."MpesaCheckoutRequestId", p."MpesaMerchantRequestId", p."MpesaReceipt", p."PayerPhoneNumber", p."PaymentReference", p."Status"
+FROM "OrderRiderAssignments" AS o
+INNER JOIN "Orders" AS o0 ON o."OrderId" = o0."Id"
+INNER JOIN "Bookings" AS b ON o0."BookingId" = b."Id"
+INNER JOIN "FreshwalkUsers" AS f ON b."CustomerId" = f."Id"
+LEFT JOIN "Payments" AS p ON b."Id" = p."BookingId"
+WHERE o."RiderId" = @__riderId_0 AND ((o."AssignmentType" = 'Pickup' AND o0."Status" IN ('PickupRiderAssigned', 'InTransitToShop')) OR (o."AssignmentType" = 'Delivery' AND o0."Status" IN ('DeliveryRiderAssigned', 'InTransitToCustomer')))
+ORDER BY o."AssignedAt" DESC
+  -- @__riderId_0=9da150f3-8997-4d83-984f-8c917207220c
+---
+SELECT f."Id", f."AccessFailedCount", f."Address", f."ConcurrencyStamp", f."CreatedAt", f."CustomerReference", f."Email", f."EmailConfirmed", f."FullName", f."IsActive", f."LockoutEnabled", f."LockoutEnd", f."NormalizedEmail", f."NormalizedUserName", f."PasswordHash", f."PhoneNumber", f."PhoneNumberConfirmed", f."SecurityStamp", f."TwoFactorEnabled", f."UserName"
+FROM "FreshwalkUsers" AS f
+WHERE f."Id" = @__p_0
+LIMIT 1
+  -- @__p_0=9da150f3-8997-4d83-984f-8c917207220c
+---
+
+=== RESPONSE ===
+Status: 200
+Body:
+[{"orderId":"b31e2080-9eb5-4733-8b5c-e29cc428ea80","bookingId":"055c3b37-11f8-4bad-96a2-ae8548e239ab","bookingReference":"FW-20260527184327474-0829","orderReference":"FW-20260527184327474-0829","orderStatus":"PickupRiderAssigned","assignmentType":"Pickup","assignmentId":"424837b2-fccc-43d0-af8d-06ff1f9f9150","pickupAddress":"The Arcadia Kasarani Hunters Road, Hunters Rd, Nairobi, Kenya","pickupLocationUrl":"https://www.google.com/maps?q=-1.2251829,36.9235207","bookingCreatedAt":"2026-05-27T18:43:28.021616+00:00","customerName":"kelly ronny","customerEmail":"kellyronny985@gmail.com","customerPhone":null,"payerPhoneNumber":null},{"orderId":"d14bdb84-949d-4ba8-92ba-5799879538f8","bookingId":"48fae778-790f-4b40-bed9-8acd68ad424e","bookingReference":"FW-00000006","orderReference":"FW-00000006","orderStatus":"PickupRiderAssigned","assignmentType":"Pickup","assignmentId":"22236e1a-b499-4e04-b23d-2670f0eccadb","pickupAddress":"Clay City sublocation, Kasarani division, Kasarani, Nairobi, Nairobi County, 00608, Kenya","pickupLocationUrl":"https://www.google.com/maps?q=-1.2210751226664942,36.923771667592526","bookingCreatedAt":"2026-03-27T19:07:08.989418+00:00","customerName":"kelly ronny","customerEmail":"kellyronny985@gmail.com","customerPhone":null,"payerPhoneNumber":null}]

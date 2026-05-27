@@ -1,0 +1,64 @@
+﻿=== REQUEST ===
+POST /api/bookings
+CorrelationId: 5c5310d5125f42dc9898e74f5146814d
+Headers:
+  Accept: application/json, text/plain, */*
+  Connection: keep-alive
+  Host: localhost:5089
+  User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36
+  Accept-Encoding: gzip, deflate, br, zstd
+  Accept-Language: en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7
+  Content-Type: application/json
+  Origin: http://localhost:5173
+  Referer: http://localhost:5173/
+  Content-Length: 363
+  sec-ch-ua-platform: "Windows"
+  sec-ch-ua: "Chromium";v="148", "Google Chrome";v="148", "Not/A)Brand";v="99"
+  sec-ch-ua-mobile: ?0
+  X-Client-Source: customer-web
+  DNT: 1
+  Sec-Fetch-Site: same-site
+  Sec-Fetch-Mode: cors
+  Sec-Fetch-Dest: empty
+(Authorization header omitted)
+
+Body:
+{"items":[{"shoeType":"Sneakers","colorTier":"WhiteLight","pairCount":1},{"shoeType":"Nubuck","colorTier":"WhiteLight","pairCount":1},{"shoeType":"Canvas","colorTier":"MixedColored","pairCount":2}],"addOns":["ExpressService"],"pickupAddress":"The Arcadia Kasarani Hunters Road, Hunters Rd, Nairobi, Kenya","pickupLatitude":-1.2251829,"pickupLongitude":36.9235207}
+
+=== DATABASE COMMANDS ===
+SELECT s."Id", s."DisplayName", s."ImageAfterUrl", s."ImageBeforeUrl", s."Key", s."SortOrder", s."Tagline", s."ThemeColorHex", s0."Id", s0."CategoryId", s0."ColorTierKey", s0."PriceKes", s0."SortOrder", s1."Id", s1."CategoryId", s1."DiscountKind", s1."FixedOffPerPairKes", s1."IsActive", s1."Label", s1."PercentOff", s1."Priority", s1."ValidFrom", s1."ValidTo"
+FROM "ShoeServiceCategories" AS s
+LEFT JOIN "ShoeServiceTierPrices" AS s0 ON s."Id" = s0."CategoryId"
+LEFT JOIN "ShoeServicePromotions" AS s1 ON s."Id" = s1."CategoryId"
+ORDER BY s."Id", s0."Id"
+---
+SELECT EXISTS (
+    SELECT 1
+    FROM "Bookings" AS b
+    WHERE b."BookingReference" = @__code_0)
+  -- @__code_0=FW-20260527180228107-8704
+---
+SELECT EXISTS (
+    SELECT 1
+    FROM "Payments" AS p
+    WHERE p."PaymentReference" = @__code_0)
+  -- @__code_0=PM-20260527180228689-6607
+---
+INSERT INTO "Bookings" ("Id", "AddOns", "AppliedPromotions", "BookingReference", "BundleDiscountPercent", "CanvasLines", "CreatedAt", "CustomerId", "DiscountAmountKes", "NubuckLines", "PickupAddress", "PickupLatitude", "PickupLocationUrl", "PickupLongitude", "PriceKes", "PromotionalDiscountKes", "ShoesSubtotalGrossKes", "SneakersLines", "Status", "SubtotalBeforeDiscountKes", "SuedeLines", "TotalPairs")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12, @p13, @p14, @p15, @p16, @p17, @p18, @p19, @p20, @p21);
+INSERT INTO "Payments" ("Id", "Amount", "BookingId", "CreatedAt", "MpesaCheckoutRequestId", "MpesaMerchantRequestId", "MpesaReceipt", "PayerPhoneNumber", "PaymentReference", "Status")
+VALUES (@p22, @p23, @p24, @p25, @p26, @p27, @p28, @p29, @p30, @p31);
+
+  -- @p0=1a7947df-cbc8-47a5-9fe1-fd962a065f97, @p1=["ExpressService"], @p2=[], @p3=FW-20260527180228107-8704, @p4=0.15, @p5=[{"color":"MixedColored","quantity":2}], @p6=27/05/2026 18:02:29 +00:00, @p7=35040583-dcf4-4af7-abe2-6c7777644a6e, @p8=375, @p9=[{"color":"WhiteLight","quantity":1}], @p10=The Arcadia Kasarani Hunters Road, Hunters Rd, Nairobi, Kenya, @p11=-1.2251829, @p12=https://www.google.com/maps?q=-1.2251829,36.9235207, @p13=36.9235207, @p14=2125.00, @p15=0, @p16=1900.00, @p17=[{"color":"WhiteLight","quantity":1}], @p18=PendingPayment, @p19=2500.00, @p20=[], @p21=4, @p22=0a493a6d-9885-4291-a690-8aa7f0db9d74, @p23=2125.00, @p24=1a7947df-cbc8-47a5-9fe1-fd962a065f97, @p25=27/05/2026 18:02:29 +00:00, @p26=, @p27=, @p28=, @p29=, @p30=PM-20260527180228689-6607, @p31=Pending
+---
+SELECT f."Id", f."AccessFailedCount", f."Address", f."ConcurrencyStamp", f."CreatedAt", f."CustomerReference", f."Email", f."EmailConfirmed", f."FullName", f."IsActive", f."LockoutEnabled", f."LockoutEnd", f."NormalizedEmail", f."NormalizedUserName", f."PasswordHash", f."PhoneNumber", f."PhoneNumberConfirmed", f."SecurityStamp", f."TwoFactorEnabled", f."UserName"
+FROM "FreshwalkUsers" AS f
+WHERE f."Id" = @__p_0
+LIMIT 1
+  -- @__p_0=35040583-dcf4-4af7-abe2-6c7777644a6e
+---
+
+=== RESPONSE ===
+Status: 200
+Body:
+{"id":"1a7947df-cbc8-47a5-9fe1-fd962a065f97","customerReference":"KE-00000006","bookingReference":"FW-20260527180228107-8704","orderReference":null,"priceKes":2125.00,"shoesSubtotalGrossKes":1900.00,"promotionalDiscountKes":0,"appliedPromotions":[],"subtotalBeforeDiscountKes":2500.00,"bundleDiscountPercent":0.15,"discountAmountKes":375,"totalPairs":4,"status":"PendingPayment","createdAt":"2026-05-27T18:02:29.3287921+00:00","pickupAddress":"The Arcadia Kasarani Hunters Road, Hunters Rd, Nairobi, Kenya","pickupLocationUrl":"https://www.google.com/maps?q=-1.2251829,36.9235207","addOns":["ExpressService"],"sneakersLines":[{"color":"WhiteLight","quantity":1}],"suedeLines":[],"nubuckLines":[{"color":"WhiteLight","quantity":1}],"canvasLines":[{"color":"MixedColored","quantity":2}]}

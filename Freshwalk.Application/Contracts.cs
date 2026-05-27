@@ -25,7 +25,11 @@ public record CreateBookingRequest(
 
 public record PromotionAppliedDto(string CategoryKey, string Label, decimal AmountSavedKes);
 
+/// <summary>Per-shoe-line price detail, used for email transparency.</summary>
+public record LineBreakdownDto(string Category, string Color, int Quantity, decimal UnitPrice);
+
 public record PricingBreakdown(
+    IReadOnlyList<LineBreakdownDto> Lines,
     decimal ShoesSubtotalGrossKes,
     decimal PromotionalDiscountKes,
     IReadOnlyList<PromotionAppliedDto> AppliedPromotions,
@@ -76,7 +80,9 @@ public record CustomerBookingTrackingDto(
     /// <summary>True when rider is assigned for pickup; customer enters OTP from the rider to confirm handoff.</summary>
     bool CanEnterPickupOtp,
     /// <summary>Shown only when order is out for delivery; customer shares this with the rider who confirms in the rider app.</summary>
-    string? DeliveryOtpForCustomer);
+    string? DeliveryOtpForCustomer,
+    /// <summary>True when order is Delivered — customer can download receipt.</summary>
+    bool HasReceipt);
 
 /// <summary>Provide either <see cref="BookingId"/> or <see cref="BookingReference"/> (e.g. FW-20260328145632001-9043).</summary>
 public record InitiateBookingStkRequest(string PhoneNumber, Guid? BookingId, string? BookingReference);

@@ -17,8 +17,9 @@ public class BookingsController(
     AppDbContext db,
     IPricingService pricingService,
     UserManager<ApplicationUser> userManager,
-    IMpesaStkService mpesaStkService,
-    IReferenceCodeIssuer referenceIssuer) : ControllerBase
+    IReferenceCodeIssuer referenceIssuer,
+    IEmailService emailService,
+    ILogger<BookingsController> log) : ControllerBase
 {
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] CreateBookingRequest request, CancellationToken cancellationToken)
@@ -93,11 +94,25 @@ public class BookingsController(
 
         db.Bookings.Add(booking);
         db.Payments.Add(payment);
-        await db.SaveChangesAsync();
 
-        await TrySendInitialStkAsync(booking, payment, customerId, cancellationToken);
+        // Create the order immediately — payment is collected by the delivery rider at the door.
+        var order = new Order
+        {
+            Id = Guid.NewGuid(),
+            BookingId = booking.Id,
+            CustomerId = booking.CustomerId,
+            OrderReference = booking.BookingReference,
+            Status = OrderStatus.AwaitingPickupRider
+        };
+        db.Orders.Add(order);
+
+        await db.SaveChangesAsync(cancellationToken);
 
         var customer = await userManager.FindByIdAsync(customerId.ToString());
+
+        // Email 1 — order acknowledgment (non-fatal; fires at booking time, not M-Pesa callback)
+        _ = TrySendOrderAcknowledgmentAsync(booking, customer, pricing.Lines, cancellationToken);
+
         return Ok(ToResponse(booking, customer?.CustomerReference));
     }
 
@@ -168,7 +183,8 @@ public class BookingsController(
             b.PickupAddress,
             b.PickupLocationUrl,
             b.Order != null && b.Order.Status == OrderStatus.PickupRiderAssigned,
-            b.Order != null && b.Order.Status == OrderStatus.DeliveryRiderAssigned ? b.Order.DeliveryOtp : null)).ToList();
+            b.Order != null && b.Order.Status == OrderStatus.DeliveryRiderAssigned ? b.Order.DeliveryOtp : null,
+            b.Order?.Status == OrderStatus.Delivered)).ToList();
 
         return Ok(dto);
     }
@@ -201,27 +217,35 @@ public class BookingsController(
         return Ok(ToResponse(b));
     }
 
-    private async Task TrySendInitialStkAsync(Booking booking, Payment payment, Guid customerId, CancellationToken cancellationToken)
+    private async Task TrySendOrderAcknowledgmentAsync(
+        Booking booking,
+        ApplicationUser? customer,
+        IReadOnlyList<LineBreakdownDto> lineBreakdowns,
+        CancellationToken ct)
     {
-        var user = await userManager.FindByIdAsync(customerId.ToString());
-        var phone = user?.PhoneNumber;
-        if (string.IsNullOrWhiteSpace(phone))
-            return;
-
-        var result = await mpesaStkService.InitiateAsync(
-            payment.Amount,
-            phone,
-            ReferenceCodeFormatting.ForMpesaAccountReference(booking.BookingReference, booking.Id),
-            "Freshwalk shoe cleaning",
-            cancellationToken);
-
-        if (!result.Ok)
-            return;
-
-        payment.MpesaMerchantRequestId = result.MerchantRequestId;
-        payment.MpesaCheckoutRequestId = result.CheckoutRequestId;
-        payment.Status = PaymentStatus.Initiated;
-        await db.SaveChangesAsync(cancellationToken);
+        if (customer is null || string.IsNullOrWhiteSpace(customer.Email)) return;
+        try
+        {
+            var (subject, html) = EmailTemplates.OrderConfirmation(
+                customer.FullName,
+                booking.BookingReference,
+                booking.PickupAddress,
+                lineBreakdowns,
+                booking.AddOns,
+                booking.ShoesSubtotalGrossKes,
+                booking.PromotionalDiscountKes,
+                booking.AppliedPromotions,
+                booking.SubtotalBeforeDiscountKes,
+                booking.BundleDiscountPercent,
+                booking.DiscountAmountKes,
+                booking.PriceKes);
+            await emailService.SendAsync(customer.Email, customer.FullName, subject, html, ct);
+            log.LogInformation("Order acknowledgment email sent to {Email} for booking {Ref}", customer.Email, booking.BookingReference);
+        }
+        catch (Exception ex)
+        {
+            log.LogWarning(ex, "Could not send order acknowledgment email for booking {Ref}", booking.BookingReference);
+        }
     }
 
     private static BookingResponse ToResponse(Booking b, string? customerReferenceOverride = null)

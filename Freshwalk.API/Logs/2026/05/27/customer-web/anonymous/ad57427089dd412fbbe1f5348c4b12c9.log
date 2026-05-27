@@ -1,0 +1,39 @@
+﻿=== REQUEST ===
+POST /api/catalog/preview-pricing
+CorrelationId: ad57427089dd412fbbe1f5348c4b12c9
+Headers:
+  Accept: application/json, text/plain, */*
+  Connection: keep-alive
+  Host: localhost:5089
+  User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36
+  Accept-Encoding: gzip, deflate, br, zstd
+  Accept-Language: en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7
+  Content-Type: application/json
+  Origin: http://localhost:5173
+  Referer: http://localhost:5173/
+  Content-Length: 208
+  sec-ch-ua-platform: "Windows"
+  sec-ch-ua: "Chromium";v="148", "Google Chrome";v="148", "Not/A)Brand";v="99"
+  sec-ch-ua-mobile: ?0
+  X-Client-Source: customer-web
+  DNT: 1
+  Sec-Fetch-Site: same-site
+  Sec-Fetch-Mode: cors
+  Sec-Fetch-Dest: empty
+(Authorization header omitted)
+
+Body:
+{"items":[{"shoeType":"Suede","colorTier":"BlackDark","pairCount":2},{"shoeType":"Canvas","colorTier":"WhiteLight","pairCount":1},{"shoeType":"Sneakers","colorTier":"MixedColored","pairCount":1}],"addOns":[]}
+
+=== DATABASE COMMANDS ===
+SELECT s."Id", s."DisplayName", s."ImageAfterUrl", s."ImageBeforeUrl", s."Key", s."SortOrder", s."Tagline", s."ThemeColorHex", s0."Id", s0."CategoryId", s0."ColorTierKey", s0."PriceKes", s0."SortOrder", s1."Id", s1."CategoryId", s1."DiscountKind", s1."FixedOffPerPairKes", s1."IsActive", s1."Label", s1."PercentOff", s1."Priority", s1."ValidFrom", s1."ValidTo"
+FROM "ShoeServiceCategories" AS s
+LEFT JOIN "ShoeServiceTierPrices" AS s0 ON s."Id" = s0."CategoryId"
+LEFT JOIN "ShoeServicePromotions" AS s1 ON s."Id" = s1."CategoryId"
+ORDER BY s."Id", s0."Id"
+---
+
+=== RESPONSE ===
+Status: 200
+Body:
+{"shoesSubtotalGrossKes":1700.00,"promotionalDiscountKes":0,"appliedPromotions":[],"subtotalBeforeDiscountKes":1700.00,"bundleDiscountPercent":0.15,"discountAmountKes":255,"finalPriceKes":1445.00}

@@ -1,0 +1,58 @@
+﻿=== REQUEST ===
+POST /api/customer/orders/db281f6f-ece4-4f47-b5dd-3ed3216d418c/verify-pickup-otp
+CorrelationId: d15255f671244034823b4a229142b941
+Headers:
+  Accept: application/json, text/plain, */*
+  Connection: keep-alive
+  Host: localhost:5089
+  User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36
+  Accept-Encoding: gzip, deflate, br, zstd
+  Accept-Language: en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7
+  Content-Type: application/json
+  Origin: http://localhost:5173
+  Referer: http://localhost:5173/
+  Content-Length: 16
+  sec-ch-ua-platform: "Windows"
+  sec-ch-ua: "Chromium";v="148", "Google Chrome";v="148", "Not/A)Brand";v="99"
+  sec-ch-ua-mobile: ?0
+  X-Client-Source: customer-web
+  DNT: 1
+  Sec-Fetch-Site: same-site
+  Sec-Fetch-Mode: cors
+  Sec-Fetch-Dest: empty
+(Authorization header omitted)
+
+Body:
+{"otp":"536798"}
+
+=== DATABASE COMMANDS ===
+SELECT o."Id", o."AgentId", o."BookingId", o."CleaningCompletedAt", o."CleaningStartedAt", o."CustomerId", o."DeliveredAt", o."DeliveryOtp", o."DeliveryOtpExpiresAt", o."DeliveryOtpVerifiedAt", o."OrderReference", o."PickedUpAt", o."PickupOtp", o."PickupOtpExpiresAt", o."PickupOtpVerifiedAt", o."Status", b."Id", b."AddOns", b."AppliedPromotions", b."BookingReference", b."BundleDiscountPercent", b."CanvasLines", b."CreatedAt", b."CustomerId", b."DiscountAmountKes", b."NubuckLines", b."PickupAddress", b."PickupLatitude", b."PickupLocationUrl", b."PickupLongitude", b."PriceKes", b."PromotionalDiscountKes", b."ShoesSubtotalGrossKes", b."SneakersLines", b."Status", b."SubtotalBeforeDiscountKes", b."SuedeLines", b."TotalPairs"
+FROM "Orders" AS o
+INNER JOIN "Bookings" AS b ON o."BookingId" = b."Id"
+WHERE o."Id" = @__orderId_0
+LIMIT 1
+  -- @__orderId_0=db281f6f-ece4-4f47-b5dd-3ed3216d418c
+---
+SELECT o."Id", o."Code", o."CreatedAt", o."ExpiresAt", o."OrderId", o."OtpKind"
+FROM "OrderOtpCodes" AS o
+WHERE o."OrderId" = @__orderId_0 AND o."OtpKind" = 'Pickup'
+LIMIT 1
+  -- @__orderId_0=db281f6f-ece4-4f47-b5dd-3ed3216d418c
+---
+SELECT o."Id", o."AgentId", o."BookingId", o."CleaningCompletedAt", o."CleaningStartedAt", o."CustomerId", o."DeliveredAt", o."DeliveryOtp", o."DeliveryOtpExpiresAt", o."DeliveryOtpVerifiedAt", o."OrderReference", o."PickedUpAt", o."PickupOtp", o."PickupOtpExpiresAt", o."PickupOtpVerifiedAt", o."Status"
+FROM "Orders" AS o
+WHERE o."Id" = @__orderId_0
+LIMIT 1
+  -- @__orderId_0=db281f6f-ece4-4f47-b5dd-3ed3216d418c
+---
+SELECT f."Id", f."AccessFailedCount", f."Address", f."ConcurrencyStamp", f."CreatedAt", f."CustomerReference", f."Email", f."EmailConfirmed", f."FullName", f."IsActive", f."LockoutEnabled", f."LockoutEnd", f."NormalizedEmail", f."NormalizedUserName", f."PasswordHash", f."PhoneNumber", f."PhoneNumberConfirmed", f."SecurityStamp", f."TwoFactorEnabled", f."UserName"
+FROM "FreshwalkUsers" AS f
+WHERE f."Id" = @__p_0
+LIMIT 1
+  -- @__p_0=35040583-dcf4-4af7-abe2-6c7777644a6e
+---
+
+=== RESPONSE ===
+Status: 400
+Body:
+{"message":"Invalid or expired OTP."}

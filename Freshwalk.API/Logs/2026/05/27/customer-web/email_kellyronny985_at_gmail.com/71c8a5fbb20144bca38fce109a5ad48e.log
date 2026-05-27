@@ -1,0 +1,51 @@
+﻿=== REQUEST ===
+GET /api/bookings/mine
+CorrelationId: 71c8a5fbb20144bca38fce109a5ad48e
+Headers:
+  Accept: application/json, text/plain, */*
+  Connection: keep-alive
+  Host: localhost:5089
+  User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36
+  Accept-Encoding: gzip, deflate, br, zstd
+  Accept-Language: en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7
+  Origin: http://localhost:5173
+  Referer: http://localhost:5173/
+  sec-ch-ua-platform: "Windows"
+  sec-ch-ua: "Chromium";v="148", "Google Chrome";v="148", "Not/A)Brand";v="99"
+  sec-ch-ua-mobile: ?0
+  X-Client-Source: customer-web
+  DNT: 1
+  Sec-Fetch-Site: same-site
+  Sec-Fetch-Mode: cors
+  Sec-Fetch-Dest: empty
+(Authorization header omitted)
+
+Body:
+
+
+=== DATABASE COMMANDS ===
+SELECT f."CustomerReference"
+FROM "FreshwalkUsers" AS f
+WHERE f."Id" = @__customerId_0
+LIMIT 1
+  -- @__customerId_0=35040583-dcf4-4af7-abe2-6c7777644a6e
+---
+SELECT b."Id", b."AddOns", b."AppliedPromotions", b."BookingReference", b."BundleDiscountPercent", b."CanvasLines", b."CreatedAt", b."CustomerId", b."DiscountAmountKes", b."NubuckLines", b."PickupAddress", b."PickupLatitude", b."PickupLocationUrl", b."PickupLongitude", b."PriceKes", b."PromotionalDiscountKes", b."ShoesSubtotalGrossKes", b."SneakersLines", b."Status", b."SubtotalBeforeDiscountKes", b."SuedeLines", b."TotalPairs", p."Id", p."Amount", p."BookingId", p."CreatedAt", p."MpesaCheckoutRequestId", p."MpesaMerchantRequestId", p."MpesaReceipt", p."PayerPhoneNumber", p."PaymentReference", p."Status", o."Id", o."AgentId", o."BookingId", o."CleaningCompletedAt", o."CleaningStartedAt", o."CustomerId", o."DeliveredAt", o."DeliveryOtp", o."DeliveryOtpExpiresAt", o."DeliveryOtpVerifiedAt", o."OrderReference", o."PickedUpAt", o."PickupOtp", o."PickupOtpExpiresAt", o."PickupOtpVerifiedAt", o."Status"
+FROM "Bookings" AS b
+LEFT JOIN "Payments" AS p ON b."Id" = p."BookingId"
+LEFT JOIN "Orders" AS o ON b."Id" = o."BookingId"
+WHERE b."CustomerId" = @__customerId_0
+ORDER BY b."CreatedAt" DESC
+  -- @__customerId_0=35040583-dcf4-4af7-abe2-6c7777644a6e
+---
+SELECT f."Id", f."AccessFailedCount", f."Address", f."ConcurrencyStamp", f."CreatedAt", f."CustomerReference", f."Email", f."EmailConfirmed", f."FullName", f."IsActive", f."LockoutEnabled", f."LockoutEnd", f."NormalizedEmail", f."NormalizedUserName", f."PasswordHash", f."PhoneNumber", f."PhoneNumberConfirmed", f."SecurityStamp", f."TwoFactorEnabled", f."UserName"
+FROM "FreshwalkUsers" AS f
+WHERE f."Id" = @__p_0
+LIMIT 1
+  -- @__p_0=35040583-dcf4-4af7-abe2-6c7777644a6e
+---
+
+=== RESPONSE ===
+Status: 200
+Body:
+[{"id":"055c3b37-11f8-4bad-96a2-ae8548e239ab","bookingReference":"FW-20260527184327474-0829","orderReference":"FW-20260527184327474-0829","paymentReference":"PM-20260527184327758-5186","customerReference":"KE-00000006","priceKes":2320.00,"bookingStatus":"PendingPayment","paymentStatus":"Pending","paymentAmountKes":2320.00,"orderStatus":"InTransitToShop","orderId":"b31e2080-9eb5-4733-8b5c-e29cc428ea80","createdAt":"2026-05-27T18:43:28.021616+00:00","pickupAddress":"The Arcadia Kasarani Hunters Road, Hunters Rd, Nairobi, Kenya","pickupLocationUrl":"https://www.google.com/maps?q=-1.2251829,36.9235207","canEnterPickupOtp":false,"deliveryOtpForCustomer":null,"hasReceipt":false},{"id":"1a7947df-cbc8-47a5-9fe1-fd962a065f97","bookingReference":"FW-20260527180228107-8704","orderReference":null,"paymentReference":"PM-20260527180228689-6607","customerReference":"KE-00000006","priceKes":2125.00,"bookingStatus":"PendingPayment","paymentStatus":"Pending","paymentAmountKes":2125.00,"orderStatus":null,"orderId":null,"createdAt":"2026-05-27T18:02:29.328792+00:00","pickupAddress":"The Arcadia Kasarani Hunters Road, Hunters Rd, Nairobi, Kenya","pickupLocationUrl":"https://www.google.com/maps?q=-1.2251829,36.9235207","canEnterPickupOtp":false,"deliveryOtpForCustomer":null,"hasReceipt":false},{"id":"95538805-5193-436e-bac8-9494b5cd7018","bookingReference":"FW-20260403190533857-0901","orderReference":null,"paymentReference":"PM-20260403190534136-9463","customerReference":"KE-00000006","priceKes":1437.00,"bookingStatus":"PendingPayment","paymentStatus":"Pending","paymentAmountKes":1437.00,"orderStatus":null,"orderId":null,"createdAt":"2026-04-03T19:05:34.39665+00:00","pickupAddress":"Thindigua, Nairobi, Kenya","pickupLocationUrl":"https://www.google.com/maps?q=-1.2045599,36.8371313","canEnterPickupOtp":false,"deliveryOtpForCustomer":null,"hasReceipt":false},{"id":"c21f3d94-0cc8-48ea-a7a6-0d2c05fc895d","bookingReference":"FW-20260403190156997-8897","orderReference":null,"paymentReference":"PM-20260403190157349-7479","customerReference":"KE-00000006","priceKes":1300.50,"bookingStatus":"PendingPayment","paymentStatus":"Pending","paymentAmountKes":1300.50,"orderStatus":null,"orderId":null,"createdAt":"2026-04-03T19:01:57.689344+00:00","pickupAddress":"Deloitte Waruku, Waiyaki Wy, Nairobi, Kenya","pickupLocationUrl":"https://www.google.com/maps?q=-1.2636733,36.7633495","canEnterPickupOtp":false,"deliveryOtpForCustomer":null,"hasReceipt":false},{"id":"8f842593-b95a-40a2-863a-7f6d6ea317f1","bookingReference":"FW-20260403173829643-9851","orderReference":null,"paymentReference":"PM-20260403173829944-3233","customerReference":"KE-00000006","priceKes":1181.50,"bookingStatus":"PendingPayment","paymentStatus":"Pending","paymentAmountKes":1181.50,"orderStatus":null,"orderId":null,"createdAt":"2026-04-03T17:38:30.243351+00:00","pickupAddress":"QWHF+MC7, Nairobi, Kenya","pickupLocationUrl":"https://www.google.com/maps?q=-1.2208284,36.9235501","canEnterPickupOtp":false,"deliveryOtpForCustomer":null,"hasReceipt":false},{"id":"fe84829a-033b-48e4-90ec-be701ca528ca","bookingReference":"FW-20260328180153510-4949","orderReference":"FW-20260328180153510-4949","paymentReference":"PM-20260328180153792-3307","customerReference":"KE-00000006","priceKes":1170.00,"bookingStatus":"PaymentConfirmed","paymentStatus":"Success","paymentAmountKes":1170.00,"orderStatus":"Delivered","orderId":"21381961-9ec7-45ff-887a-288a0e1ea182","createdAt":"2026-03-28T18:01:54.040779+00:00","pickupAddress":"Mugumo, Clay City sublocation, Kasarani division, Kasarani, Nairobi, Nairobi County, 00608, Kenya","pickupLocationUrl":"https://www.google.com/maps?q=-1.225174,36.923378","canEnterPickupOtp":false,"deliveryOtpForCustomer":null,"hasReceipt":true},{"id":"48fae778-790f-4b40-bed9-8acd68ad424e","bookingReference":"FW-00000006","orderReference":"FW-00000006","paymentReference":"PM-00000006","customerReference":"KE-00000006","priceKes":3400.00,"bookingStatus":"PaymentConfirmed","paymentStatus":"Success","paymentAmountKes":3400.00,"orderStatus":"PickupRiderAssigned","orderId":"d14bdb84-949d-4ba8-92ba-5799879538f8","createdAt":"2026-03-27T19:07:08.989418+00:00","pickupAddress":"Clay City sublocation, Kasarani division, Kasarani, Nairobi, Nairobi County, 00608, Kenya","pickupLocationUrl":"https://www.google.com/maps?q=-1.2210751226664942,36.923771667592526","canEnterPickupOtp":true,"deliveryOtpForCustomer":null,"hasReceipt":false},{"id":"9d0387ec-2ba2-442a-b1f3-81bd05af3472","bookingReference":"FW-00000005","orderReference":null,"paymentReference":"PM-00000005","customerReference":"KE-00000006","priceKes":2720.00,"bookingStatus":"PendingPayment","paymentStatus":"Pending","paymentAmountKes":2720.00,"orderStatus":null,"orderId":null,"createdAt":"2026-03-27T18:49:40.429533+00:00","pickupAddress":"Clay City sublocation, Kasarani division, Kasarani, Nairobi, Nairobi County, 00608, Kenya","pickupLocationUrl":"https://www.google.com/maps?q=-1.2210863748013052,36.923779686271224","canEnterPickupOtp":false,"deliveryOtpForCustomer":null,"hasReceipt":false},{"id":"fb363ba7-a682-4353-9892-e95e1d7083d3","bookingReference":"FW-00000004","orderReference":null,"paymentReference":"PM-00000004","customerReference":"KE-00000006","priceKes":2400.00,"bookingStatus":"PendingPayment","paymentStatus":"Pending","paymentAmountKes":2400.00,"orderStatus":null,"orderId":null,"createdAt":"2026-03-27T18:14:04.867194+00:00","pickupAddress":"Clay City sublocation, Kasarani division, Kasarani, Nairobi, Nairobi County, 00608, Kenya","pickupLocationUrl":"https://www.google.com/maps?q=-1.2210899166736384,36.923779686271224","canEnterPickupOtp":false,"deliveryOtpForCustomer":null,"hasReceipt":false},{"id":"b7b59d1a-1449-442c-9c17-61217e83ee97","bookingReference":"FW-00000003","orderReference":null,"paymentReference":"PM-00000003","customerReference":"KE-00000006","priceKes":1640.00,"bookingStatus":"PendingPayment","paymentStatus":"Pending","paymentAmountKes":1640.00,"orderStatus":null,"orderId":null,"createdAt":"2026-03-27T11:34:20.47549+00:00","pickupAddress":"Kenya Polytechnic Mens Hostels, Melili Road, South B, Nairobi South ward, Starehe, Nairobi, Nairobi County, 00500, Kenya","pickupLocationUrl":"https://www.google.com/maps?q=-1.3122527482087527,36.83177053927011","canEnterPickupOtp":false,"deliveryOtpForCustomer":null,"hasReceipt":false},{"id":"3231d707-f357-4a7a-a389-79513002c067","bookingReference":"FW-00000002","orderReference":null,"paymentReference":"PM-00000002","customerReference":"KE-00000006","priceKes":1640.00,"bookingStatus":"PendingPayment","paymentStatus":"Pending","paymentAmountKes":1640.00,"orderStatus":null,"orderId":null,"createdAt":"2026-03-27T11:14:48.207829+00:00","pickupAddress":"Clay City sublocation, Kasarani division, Kasarani, Nairobi, Nairobi County, 00608, Kenya","pickupLocationUrl":"https://www.google.com/maps?q=-1.2210836004747776,36.923769714183976","canEnterPickupOtp":false,"deliveryOtpForCustomer":null,"hasReceipt":false}]

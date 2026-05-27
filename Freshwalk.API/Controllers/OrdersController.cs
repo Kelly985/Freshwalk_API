@@ -11,7 +11,7 @@ namespace Freshwalk.API.Controllers;
 [ApiController]
 [Route("api/orders")]
 [Authorize(Roles = "Agent,Admin")]
-public class OrdersController(AppDbContext db, IReferenceCodeIssuer referenceIssuer, OrderOtpService otpService) : ControllerBase
+public class OrdersController(AppDbContext db, IReferenceCodeIssuer referenceIssuer, OrderOtpService otpService, IEmailService emailService, ILogger<OrdersController> log) : ControllerBase
 {
     [HttpGet]
     public async Task<IActionResult> GetAll()
@@ -109,7 +109,9 @@ public class OrdersController(AppDbContext db, IReferenceCodeIssuer referenceIss
     [HttpPost("{id}/assign-delivery-rider")]
     public async Task<IActionResult> AssignDeliveryRider([FromRoute] Guid id, [FromBody] AssignRiderRequest request, CancellationToken cancellationToken)
     {
-        var order = await db.Orders.FirstOrDefaultAsync(x => x.Id == id);
+        var order = await db.Orders
+            .Include(o => o.Booking).ThenInclude(b => b.Customer)
+            .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
         if (order is null) return NotFound();
 
         if (order.Status != OrderStatus.AwaitingDeliveryRider)
@@ -133,7 +135,38 @@ public class OrdersController(AppDbContext db, IReferenceCodeIssuer referenceIss
             Status = AssignmentStatus.Assigned
         });
         await db.SaveChangesAsync(cancellationToken);
+
+        // Email 2 — delivery ready + OTP (non-fatal)
+        _ = TrySendDeliveryReadyEmailAsync(order, delCode, cancellationToken);
+
         return Ok(new { order.Id, order.DeliveryOtp, order.Status });
+    }
+
+    private async Task TrySendDeliveryReadyEmailAsync(Order order, string deliveryOtp, CancellationToken ct)
+    {
+        var customer = order.Booking?.Customer;
+        if (customer is null || string.IsNullOrWhiteSpace(customer.Email)) return;
+        var booking = order.Booking!;
+        try
+        {
+            var (subject, html) = EmailTemplates.DeliveryReady(
+                customer.FullName,
+                booking.BookingReference,
+                order.OrderReference ?? booking.BookingReference,
+                deliveryOtp,
+                booking.PickupAddress,
+                booking.SneakersLines,
+                booking.SuedeLines,
+                booking.NubuckLines,
+                booking.CanvasLines,
+                booking.PriceKes);
+            await emailService.SendAsync(customer.Email, customer.FullName, subject, html, ct);
+            log.LogInformation("Delivery ready email sent to {Email} for order {Ref}", customer.Email, order.OrderReference);
+        }
+        catch (Exception ex)
+        {
+            log.LogWarning(ex, "Could not send delivery ready email for order {Ref}", order.OrderReference);
+        }
     }
 
 }

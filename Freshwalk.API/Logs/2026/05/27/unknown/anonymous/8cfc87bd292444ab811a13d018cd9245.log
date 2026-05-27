@@ -1,0 +1,53 @@
+﻿=== REQUEST ===
+POST /api/mpesa/callback
+CorrelationId: 8cfc87bd292444ab811a13d018cd9245
+Headers:
+  Accept: */*
+  Connection: keep-alive
+  Host: localhost:5089
+  User-Agent: PostmanRuntime/7.54.0
+  Accept-Encoding: gzip, deflate, br
+  Content-Type: application/json
+  Content-Length: 464
+  Postman-Token: 9d107e48-8524-44ad-9374-56c5d89628cb
+(Authorization header omitted)
+
+Body:
+{
+  "Body": {
+    "stkCallback": {
+      "MerchantRequestID": "4d6f-44e0-8d45-0ecdebf4f63d2569",
+      "CheckoutRequestID": "ws_CO_27052026215935265768220092",
+      "ResultCode": 0,
+      "ResultDesc": "Success",
+      "CallbackMetadata": {
+        "Item": [
+          { "Name": "Amount", "Value": 2320 },
+          { "Name": "MpesaReceiptNumber", "Value": "KJK2BLGT99" },
+          { "Name": "PhoneNumber", "Value": "254768220092" }
+        ]
+      }
+    }
+  }
+}
+
+=== DATABASE COMMANDS ===
+SELECT p."Id", p."Amount", p."BookingId", p."CreatedAt", p."MpesaCheckoutRequestId", p."MpesaMerchantRequestId", p."MpesaReceipt", p."PayerPhoneNumber", p."PaymentReference", p."Status", b."Id", b."AddOns", b."AppliedPromotions", b."BookingReference", b."BundleDiscountPercent", b."CanvasLines", b."CreatedAt", b."CustomerId", b."DiscountAmountKes", b."NubuckLines", b."PickupAddress", b."PickupLatitude", b."PickupLocationUrl", b."PickupLongitude", b."PriceKes", b."PromotionalDiscountKes", b."ShoesSubtotalGrossKes", b."SneakersLines", b."Status", b."SubtotalBeforeDiscountKes", b."SuedeLines", b."TotalPairs"
+FROM "Payments" AS p
+INNER JOIN "Bookings" AS b ON p."BookingId" = b."Id"
+WHERE p."MpesaCheckoutRequestId" = @__checkoutRequestId_0
+LIMIT 1
+  -- @__checkoutRequestId_0=ws_CO_27052026215935265768220092
+---
+UPDATE "Bookings" SET "Status" = @p0
+WHERE "Id" = @p1;
+UPDATE "Payments" SET "MpesaReceipt" = @p2, "Status" = @p3
+WHERE "Id" = @p4;
+
+  -- @p1=055c3b37-11f8-4bad-96a2-ae8548e239ab, @p0=PaymentConfirmed, @p4=47a8d5a4-a7aa-4d7f-be26-b212ac9c95f1, @p2=KJK2BLGT99, @p3=Success
+---
+
+=== RESPONSE ===
+Status: 200
+Body:
+{"resultCode":0,"resultDesc":"Accepted"}

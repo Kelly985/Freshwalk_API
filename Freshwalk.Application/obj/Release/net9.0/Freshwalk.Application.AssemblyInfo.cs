@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Freshwalk.Application")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+81e1b9ab5789a9783508cc97e1ac641adb408399")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5b32a7053dfc0bc6c59c13f8c4613a8b2c0bf87d")]
 [assembly: System.Reflection.AssemblyProductAttribute("Freshwalk.Application")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Freshwalk.Application")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

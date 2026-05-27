@@ -1,0 +1,29 @@
+﻿=== REQUEST ===
+POST /api/auth/token
+CorrelationId: 639e2879ee6f4dc993081c334f87b6c2
+Headers:
+  Accept: application/json, text/plain, */*
+  Connection: keep-alive
+  Host: localhost:5089
+  User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36
+  Accept-Encoding: gzip, deflate, br, zstd
+  Accept-Language: en-US,en;q=0.9
+  Content-Type: application/json
+  Origin: http://localhost:5173
+  Referer: http://localhost:5173/
+  Content-Length: 65
+  sec-ch-ua-platform: "Windows"
+  sec-ch-ua: "Chromium";v="148", "Google Chrome";v="148", "Not/A)Brand";v="99"
+  sec-ch-ua-mobile: ?0
+  Sec-Fetch-Site: same-site
+  Sec-Fetch-Mode: cors
+  Sec-Fetch-Dest: empty
+(Authorization header omitted)
+
+Body:
+{"username":"freshwalk_api","password":"Freshwalk@ApiSecret2026"}
+
+=== RESPONSE ===
+Status: 200
+Body:
+{"accessToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJmcmVzaHdhbGstYXBpLWNsaWVudCIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWVpZGVudGlmaWVyIjoiZnJlc2h3YWxrLWFwaS1jbGllbnQiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiZnJlc2h3YWxrX2FwaSIsImp0aSI6IjhjYzI4MDgyLWE2ODgtNGY1OC05ODJmLWMxNzFiZGY5N2U1MiIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFwaUNsaWVudCIsImV4cCI6MTc3OTkwODQwMCwiaXNzIjoiRnJlc2h3YWxrLkFQSSIsImF1ZCI6IkZyZXNod2Fsay5DbGllbnQifQ.10G4OjRhuwktARkJi-flr6lfmw3P0DaGnvCrARr1pPM","expiresAt":"2026-05-27T19:00:00.2456259+00:00","tokenType":"Bearer"}

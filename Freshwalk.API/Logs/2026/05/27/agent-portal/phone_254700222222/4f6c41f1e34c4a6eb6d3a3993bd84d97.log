@@ -1,0 +1,48 @@
+﻿=== REQUEST ===
+GET /api/riders
+CorrelationId: 4f6c41f1e34c4a6eb6d3a3993bd84d97
+Headers:
+  Accept: application/json, text/plain, */*
+  Connection: keep-alive
+  Host: localhost:5089
+  User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36
+  Accept-Encoding: gzip, deflate, br, zstd
+  Accept-Language: en-GB,en-US;q=0.9,en;q=0.8
+  Origin: http://localhost:5174
+  Referer: http://localhost:5174/
+  X-Client-Source: agent-portal
+  sec-ch-ua-platform: "Windows"
+  sec-ch-ua: "Chromium";v="148", "Google Chrome";v="148", "Not/A)Brand";v="99"
+  sec-ch-ua-mobile: ?0
+  Sec-Fetch-Site: same-site
+  Sec-Fetch-Mode: cors
+  Sec-Fetch-Dest: empty
+(Authorization header omitted)
+
+Body:
+
+
+=== DATABASE COMMANDS ===
+SELECT f."Id", f."AccessFailedCount", f."Address", f."ConcurrencyStamp", f."CreatedAt", f."CustomerReference", f."Email", f."EmailConfirmed", f."FullName", f."IsActive", f."LockoutEnabled", f."LockoutEnd", f."NormalizedEmail", f."NormalizedUserName", f."PasswordHash", f."PhoneNumber", f."PhoneNumberConfirmed", f."SecurityStamp", f."TwoFactorEnabled", f."UserName", r."Id", r."BikeRegistration", r."CloudinaryPublicIdIdBack", r."CloudinaryPublicIdIdFront", r."CloudinaryPublicIdSelfie", r."EmergencyContactName", r."EmergencyContactPhone", r."IdBackUrl", r."IdFrontUrl", r."IsAvailable", r."Notes", r."SelfieUrl", r."UserId"
+FROM "FreshwalkUsers" AS f
+LEFT JOIN "RiderProfiles" AS r ON f."Id" = r."UserId"
+WHERE EXISTS (
+    SELECT 1
+    FROM "FreshwalkUserRoles" AS f0
+    WHERE f0."UserId" = f."Id" AND EXISTS (
+        SELECT 1
+        FROM "FreshwalkRoles" AS f1
+        WHERE f1."Id" = f0."RoleId" AND f1."Name" = 'Rider'))
+ORDER BY f."CreatedAt" DESC
+---
+SELECT f."Id", f."AccessFailedCount", f."Address", f."ConcurrencyStamp", f."CreatedAt", f."CustomerReference", f."Email", f."EmailConfirmed", f."FullName", f."IsActive", f."LockoutEnabled", f."LockoutEnd", f."NormalizedEmail", f."NormalizedUserName", f."PasswordHash", f."PhoneNumber", f."PhoneNumberConfirmed", f."SecurityStamp", f."TwoFactorEnabled", f."UserName"
+FROM "FreshwalkUsers" AS f
+WHERE f."Id" = @__p_0
+LIMIT 1
+  -- @__p_0=d3ea9e8e-baeb-4f01-bbcd-a712a07e43c5
+---
+
+=== RESPONSE ===
+Status: 200
+Body:
+[{"id":"a3f3a353-36bf-4da8-90e8-abfb3b9a1ec7","fullName":"darr","email":"darrenmiller098@gmail.com","phoneNumber":"2547333222","address":null,"bikeRegistration":"","isAvailable":true,"isActive":true,"selfieUrl":null,"idFrontUrl":null,"idBackUrl":null,"emergencyContactName":null,"emergencyContactPhone":null,"notes":null,"createdAt":"2026-05-27T16:51:32.25893+00:00"},{"id":"fe0f97aa-3d0d-4e1e-85dd-6c7588509d5b","fullName":"darren","email":"darrenmiller099@gmail.com","phoneNumber":"2547222333","address":null,"bikeRegistration":"","isAvailable":true,"isActive":false,"selfieUrl":null,"idFrontUrl":null,"idBackUrl":null,"emergencyContactName":null,"emergencyContactPhone":null,"notes":null,"createdAt":"2026-05-27T16:47:16.313253+00:00"},{"id":"8a53d13f-9231-47ad-a6f1-7ba7bafbe592","fullName":"Freshwalk Shoe cleaning and care","email":"freshwalkshoecare@gmail.com","phoneNumber":"254700111222","address":null,"bikeRegistration":"","isAvailable":true,"isActive":true,"selfieUrl":null,"idFrontUrl":null,"idBackUrl":null,"emergencyContactName":null,"emergencyContactPhone":null,"notes":null,"createdAt":"2026-05-25T21:01:21.811101+00:00"},{"id":"4c4e6a2a-f902-4641-87b0-60d1eeccd8ee","fullName":"TEST KELLY","email":"kellyronny9859@gmail.com","phoneNumber":"254762220092","address":null,"bikeRegistration":"","isAvailable":true,"isActive":true,"selfieUrl":null,"idFrontUrl":null,"idBackUrl":null,"emergencyContactName":null,"emergencyContactPhone":null,"notes":null,"createdAt":"2026-05-25T20:51:26.791775+00:00"},{"id":"9cf45fb8-7006-41a7-a249-6cf2801dc794","fullName":"Kelly Rider","email":"kellyronny6@gmail.com","phoneNumber":"254768220092","address":"Kasarani","bikeRegistration":"KRKM 001K","isAvailable":true,"isActive":true,"selfieUrl":"https://res.cloudinary.com/dlvaqdgqe/image/upload/v1779742001/freshwalk/riders/documents/eakwjeakiqcbb3fsrhkx.jpg","idFrontUrl":"https://res.cloudinary.com/dlvaqdgqe/image/upload/v1779742002/freshwalk/riders/documents/nvpkqzsjjs0sgikvoq8x.png","idBackUrl":"https://res.cloudinary.com/dlvaqdgqe/image/upload/v1779742003/freshwalk/riders/documents/nwirletshuem4xfradza.png","emergencyContactName":null,"emergencyContactPhone":null,"notes":null,"createdAt":"2026-05-25T20:46:39.284504+00:00"},{"id":"9da150f3-8997-4d83-984f-8c917207220c","fullName":"Demo Rider","email":"rider@freshwalk.co.ke","phoneNumber":"254700333333","address":"Rider Dispatch","bikeRegistration":null,"isAvailable":true,"isActive":true,"selfieUrl":null,"idFrontUrl":null,"idBackUrl":null,"emergencyContactName":null,"emergencyContactPhone":null,"notes":null,"createdAt":"2026-03-26T20:59:09.431052+00:00"}]

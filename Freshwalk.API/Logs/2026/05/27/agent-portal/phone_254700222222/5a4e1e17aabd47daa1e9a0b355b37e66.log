@@ -1,0 +1,58 @@
+﻿=== REQUEST ===
+POST /api/orders/db281f6f-ece4-4f47-b5dd-3ed3216d418c/assign-pickup-rider
+CorrelationId: 5a4e1e17aabd47daa1e9a0b355b37e66
+Headers:
+  Accept: application/json, text/plain, */*
+  Connection: keep-alive
+  Host: localhost:5089
+  User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36
+  Accept-Encoding: gzip, deflate, br, zstd
+  Accept-Language: en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7
+  Content-Type: application/json
+  Origin: http://localhost:5174
+  Referer: http://localhost:5174/
+  Content-Length: 50
+  sec-ch-ua-platform: "Windows"
+  sec-ch-ua: "Chromium";v="148", "Google Chrome";v="148", "Not/A)Brand";v="99"
+  sec-ch-ua-mobile: ?0
+  X-Client-Source: agent-portal
+  DNT: 1
+  Sec-Fetch-Site: same-site
+  Sec-Fetch-Mode: cors
+  Sec-Fetch-Dest: empty
+(Authorization header omitted)
+
+Body:
+{"riderId":"9da150f3-8997-4d83-984f-8c917207220c"}
+
+=== DATABASE COMMANDS ===
+SELECT o."Id", o."AgentId", o."BookingId", o."CleaningCompletedAt", o."CleaningStartedAt", o."CustomerId", o."DeliveredAt", o."DeliveryOtp", o."DeliveryOtpExpiresAt", o."DeliveryOtpVerifiedAt", o."OrderReference", o."PickedUpAt", o."PickupOtp", o."PickupOtpExpiresAt", o."PickupOtpVerifiedAt", o."Status"
+FROM "Orders" AS o
+WHERE o."Id" = @__id_0
+LIMIT 1
+  -- @__id_0=db281f6f-ece4-4f47-b5dd-3ed3216d418c
+---
+SELECT EXISTS (
+    SELECT 1
+    FROM "OrderRiderAssignments" AS o
+    WHERE o."AssignmentReference" = @__code_0)
+  -- @__code_0=RA-20260527201202775-7572
+---
+INSERT INTO "OrderRiderAssignments" ("Id", "AssignedAt", "AssignmentReference", "AssignmentType", "CompletedAt", "Notes", "OrderId", "RiderId", "Status")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8);
+UPDATE "Orders" SET "PickupOtp" = @p9, "PickupOtpExpiresAt" = @p10, "Status" = @p11
+WHERE "Id" = @p12;
+
+  -- @p0=f67eaebc-6e5c-4f35-8c58-c4e7c934d636, @p1=27/05/2026 20:12:03 +00:00, @p2=RA-20260527201202775-7572, @p3=Pickup, @p4=, @p5=, @p6=db281f6f-ece4-4f47-b5dd-3ed3216d418c, @p7=9da150f3-8997-4d83-984f-8c917207220c, @p8=Assigned, @p12=db281f6f-ece4-4f47-b5dd-3ed3216d418c, @p9=536799, @p10=27/05/2026 20:42:02 +00:00, @p11=PickupRiderAssigned
+---
+SELECT f."Id", f."AccessFailedCount", f."Address", f."ConcurrencyStamp", f."CreatedAt", f."CustomerReference", f."Email", f."EmailConfirmed", f."FullName", f."IsActive", f."LockoutEnabled", f."LockoutEnd", f."NormalizedEmail", f."NormalizedUserName", f."PasswordHash", f."PhoneNumber", f."PhoneNumberConfirmed", f."SecurityStamp", f."TwoFactorEnabled", f."UserName"
+FROM "FreshwalkUsers" AS f
+WHERE f."Id" = @__p_0
+LIMIT 1
+  -- @__p_0=d3ea9e8e-baeb-4f01-bbcd-a712a07e43c5
+---
+
+=== RESPONSE ===
+Status: 200
+Body:
+{"id":"db281f6f-ece4-4f47-b5dd-3ed3216d418c","pickupOtp":"536799","status":"PickupRiderAssigned"}

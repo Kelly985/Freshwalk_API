@@ -1,0 +1,48 @@
+﻿=== REQUEST ===
+GET /api/rider/orders/b31e2080-9eb5-4733-8b5c-e29cc428ea80
+CorrelationId: ce0eae6afbb841358bb542f289d37e81
+Headers:
+  Accept: application/json, text/plain, */*
+  Connection: keep-alive
+  Host: localhost:5089
+  User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36
+  Accept-Encoding: gzip, deflate, br, zstd
+  Accept-Language: en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7
+  Origin: http://localhost:5175
+  Referer: http://localhost:5175/
+  sec-ch-ua-platform: "Windows"
+  sec-ch-ua: "Chromium";v="148", "Google Chrome";v="148", "Not/A)Brand";v="99"
+  sec-ch-ua-mobile: ?0
+  X-Client-Source: rider-portal
+  DNT: 1
+  Sec-Fetch-Site: same-site
+  Sec-Fetch-Mode: cors
+  Sec-Fetch-Dest: empty
+(Authorization header omitted)
+
+Body:
+
+
+=== DATABASE COMMANDS ===
+SELECT o."Id", o."AssignedAt", o."AssignmentReference", o."AssignmentType", o."CompletedAt", o."Notes", o."OrderId", o."RiderId", o."Status", o0."Id", o0."AgentId", o0."BookingId", o0."CleaningCompletedAt", o0."CleaningStartedAt", o0."CustomerId", o0."DeliveredAt", o0."DeliveryOtp", o0."DeliveryOtpExpiresAt", o0."DeliveryOtpVerifiedAt", o0."OrderReference", o0."PickedUpAt", o0."PickupOtp", o0."PickupOtpExpiresAt", o0."PickupOtpVerifiedAt", o0."Status", b."Id", b."AddOns", b."AppliedPromotions", b."BookingReference", b."BundleDiscountPercent", b."CanvasLines", b."CreatedAt", b."CustomerId", b."DiscountAmountKes", b."NubuckLines", b."PickupAddress", b."PickupLatitude", b."PickupLocationUrl", b."PickupLongitude", b."PriceKes", b."PromotionalDiscountKes", b."ShoesSubtotalGrossKes", b."SneakersLines", b."Status", b."SubtotalBeforeDiscountKes", b."SuedeLines", b."TotalPairs", f."Id", f."AccessFailedCount", f."Address", f."ConcurrencyStamp", f."CreatedAt", f."CustomerReference", f."Email", f."EmailConfirmed", f."FullName", f."IsActive", f."LockoutEnabled", f."LockoutEnd", f."NormalizedEmail", f."NormalizedUserName", f."PasswordHash", f."PhoneNumber", f."PhoneNumberConfirmed", f."SecurityStamp", f."TwoFactorEnabled", f."UserName", p."Id", p."Amount", p."BookingId", p."CreatedAt", p."MpesaCheckoutRequestId", p."MpesaMerchantRequestId", p."MpesaReceipt", p."PayerPhoneNumber", p."PaymentReference", p."Status"
+FROM "OrderRiderAssignments" AS o
+INNER JOIN "Orders" AS o0 ON o."OrderId" = o0."Id"
+INNER JOIN "Bookings" AS b ON o0."BookingId" = b."Id"
+INNER JOIN "FreshwalkUsers" AS f ON b."CustomerId" = f."Id"
+LEFT JOIN "Payments" AS p ON b."Id" = p."BookingId"
+WHERE o."OrderId" = @__orderId_0 AND o."RiderId" = @__riderId_1
+ORDER BY o."AssignedAt" DESC
+LIMIT 1
+  -- @__orderId_0=b31e2080-9eb5-4733-8b5c-e29cc428ea80, @__riderId_1=9da150f3-8997-4d83-984f-8c917207220c
+---
+SELECT f."Id", f."AccessFailedCount", f."Address", f."ConcurrencyStamp", f."CreatedAt", f."CustomerReference", f."Email", f."EmailConfirmed", f."FullName", f."IsActive", f."LockoutEnabled", f."LockoutEnd", f."NormalizedEmail", f."NormalizedUserName", f."PasswordHash", f."PhoneNumber", f."PhoneNumberConfirmed", f."SecurityStamp", f."TwoFactorEnabled", f."UserName"
+FROM "FreshwalkUsers" AS f
+WHERE f."Id" = @__p_0
+LIMIT 1
+  -- @__p_0=9da150f3-8997-4d83-984f-8c917207220c
+---
+
+=== RESPONSE ===
+Status: 200
+Body:
+{"orderId":"b31e2080-9eb5-4733-8b5c-e29cc428ea80","bookingId":"055c3b37-11f8-4bad-96a2-ae8548e239ab","bookingReference":"FW-20260527184327474-0829","orderReference":"FW-20260527184327474-0829","orderStatus":"Delivered","currentAssignmentType":"Delivery","assignmentId":"0bddcea8-26c7-4882-aca1-b5622570f51a","pickupAddress":"The Arcadia Kasarani Hunters Road, Hunters Rd, Nairobi, Kenya","pickupLocationUrl":"https://www.google.com/maps?q=-1.2251829,36.9235207","pickupLatitude":-1.2251829,"pickupLongitude":36.9235207,"pickupOtpForRiderToShare":null,"pickupOtpExpiresAt":null,"customerName":"kelly ronny","customerEmail":"kellyronny985@gmail.com","customerPhone":null,"payerPhoneNumber":"254768220092","sneakersLines":[{"color":"MixedColored","quantity":2}],"suedeLines":[{"color":"BlackDark","quantity":2}],"nubuckLines":[],"canvasLines":[{"color":"WhiteLight","quantity":1}],"addOns":["ExpressService"],"totalPairs":5,"priceKes":2320.00,"shoesSubtotalGrossKes":2150.00,"promotionalDiscountKes":0.00,"appliedPromotions":[],"subtotalBeforeDiscountKes":2900.00,"bundleDiscountPercent":0.2000,"discountAmountKes":580.00,"isPaymentConfirmed":true,"paymentStatus":"Success","paymentAmount":2320.00,"mpesaReceipt":"KJK2BLGT99"}

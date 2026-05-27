@@ -49,4 +49,14 @@ public record RiderOrderDetailDto(
     IReadOnlyList<PromotionAppliedDto> AppliedPromotions,
     decimal SubtotalBeforeDiscountKes,
     decimal BundleDiscountPercent,
-    decimal DiscountAmountKes);
+    decimal DiscountAmountKes,
+    /// <summary>True when the booking payment is confirmed (M-Pesa Success). Delivery OTP entry is blocked until this is true.</summary>
+    bool IsPaymentConfirmed,
+    /// <summary>Raw payment status string for display purposes.</summary>
+    string? PaymentStatus,
+    /// <summary>Amount charged for this order in KES.</summary>
+    decimal? PaymentAmount,
+    /// <summary>M-Pesa receipt number if payment was confirmed.</summary>
+    string? MpesaReceipt);
+
+public record RiderInitiatePaymentRequest(string PhoneNumber);

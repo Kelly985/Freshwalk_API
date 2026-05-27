@@ -1,0 +1,55 @@
+﻿=== REQUEST ===
+GET /api/agent/bookings/184a21f4-56b4-4184-8147-d17c9a0bbe3b
+CorrelationId: 905ccd89dc764663aab9dbcf64cfd32b
+Headers:
+  Accept: application/json, text/plain, */*
+  Connection: keep-alive
+  Host: localhost:5089
+  User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36
+  Accept-Encoding: gzip, deflate, br, zstd
+  Accept-Language: en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7
+  Origin: http://localhost:5174
+  Referer: http://localhost:5174/
+  sec-ch-ua-platform: "Windows"
+  sec-ch-ua: "Chromium";v="148", "Google Chrome";v="148", "Not/A)Brand";v="99"
+  sec-ch-ua-mobile: ?0
+  X-Client-Source: agent-portal
+  DNT: 1
+  Sec-Fetch-Site: same-site
+  Sec-Fetch-Mode: cors
+  Sec-Fetch-Dest: empty
+(Authorization header omitted)
+
+Body:
+
+
+=== DATABASE COMMANDS ===
+SELECT s."Id", s."AddOns", s."AppliedPromotions", s."BookingReference", s."BundleDiscountPercent", s."CanvasLines", s."CreatedAt", s."CustomerId", s."DiscountAmountKes", s."NubuckLines", s."PickupAddress", s."PickupLatitude", s."PickupLocationUrl", s."PickupLongitude", s."PriceKes", s."PromotionalDiscountKes", s."ShoesSubtotalGrossKes", s."SneakersLines", s."Status", s."SubtotalBeforeDiscountKes", s."SuedeLines", s."TotalPairs", s."Id0", s."AccessFailedCount", s."Address", s."ConcurrencyStamp", s."CreatedAt0", s."CustomerReference", s."Email", s."EmailConfirmed", s."FullName", s."IsActive", s."LockoutEnabled", s."LockoutEnd", s."NormalizedEmail", s."NormalizedUserName", s."PasswordHash", s."PhoneNumber", s."PhoneNumberConfirmed", s."SecurityStamp", s."TwoFactorEnabled", s."UserName", s."Id1", s."Amount", s."BookingId", s."CreatedAt1", s."MpesaCheckoutRequestId", s."MpesaMerchantRequestId", s."MpesaReceipt", s."PayerPhoneNumber", s."PaymentReference", s."Status0", s."Id2", s."AgentId", s."BookingId0", s."CleaningCompletedAt", s."CleaningStartedAt", s."CustomerId0", s."DeliveredAt", s."DeliveryOtp", s."DeliveryOtpExpiresAt", s."DeliveryOtpVerifiedAt", s."OrderReference", s."PickedUpAt", s."PickupOtp", s."PickupOtpExpiresAt", s."PickupOtpVerifiedAt", s."Status1", s0."Id", s0."AssignedAt", s0."AssignmentReference", s0."AssignmentType", s0."CompletedAt", s0."Notes", s0."OrderId", s0."RiderId", s0."Status", s0."Id0", s0."AccessFailedCount", s0."Address", s0."ConcurrencyStamp", s0."CreatedAt", s0."CustomerReference", s0."Email", s0."EmailConfirmed", s0."FullName", s0."IsActive", s0."LockoutEnabled", s0."LockoutEnd", s0."NormalizedEmail", s0."NormalizedUserName", s0."PasswordHash", s0."PhoneNumber", s0."PhoneNumberConfirmed", s0."SecurityStamp", s0."TwoFactorEnabled", s0."UserName"
+FROM (
+    SELECT b."Id", b."AddOns", b."AppliedPromotions", b."BookingReference", b."BundleDiscountPercent", b."CanvasLines", b."CreatedAt", b."CustomerId", b."DiscountAmountKes", b."NubuckLines", b."PickupAddress", b."PickupLatitude", b."PickupLocationUrl", b."PickupLongitude", b."PriceKes", b."PromotionalDiscountKes", b."ShoesSubtotalGrossKes", b."SneakersLines", b."Status", b."SubtotalBeforeDiscountKes", b."SuedeLines", b."TotalPairs", f."Id" AS "Id0", f."AccessFailedCount", f."Address", f."ConcurrencyStamp", f."CreatedAt" AS "CreatedAt0", f."CustomerReference", f."Email", f."EmailConfirmed", f."FullName", f."IsActive", f."LockoutEnabled", f."LockoutEnd", f."NormalizedEmail", f."NormalizedUserName", f."PasswordHash", f."PhoneNumber", f."PhoneNumberConfirmed", f."SecurityStamp", f."TwoFactorEnabled", f."UserName", p."Id" AS "Id1", p."Amount", p."BookingId", p."CreatedAt" AS "CreatedAt1", p."MpesaCheckoutRequestId", p."MpesaMerchantRequestId", p."MpesaReceipt", p."PayerPhoneNumber", p."PaymentReference", p."Status" AS "Status0", o."Id" AS "Id2", o."AgentId", o."BookingId" AS "BookingId0", o."CleaningCompletedAt", o."CleaningStartedAt", o."CustomerId" AS "CustomerId0", o."DeliveredAt", o."DeliveryOtp", o."DeliveryOtpExpiresAt", o."DeliveryOtpVerifiedAt", o."OrderReference", o."PickedUpAt", o."PickupOtp", o."PickupOtpExpiresAt", o."PickupOtpVerifiedAt", o."Status" AS "Status1"
+    FROM "Bookings" AS b
+    INNER JOIN "FreshwalkUsers" AS f ON b."CustomerId" = f."Id"
+    LEFT JOIN "Payments" AS p ON b."Id" = p."BookingId"
+    LEFT JOIN "Orders" AS o ON b."Id" = o."BookingId"
+    WHERE b."Id" = @__id_0
+    LIMIT 1
+) AS s
+LEFT JOIN (
+    SELECT o0."Id", o0."AssignedAt", o0."AssignmentReference", o0."AssignmentType", o0."CompletedAt", o0."Notes", o0."OrderId", o0."RiderId", o0."Status", f0."Id" AS "Id0", f0."AccessFailedCount", f0."Address", f0."ConcurrencyStamp", f0."CreatedAt", f0."CustomerReference", f0."Email", f0."EmailConfirmed", f0."FullName", f0."IsActive", f0."LockoutEnabled", f0."LockoutEnd", f0."NormalizedEmail", f0."NormalizedUserName", f0."PasswordHash", f0."PhoneNumber", f0."PhoneNumberConfirmed", f0."SecurityStamp", f0."TwoFactorEnabled", f0."UserName"
+    FROM "OrderRiderAssignments" AS o0
+    INNER JOIN "FreshwalkUsers" AS f0 ON o0."RiderId" = f0."Id"
+) AS s0 ON s."Id2" = s0."OrderId"
+ORDER BY s."Id", s."Id0", s."Id1", s."Id2", s0."Id"
+  -- @__id_0=184a21f4-56b4-4184-8147-d17c9a0bbe3b
+---
+SELECT f."Id", f."AccessFailedCount", f."Address", f."ConcurrencyStamp", f."CreatedAt", f."CustomerReference", f."Email", f."EmailConfirmed", f."FullName", f."IsActive", f."LockoutEnabled", f."LockoutEnd", f."NormalizedEmail", f."NormalizedUserName", f."PasswordHash", f."PhoneNumber", f."PhoneNumberConfirmed", f."SecurityStamp", f."TwoFactorEnabled", f."UserName"
+FROM "FreshwalkUsers" AS f
+WHERE f."Id" = @__p_0
+LIMIT 1
+  -- @__p_0=d3ea9e8e-baeb-4f01-bbcd-a712a07e43c5
+---
+
+=== RESPONSE ===
+Status: 200
+Body:
+{"id":"184a21f4-56b4-4184-8147-d17c9a0bbe3b","bookingReference":"FW-20260527201003985-7532","paymentReference":"PM-20260527201004252-1411","orderReference":"FW-20260527201003985-7532","orderId":"db281f6f-ece4-4f47-b5dd-3ed3216d418c","customerName":"kelly ronny","customerEmail":"kellyronny985@gmail.com","customerPhone":null,"customerReference":"KE-00000006","customerId":"35040583-dcf4-4af7-abe2-6c7777644a6e","bookingStatus":"PendingPayment","paymentStatus":"Pending","paymentAmountKes":700.00,"orderStatus":"AwaitingPickupRider","priceKes":700.00,"shoesSubtotalGrossKes":550.00,"promotionalDiscountKes":0.00,"appliedPromotions":[],"subtotalBeforeDiscountKes":700.00,"bundleDiscountPercent":0.0000,"discountAmountKes":0.00,"totalPairs":1,"pickupAddress":"Naivas Parking Lot, QVJW+PFV, Nairobi, Kenya","pickupLocationUrl":"https://www.google.com/maps?q=-1.21813,36.89615879999999","pickupLatitude":-1.21813,"pickupLongitude":36.89615879999999,"addOns":["PickupDelivery"],"sneakersLines":[{"color":"WhiteLight","quantity":1}],"suedeLines":[],"nubuckLines":[],"canvasLines":[],"riderAssignments":[],"createdAt":"2026-05-27T20:10:04.502039+00:00"}

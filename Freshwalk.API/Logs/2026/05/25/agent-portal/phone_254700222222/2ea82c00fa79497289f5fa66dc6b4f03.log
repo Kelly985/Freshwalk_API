@@ -1,0 +1,63 @@
+﻿=== REQUEST ===
+POST /api/riders
+CorrelationId: 2ea82c00fa79497289f5fa66dc6b4f03
+Headers:
+  Accept: application/json, text/plain, */*
+  Connection: keep-alive
+  Host: localhost:5089
+  User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36
+  Accept-Encoding: gzip, deflate, br, zstd
+  Accept-Language: en-GB,en-US;q=0.9,en;q=0.8
+  Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryct6H2AcMBreUAo1d
+  Origin: http://localhost:5174
+  Referer: http://localhost:5174/
+  Content-Length: 375
+  sec-ch-ua-platform: "Windows"
+  sec-ch-ua: "Chromium";v="148", "Google Chrome";v="148", "Not/A)Brand";v="99"
+  sec-ch-ua-mobile: ?0
+  X-Client-Source: agent-portal
+  Sec-Fetch-Site: same-site
+  Sec-Fetch-Mode: cors
+  Sec-Fetch-Dest: empty
+(Authorization header omitted)
+
+Body:
+------WebKitFormBoundaryct6H2AcMBreUAo1d
+Content-Disposition: form-data; name="fullName"
+
+TEST KELLY
+------WebKitFormBoundaryct6H2AcMBreUAo1d
+Content-Disposition: form-data; name="email"
+
+KELLYRONNY9859@GMAIL.COM
+------WebKitFormBoundaryct6H2AcMBreUAo1d
+Content-Disposition: form-data; name="phoneNumber"
+
+254768220092
+------WebKitFormBoundaryct6H2AcMBreUAo1d--
+
+
+=== DATABASE COMMANDS ===
+SELECT f."Id", f."AccessFailedCount", f."Address", f."ConcurrencyStamp", f."CreatedAt", f."CustomerReference", f."Email", f."EmailConfirmed", f."FullName", f."IsActive", f."LockoutEnabled", f."LockoutEnd", f."NormalizedEmail", f."NormalizedUserName", f."PasswordHash", f."PhoneNumber", f."PhoneNumberConfirmed", f."SecurityStamp", f."TwoFactorEnabled", f."UserName"
+FROM "FreshwalkUsers" AS f
+WHERE f."NormalizedEmail" = @__normalizedEmail_0
+LIMIT 2
+  -- @__normalizedEmail_0=KELLYRONNY9859@GMAIL.COM
+---
+SELECT f."Id", f."AccessFailedCount", f."Address", f."ConcurrencyStamp", f."CreatedAt", f."CustomerReference", f."Email", f."EmailConfirmed", f."FullName", f."IsActive", f."LockoutEnabled", f."LockoutEnd", f."NormalizedEmail", f."NormalizedUserName", f."PasswordHash", f."PhoneNumber", f."PhoneNumberConfirmed", f."SecurityStamp", f."TwoFactorEnabled", f."UserName"
+FROM "FreshwalkUsers" AS f
+WHERE f."PhoneNumber" = @__request_PhoneNumber_0
+LIMIT 1
+  -- @__request_PhoneNumber_0=254768220092
+---
+SELECT f."Id", f."AccessFailedCount", f."Address", f."ConcurrencyStamp", f."CreatedAt", f."CustomerReference", f."Email", f."EmailConfirmed", f."FullName", f."IsActive", f."LockoutEnabled", f."LockoutEnd", f."NormalizedEmail", f."NormalizedUserName", f."PasswordHash", f."PhoneNumber", f."PhoneNumberConfirmed", f."SecurityStamp", f."TwoFactorEnabled", f."UserName"
+FROM "FreshwalkUsers" AS f
+WHERE f."Id" = @__p_0
+LIMIT 1
+  -- @__p_0=d3ea9e8e-baeb-4f01-bbcd-a712a07e43c5
+---
+
+=== RESPONSE ===
+Status: 400
+Body:
+{"message":"An account with this phone number already exists."}

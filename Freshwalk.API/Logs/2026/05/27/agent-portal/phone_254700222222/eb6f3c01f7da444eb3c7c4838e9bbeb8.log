@@ -1,0 +1,67 @@
+﻿=== REQUEST ===
+POST /api/orders/db281f6f-ece4-4f47-b5dd-3ed3216d418c/assign-delivery-rider
+CorrelationId: eb6f3c01f7da444eb3c7c4838e9bbeb8
+Headers:
+  Accept: application/json, text/plain, */*
+  Connection: keep-alive
+  Host: localhost:5089
+  User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36
+  Accept-Encoding: gzip, deflate, br, zstd
+  Accept-Language: en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7
+  Content-Type: application/json
+  Origin: http://localhost:5174
+  Referer: http://localhost:5174/
+  Content-Length: 50
+  sec-ch-ua-platform: "Windows"
+  sec-ch-ua: "Chromium";v="148", "Google Chrome";v="148", "Not/A)Brand";v="99"
+  sec-ch-ua-mobile: ?0
+  X-Client-Source: agent-portal
+  DNT: 1
+  Sec-Fetch-Site: same-site
+  Sec-Fetch-Mode: cors
+  Sec-Fetch-Dest: empty
+(Authorization header omitted)
+
+Body:
+{"riderId":"9da150f3-8997-4d83-984f-8c917207220c"}
+
+=== DATABASE COMMANDS ===
+SELECT o."Id", o."AgentId", o."BookingId", o."CleaningCompletedAt", o."CleaningStartedAt", o."CustomerId", o."DeliveredAt", o."DeliveryOtp", o."DeliveryOtpExpiresAt", o."DeliveryOtpVerifiedAt", o."OrderReference", o."PickedUpAt", o."PickupOtp", o."PickupOtpExpiresAt", o."PickupOtpVerifiedAt", o."Status", b."Id", b."AddOns", b."AppliedPromotions", b."BookingReference", b."BundleDiscountPercent", b."CanvasLines", b."CreatedAt", b."CustomerId", b."DiscountAmountKes", b."NubuckLines", b."PickupAddress", b."PickupLatitude", b."PickupLocationUrl", b."PickupLongitude", b."PriceKes", b."PromotionalDiscountKes", b."ShoesSubtotalGrossKes", b."SneakersLines", b."Status", b."SubtotalBeforeDiscountKes", b."SuedeLines", b."TotalPairs", f."Id", f."AccessFailedCount", f."Address", f."ConcurrencyStamp", f."CreatedAt", f."CustomerReference", f."Email", f."EmailConfirmed", f."FullName", f."IsActive", f."LockoutEnabled", f."LockoutEnd", f."NormalizedEmail", f."NormalizedUserName", f."PasswordHash", f."PhoneNumber", f."PhoneNumberConfirmed", f."SecurityStamp", f."TwoFactorEnabled", f."UserName"
+FROM "Orders" AS o
+INNER JOIN "Bookings" AS b ON o."BookingId" = b."Id"
+INNER JOIN "FreshwalkUsers" AS f ON b."CustomerId" = f."Id"
+WHERE o."Id" = @__id_0
+LIMIT 1
+  -- @__id_0=db281f6f-ece4-4f47-b5dd-3ed3216d418c
+---
+SELECT o."Id", o."Code", o."CreatedAt", o."ExpiresAt", o."OrderId", o."OtpKind"
+FROM "OrderOtpCodes" AS o
+WHERE o."OrderId" = @__orderId_0 AND o."OtpKind" = @__kind_1
+  -- @__orderId_0=db281f6f-ece4-4f47-b5dd-3ed3216d418c, @__kind_1=Delivery
+---
+SELECT EXISTS (
+    SELECT 1
+    FROM "OrderRiderAssignments" AS o
+    WHERE o."AssignmentReference" = @__code_0)
+  -- @__code_0=RA-20260527201408812-8650
+---
+INSERT INTO "OrderOtpCodes" ("Id", "Code", "CreatedAt", "ExpiresAt", "OrderId", "OtpKind")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5);
+INSERT INTO "OrderRiderAssignments" ("Id", "AssignedAt", "AssignmentReference", "AssignmentType", "CompletedAt", "Notes", "OrderId", "RiderId", "Status")
+VALUES (@p6, @p7, @p8, @p9, @p10, @p11, @p12, @p13, @p14);
+UPDATE "Orders" SET "DeliveryOtp" = @p15, "DeliveryOtpExpiresAt" = @p16, "Status" = @p17
+WHERE "Id" = @p18;
+
+  -- @p0=89caf26c-1aa7-4a95-afb9-ee1f7687230e, @p1=573740, @p2=27/05/2026 20:14:08 +00:00, @p3=27/05/2026 21:14:08 +00:00, @p4=db281f6f-ece4-4f47-b5dd-3ed3216d418c, @p5=Delivery, @p6=682aed41-e6f7-4f9b-996d-8da1813a3be4, @p7=27/05/2026 20:14:09 +00:00, @p8=RA-20260527201408812-8650, @p9=Delivery, @p10=, @p11=, @p12=db281f6f-ece4-4f47-b5dd-3ed3216d418c, @p13=9da150f3-8997-4d83-984f-8c917207220c, @p14=Assigned, @p18=db281f6f-ece4-4f47-b5dd-3ed3216d418c, @p15=573740, @p16=27/05/2026 21:14:08 +00:00, @p17=DeliveryRiderAssigned
+---
+SELECT f."Id", f."AccessFailedCount", f."Address", f."ConcurrencyStamp", f."CreatedAt", f."CustomerReference", f."Email", f."EmailConfirmed", f."FullName", f."IsActive", f."LockoutEnabled", f."LockoutEnd", f."NormalizedEmail", f."NormalizedUserName", f."PasswordHash", f."PhoneNumber", f."PhoneNumberConfirmed", f."SecurityStamp", f."TwoFactorEnabled", f."UserName"
+FROM "FreshwalkUsers" AS f
+WHERE f."Id" = @__p_0
+LIMIT 1
+  -- @__p_0=d3ea9e8e-baeb-4f01-bbcd-a712a07e43c5
+---
+
+=== RESPONSE ===
+Status: 200
+Body:
+{"id":"db281f6f-ece4-4f47-b5dd-3ed3216d418c","deliveryOtp":"573740","status":"DeliveryRiderAssigned"}
