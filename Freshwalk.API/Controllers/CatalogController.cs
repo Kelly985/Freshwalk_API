@@ -33,6 +33,7 @@ public class CatalogController(AppDbContext db, IPricingService pricingService) 
             c.ImageAfterUrl,
             c.SortOrder,
             c.TierPrices
+                .Where(t => t.IsActive)
                 .OrderBy(t => t.SortOrder)
                 .Select(t => new ShoeServiceTierPriceDto(t.ColorTierKey, t.PriceKes, t.SortOrder))
                 .ToList(),

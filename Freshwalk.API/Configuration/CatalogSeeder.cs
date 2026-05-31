@@ -27,9 +27,8 @@ public static class CatalogSeeder
                 SortOrder = 1,
                 TierPrices =
                 [
-                    new ShoeServiceTierPrice { ColorTierKey = "BlackDark", PriceKes = 350, SortOrder = 1 },
-                    new ShoeServiceTierPrice { ColorTierKey = "MixedColored", PriceKes = 450, SortOrder = 2 },
-                    new ShoeServiceTierPrice { ColorTierKey = "WhiteLight", PriceKes = 550, SortOrder = 3 }
+                    new ShoeServiceTierPrice { ColorTierKey = "Adult", PriceKes = 300, SortOrder = 1, IsActive = true },
+                    new ShoeServiceTierPrice { ColorTierKey = "Kids",  PriceKes = 250, SortOrder = 2, IsActive = true }
                 ]
             },
             new()
@@ -43,9 +42,8 @@ public static class CatalogSeeder
                 SortOrder = 2,
                 TierPrices =
                 [
-                    new ShoeServiceTierPrice { ColorTierKey = "BlackDark", PriceKes = 350, SortOrder = 1 },
-                    new ShoeServiceTierPrice { ColorTierKey = "MixedColored", PriceKes = 400, SortOrder = 2 },
-                    new ShoeServiceTierPrice { ColorTierKey = "WhiteLight", PriceKes = 500, SortOrder = 3 }
+                    new ShoeServiceTierPrice { ColorTierKey = "Adult", PriceKes = 300, SortOrder = 1, IsActive = true },
+                    new ShoeServiceTierPrice { ColorTierKey = "Kids",  PriceKes = 250, SortOrder = 2, IsActive = true }
                 ]
             },
             new()
@@ -59,9 +57,8 @@ public static class CatalogSeeder
                 SortOrder = 3,
                 TierPrices =
                 [
-                    new ShoeServiceTierPrice { ColorTierKey = "BlackDark", PriceKes = 350, SortOrder = 1 },
-                    new ShoeServiceTierPrice { ColorTierKey = "MixedColored", PriceKes = 400, SortOrder = 2 },
-                    new ShoeServiceTierPrice { ColorTierKey = "WhiteLight", PriceKes = 550, SortOrder = 3 }
+                    new ShoeServiceTierPrice { ColorTierKey = "Adult", PriceKes = 300, SortOrder = 1, IsActive = true },
+                    new ShoeServiceTierPrice { ColorTierKey = "Kids",  PriceKes = 250, SortOrder = 2, IsActive = true }
                 ]
             },
             new()
@@ -75,9 +72,8 @@ public static class CatalogSeeder
                 SortOrder = 4,
                 TierPrices =
                 [
-                    new ShoeServiceTierPrice { ColorTierKey = "BlackDark", PriceKes = 350, SortOrder = 1 },
-                    new ShoeServiceTierPrice { ColorTierKey = "MixedColored", PriceKes = 400, SortOrder = 2 },
-                    new ShoeServiceTierPrice { ColorTierKey = "WhiteLight", PriceKes = 550, SortOrder = 3 }
+                    new ShoeServiceTierPrice { ColorTierKey = "Adult", PriceKes = 300, SortOrder = 1, IsActive = true },
+                    new ShoeServiceTierPrice { ColorTierKey = "Kids",  PriceKes = 250, SortOrder = 2, IsActive = true }
                 ]
             }
         };

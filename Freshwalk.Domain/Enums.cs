@@ -20,7 +20,9 @@ public enum ColorTier
 {
     BlackDark = 1,
     MixedColored = 2,
-    WhiteLight = 3
+    WhiteLight = 3,
+    Adult = 4,
+    Kids = 5
 }
 
 /// <summary>How a time-limited shoe-category promotion reduces the shoe line subtotal (add-ons excluded).</summary>

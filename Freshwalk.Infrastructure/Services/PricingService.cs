@@ -11,19 +11,19 @@ public class PricingService(AppDbContext db) : IPricingService
     {
         ["Sneakers"] = new(StringComparer.OrdinalIgnoreCase)
         {
-            ["BlackDark"] = 350, ["MixedColored"] = 450, ["WhiteLight"] = 550
+            ["Adult"] = 300, ["Kids"] = 250
         },
         ["Suede"] = new(StringComparer.OrdinalIgnoreCase)
         {
-            ["BlackDark"] = 350, ["MixedColored"] = 400, ["WhiteLight"] = 500
+            ["Adult"] = 300, ["Kids"] = 250
         },
         ["Nubuck"] = new(StringComparer.OrdinalIgnoreCase)
         {
-            ["BlackDark"] = 350, ["MixedColored"] = 400, ["WhiteLight"] = 550
+            ["Adult"] = 300, ["Kids"] = 250
         },
         ["Canvas"] = new(StringComparer.OrdinalIgnoreCase)
         {
-            ["BlackDark"] = 350, ["MixedColored"] = 400, ["WhiteLight"] = 550
+            ["Adult"] = 300, ["Kids"] = 250
         }
     };
 
@@ -50,7 +50,7 @@ public class PricingService(AppDbContext db) : IPricingService
         {
             var shoe = NormalizeShoeType(c.Key);
             categoryKeyByShoe[shoe] = c.Key;
-            foreach (var t in c.TierPrices)
+            foreach (var t in c.TierPrices.Where(t => t.IsActive))
                 tierMap[(shoe, t.ColorTierKey.Trim())] = t.PriceKes;
 
             var active = PickActivePromotion(c.Promotions, now);
@@ -198,6 +198,6 @@ public class PricingService(AppDbContext db) : IPricingService
             }
         }
 
-        return 350m;
+        return 300m;
     }
 }

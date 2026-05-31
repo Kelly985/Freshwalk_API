@@ -252,17 +252,20 @@ public class ShoeServicePromotion
     public ShoeServiceCategory Category { get; set; } = null!;
 }
 
-/// <summary>Per color-tier price for a category (editable in DB).</summary>
+/// <summary>Per-tier price for a category. Only rows where IsActive=true are shown to customers and used in pricing.</summary>
 public class ShoeServiceTierPrice
 {
     public int Id { get; set; }
     public int CategoryId { get; set; }
 
-    /// <summary>BlackDark, MixedColored, WhiteLight.</summary>
+    /// <summary>Tier key sent by the booking form — e.g. Adult, Kids. Legacy values (BlackDark, MixedColored, WhiteLight) kept with IsActive=false.</summary>
     public string ColorTierKey { get; set; } = string.Empty;
 
     public decimal PriceKes { get; set; }
     public int SortOrder { get; set; }
+
+    /// <summary>Only active tiers are returned by the catalog API and used in pricing. Inactive tiers are preserved for historical reference.</summary>
+    public bool IsActive { get; set; } = false;
 
     public ShoeServiceCategory Category { get; set; } = null!;
 }
