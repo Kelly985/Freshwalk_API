@@ -110,13 +110,7 @@ public class PricingService(AppDbContext db) : IPricingService
         var addonTotal = addOnPerPair * totalPairs;
         var subtotalBeforeBundle = decimal.Round(shoesGross - promotionalDiscount + addonTotal + deliveryFee, 2);
 
-        var discountRate = totalPairs switch
-        {
-            2 => 0.10m,
-            3 or 4 => 0.15m,
-            >= 5 => 0.20m,
-            _ => 0m
-        };
+        const decimal discountRate = 0m;
 
         var bundleDiscountRaw = decimal.Round(subtotalBeforeBundle * discountRate, 2);
         var bundleDiscountAmount = decimal.Floor(bundleDiscountRaw);

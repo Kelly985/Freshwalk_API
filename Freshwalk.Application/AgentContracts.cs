@@ -90,3 +90,43 @@ public record AgentReportSummaryDto(
     int ActiveOrdersCount,
     int DeliveredOrdersCount,
     decimal RevenueKesConfirmedPayments);
+
+// ── Promotions ────────────────────────────────────────────────────────────────
+
+public record PromotionDto(
+    int Id,
+    int CategoryId,
+    string CategoryKey,
+    string CategoryDisplayName,
+    string? ThemeColorHex,
+    string Label,
+    string DiscountKind,
+    decimal? PercentOff,
+    decimal? FixedOffPerPairKes,
+    DateTimeOffset? ValidFrom,
+    DateTimeOffset? ValidTo,
+    bool IsActive,
+    int Priority);
+
+/// <summary>
+/// Pass <c>CategoryKey = null</c> to apply the promotion to every shoe category at once.
+/// </summary>
+public record CreatePromotionRequest(
+    string? CategoryKey,
+    string Label,
+    string DiscountKind,
+    decimal? PercentOff,
+    decimal? FixedOffPerPairKes,
+    DateTimeOffset? ValidFrom,
+    DateTimeOffset? ValidTo,
+    int Priority);
+
+public record UpdatePromotionRequest(
+    string Label,
+    string DiscountKind,
+    decimal? PercentOff,
+    decimal? FixedOffPerPairKes,
+    DateTimeOffset? ValidFrom,
+    DateTimeOffset? ValidTo,
+    bool IsActive,
+    int Priority);

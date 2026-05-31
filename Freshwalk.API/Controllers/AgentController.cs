@@ -232,6 +232,151 @@ public class AgentController(AppDbContext db, UserManager<ApplicationUser> userM
         return Ok(dto);
     }
 
+    // ── Promotions ────────────────────────────────────────────────────────────
+
+    [HttpGet("promotions")]
+    public async Task<IActionResult> ListPromotions()
+    {
+        var promos = await db.ShoeServicePromotions
+            .AsNoTracking()
+            .Include(p => p.Category)
+            .OrderByDescending(p => p.Priority)
+            .ThenByDescending(p => p.Id)
+            .ToListAsync();
+
+        var dto = promos.Select(p => new PromotionDto(
+            p.Id,
+            p.CategoryId,
+            p.Category.Key,
+            p.Category.DisplayName,
+            p.Category.ThemeColorHex,
+            p.Label,
+            p.DiscountKind.ToString(),
+            p.PercentOff,
+            p.FixedOffPerPairKes,
+            p.ValidFrom,
+            p.ValidTo,
+            p.IsActive,
+            p.Priority)).ToList();
+
+        return Ok(dto);
+    }
+
+    [HttpPost("promotions")]
+    public async Task<IActionResult> CreatePromotion([FromBody] CreatePromotionRequest request)
+    {
+        if (!Enum.TryParse<PromotionDiscountKind>(request.DiscountKind, true, out var kind))
+            return BadRequest(new { message = "Invalid discount kind. Use 'PercentOff' or 'FixedAmountPerPair'." });
+
+        if (kind == PromotionDiscountKind.PercentOff && (request.PercentOff is null || request.PercentOff <= 0))
+            return BadRequest(new { message = "PercentOff must be a positive number for PercentOff discount." });
+
+        if (kind == PromotionDiscountKind.FixedAmountPerPair && (request.FixedOffPerPairKes is null || request.FixedOffPerPairKes <= 0))
+            return BadRequest(new { message = "FixedOffPerPairKes must be a positive number for FixedAmountPerPair discount." });
+
+        List<ShoeServiceCategory> categories;
+
+        if (string.IsNullOrWhiteSpace(request.CategoryKey))
+        {
+            categories = await db.ShoeServiceCategories.ToListAsync();
+            if (categories.Count == 0)
+                return BadRequest(new { message = "No shoe categories found." });
+        }
+        else
+        {
+            var cat = await db.ShoeServiceCategories
+                .FirstOrDefaultAsync(c => c.Key.ToLower() == request.CategoryKey.ToLower());
+            if (cat is null) return BadRequest(new { message = $"Category '{request.CategoryKey}' not found." });
+            categories = new List<ShoeServiceCategory> { cat };
+        }
+
+        var created = new List<PromotionDto>();
+        foreach (var cat in categories)
+        {
+            var promo = new ShoeServicePromotion
+            {
+                CategoryId = cat.Id,
+                Label = request.Label.Trim(),
+                DiscountKind = kind,
+                PercentOff = kind == PromotionDiscountKind.PercentOff ? request.PercentOff : null,
+                FixedOffPerPairKes = kind == PromotionDiscountKind.FixedAmountPerPair ? request.FixedOffPerPairKes : null,
+                ValidFrom = request.ValidFrom,
+                ValidTo = request.ValidTo,
+                IsActive = true,
+                Priority = request.Priority
+            };
+            db.ShoeServicePromotions.Add(promo);
+            await db.SaveChangesAsync();
+
+            created.Add(new PromotionDto(
+                promo.Id,
+                promo.CategoryId,
+                cat.Key,
+                cat.DisplayName,
+                cat.ThemeColorHex,
+                promo.Label,
+                promo.DiscountKind.ToString(),
+                promo.PercentOff,
+                promo.FixedOffPerPairKes,
+                promo.ValidFrom,
+                promo.ValidTo,
+                promo.IsActive,
+                promo.Priority));
+        }
+
+        return Ok(created);
+    }
+
+    [HttpPut("promotions/{id:int}")]
+    public async Task<IActionResult> UpdatePromotion([FromRoute] int id, [FromBody] UpdatePromotionRequest request)
+    {
+        var promo = await db.ShoeServicePromotions
+            .Include(p => p.Category)
+            .FirstOrDefaultAsync(p => p.Id == id);
+
+        if (promo is null) return NotFound();
+
+        if (!Enum.TryParse<PromotionDiscountKind>(request.DiscountKind, true, out var kind))
+            return BadRequest(new { message = "Invalid discount kind. Use 'PercentOff' or 'FixedAmountPerPair'." });
+
+        promo.Label = request.Label.Trim();
+        promo.DiscountKind = kind;
+        promo.PercentOff = kind == PromotionDiscountKind.PercentOff ? request.PercentOff : null;
+        promo.FixedOffPerPairKes = kind == PromotionDiscountKind.FixedAmountPerPair ? request.FixedOffPerPairKes : null;
+        promo.ValidFrom = request.ValidFrom;
+        promo.ValidTo = request.ValidTo;
+        promo.IsActive = request.IsActive;
+        promo.Priority = request.Priority;
+
+        await db.SaveChangesAsync();
+
+        return Ok(new PromotionDto(
+            promo.Id,
+            promo.CategoryId,
+            promo.Category.Key,
+            promo.Category.DisplayName,
+            promo.Category.ThemeColorHex,
+            promo.Label,
+            promo.DiscountKind.ToString(),
+            promo.PercentOff,
+            promo.FixedOffPerPairKes,
+            promo.ValidFrom,
+            promo.ValidTo,
+            promo.IsActive,
+            promo.Priority));
+    }
+
+    [HttpDelete("promotions/{id:int}")]
+    public async Task<IActionResult> DeletePromotion([FromRoute] int id)
+    {
+        var promo = await db.ShoeServicePromotions.FindAsync(id);
+        if (promo is null) return NotFound();
+
+        db.ShoeServicePromotions.Remove(promo);
+        await db.SaveChangesAsync();
+        return NoContent();
+    }
+
     [HttpGet("reports/summary")]
     public async Task<IActionResult> ReportSummary([FromQuery] string? from, [FromQuery] string? to)
     {

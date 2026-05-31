@@ -1,0 +1,494 @@
+2026-05-31 14:24:22.545 +03:00 [INF] Executed DbCommand (169ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "MigrationId", "ProductVersion"
+FROM "__EFMigrationsHistory"
+ORDER BY "MigrationId";
+2026-05-31 14:24:25.005 +03:00 [INF] Executed DbCommand (162ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE IF NOT EXISTS "__EFMigrationsHistory" (
+    "MigrationId" character varying(150) NOT NULL,
+    "ProductVersion" character varying(32) NOT NULL,
+    CONSTRAINT "PK___EFMigrationsHistory" PRIMARY KEY ("MigrationId")
+);
+2026-05-31 14:24:25.291 +03:00 [INF] Executed DbCommand (201ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+LOCK TABLE "__EFMigrationsHistory" IN ACCESS EXCLUSIVE MODE
+2026-05-31 14:24:25.499 +03:00 [INF] Executed DbCommand (177ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "MigrationId", "ProductVersion"
+FROM "__EFMigrationsHistory"
+ORDER BY "MigrationId";
+2026-05-31 14:24:25.506 +03:00 [INF] No migrations were applied. The database is already up to date.
+2026-05-31 14:24:26.224 +03:00 [INF] Executed DbCommand (261ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (
+    SELECT 1
+    FROM "ShoeServiceCategories" AS s)
+2026-05-31 14:24:26.452 +03:00 [INF] Executed DbCommand (157ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (
+    SELECT 1
+    FROM "ShoeServicePromotions" AS s)
+2026-05-31 14:24:26.754 +03:00 [INF] Executed DbCommand (209ms) [Parameters=[@__normalizedEmail_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT f."Id", f."AccessFailedCount", f."Address", f."ConcurrencyStamp", f."CreatedAt", f."CustomerReference", f."Email", f."EmailConfirmed", f."FullName", f."IsActive", f."LockoutEnabled", f."LockoutEnd", f."NormalizedEmail", f."NormalizedUserName", f."PasswordHash", f."PhoneNumber", f."PhoneNumberConfirmed", f."SecurityStamp", f."TwoFactorEnabled", f."UserName"
+FROM "FreshwalkUsers" AS f
+WHERE f."NormalizedEmail" = @__normalizedEmail_0
+LIMIT 2
+2026-05-31 14:24:27.032 +03:00 [INF] Executed DbCommand (202ms) [Parameters=[@__normalizedEmail_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT f."Id", f."AccessFailedCount", f."Address", f."ConcurrencyStamp", f."CreatedAt", f."CustomerReference", f."Email", f."EmailConfirmed", f."FullName", f."IsActive", f."LockoutEnabled", f."LockoutEnd", f."NormalizedEmail", f."NormalizedUserName", f."PasswordHash", f."PhoneNumber", f."PhoneNumberConfirmed", f."SecurityStamp", f."TwoFactorEnabled", f."UserName"
+FROM "FreshwalkUsers" AS f
+WHERE f."NormalizedEmail" = @__normalizedEmail_0
+LIMIT 2
+2026-05-31 14:24:27.239 +03:00 [INF] Executed DbCommand (203ms) [Parameters=[@__normalizedEmail_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT f."Id", f."AccessFailedCount", f."Address", f."ConcurrencyStamp", f."CreatedAt", f."CustomerReference", f."Email", f."EmailConfirmed", f."FullName", f."IsActive", f."LockoutEnabled", f."LockoutEnd", f."NormalizedEmail", f."NormalizedUserName", f."PasswordHash", f."PhoneNumber", f."PhoneNumberConfirmed", f."SecurityStamp", f."TwoFactorEnabled", f."UserName"
+FROM "FreshwalkUsers" AS f
+WHERE f."NormalizedEmail" = @__normalizedEmail_0
+LIMIT 2
+2026-05-31 14:24:27.442 +03:00 [INF] Executed DbCommand (200ms) [Parameters=[@__normalizedEmail_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT f."Id", f."AccessFailedCount", f."Address", f."ConcurrencyStamp", f."CreatedAt", f."CustomerReference", f."Email", f."EmailConfirmed", f."FullName", f."IsActive", f."LockoutEnabled", f."LockoutEnd", f."NormalizedEmail", f."NormalizedUserName", f."PasswordHash", f."PhoneNumber", f."PhoneNumberConfirmed", f."SecurityStamp", f."TwoFactorEnabled", f."UserName"
+FROM "FreshwalkUsers" AS f
+WHERE f."NormalizedEmail" = @__normalizedEmail_0
+LIMIT 2
+2026-05-31 14:24:27.611 +03:00 [INF] Now listening on: http://localhost:5089
+2026-05-31 14:24:27.613 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2026-05-31 14:24:27.614 +03:00 [INF] Hosting environment: Development
+2026-05-31 14:24:27.615 +03:00 [INF] Content root path: D:\Projects\Freshwalk Shoe Cleaning web app\API\Freshwalk.API
+2026-05-31 14:36:18.683 +03:00 [INF] HTTP OPTIONS /api/gallery/hero responded 204 in 5.2608 ms
+2026-05-31 14:36:18.683 +03:00 [INF] HTTP OPTIONS /api/gallery/hero responded 204 in 5.1018 ms
+2026-05-31 14:36:18.683 +03:00 [INF] HTTP OPTIONS /api/catalog/shoe-services responded 204 in 5.1272 ms
+2026-05-31 14:36:18.683 +03:00 [INF] HTTP OPTIONS /api/catalog/shoe-services responded 204 in 5.2048 ms
+2026-05-31 14:36:21.578 +03:00 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2026-05-31 14:36:22.820 +03:00 [INF] Executed DbCommand (182ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT g."Id", g."AccentColor", g."AfterUrl", g."BeforeUrl", g."Category", g."CloudinaryPublicIdAfter", g."CloudinaryPublicIdBefore", g."CreatedAt", g."IsActive", g."IsHero", g."Label", g."MediaType", g."SortOrder", g."UpdatedAt"
+FROM "GalleryMediaItems" AS g
+WHERE g."IsActive" AND g."IsHero" AND g."MediaType" = 'Image'
+ORDER BY g."SortOrder", g."CreatedAt" DESC
+2026-05-31 14:36:22.820 +03:00 [INF] Executed DbCommand (182ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT s."Id", s."DisplayName", s."ImageAfterUrl", s."ImageBeforeUrl", s."Key", s."SortOrder", s."Tagline", s."ThemeColorHex", s0."Id", s0."CategoryId", s0."ColorTierKey", s0."IsActive", s0."PriceKes", s0."SortOrder", s1."Id", s1."CategoryId", s1."DiscountKind", s1."FixedOffPerPairKes", s1."IsActive", s1."Label", s1."PercentOff", s1."Priority", s1."ValidFrom", s1."ValidTo"
+FROM "ShoeServiceCategories" AS s
+LEFT JOIN "ShoeServiceTierPrices" AS s0 ON s."Id" = s0."CategoryId"
+LEFT JOIN "ShoeServicePromotions" AS s1 ON s."Id" = s1."CategoryId"
+ORDER BY s."SortOrder", s."Id", s0."Id"
+2026-05-31 14:36:23.058 +03:00 [INF] HTTP GET /api/catalog/shoe-services responded 200 in 4324.8467 ms
+2026-05-31 14:36:23.058 +03:00 [INF] HTTP GET /api/gallery/hero responded 200 in 4324.8509 ms
+2026-05-31 14:36:23.217 +03:00 [INF] Executed DbCommand (161ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT s."Id", s."DisplayName", s."ImageAfterUrl", s."ImageBeforeUrl", s."Key", s."SortOrder", s."Tagline", s."ThemeColorHex", s0."Id", s0."CategoryId", s0."ColorTierKey", s0."IsActive", s0."PriceKes", s0."SortOrder", s1."Id", s1."CategoryId", s1."DiscountKind", s1."FixedOffPerPairKes", s1."IsActive", s1."Label", s1."PercentOff", s1."Priority", s1."ValidFrom", s1."ValidTo"
+FROM "ShoeServiceCategories" AS s
+LEFT JOIN "ShoeServiceTierPrices" AS s0 ON s."Id" = s0."CategoryId"
+LEFT JOIN "ShoeServicePromotions" AS s1 ON s."Id" = s1."CategoryId"
+ORDER BY s."SortOrder", s."Id", s0."Id"
+2026-05-31 14:36:23.217 +03:00 [INF] Executed DbCommand (161ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT g."Id", g."AccentColor", g."AfterUrl", g."BeforeUrl", g."Category", g."CloudinaryPublicIdAfter", g."CloudinaryPublicIdBefore", g."CreatedAt", g."IsActive", g."IsHero", g."Label", g."MediaType", g."SortOrder", g."UpdatedAt"
+FROM "GalleryMediaItems" AS g
+WHERE g."IsActive" AND g."IsHero" AND g."MediaType" = 'Image'
+ORDER BY g."SortOrder", g."CreatedAt" DESC
+2026-05-31 14:36:23.235 +03:00 [INF] HTTP GET /api/catalog/shoe-services responded 200 in 200.1514 ms
+2026-05-31 14:36:23.239 +03:00 [INF] HTTP GET /api/gallery/hero responded 200 in 204.3605 ms
+2026-05-31 14:36:23.774 +03:00 [INF] HTTP OPTIONS /api/catalog/shoe-services responded 204 in 0.0920 ms
+2026-05-31 14:36:23.774 +03:00 [INF] HTTP OPTIONS /api/catalog/shoe-services responded 204 in 0.0690 ms
+2026-05-31 14:36:23.944 +03:00 [INF] Executed DbCommand (158ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT s."Id", s."DisplayName", s."ImageAfterUrl", s."ImageBeforeUrl", s."Key", s."SortOrder", s."Tagline", s."ThemeColorHex", s0."Id", s0."CategoryId", s0."ColorTierKey", s0."IsActive", s0."PriceKes", s0."SortOrder", s1."Id", s1."CategoryId", s1."DiscountKind", s1."FixedOffPerPairKes", s1."IsActive", s1."Label", s1."PercentOff", s1."Priority", s1."ValidFrom", s1."ValidTo"
+FROM "ShoeServiceCategories" AS s
+LEFT JOIN "ShoeServiceTierPrices" AS s0 ON s."Id" = s0."CategoryId"
+LEFT JOIN "ShoeServicePromotions" AS s1 ON s."Id" = s1."CategoryId"
+ORDER BY s."SortOrder", s."Id", s0."Id"
+2026-05-31 14:36:23.964 +03:00 [INF] HTTP GET /api/catalog/shoe-services responded 200 in 182.6475 ms
+2026-05-31 14:36:24.116 +03:00 [INF] Executed DbCommand (158ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT s."Id", s."DisplayName", s."ImageAfterUrl", s."ImageBeforeUrl", s."Key", s."SortOrder", s."Tagline", s."ThemeColorHex", s0."Id", s0."CategoryId", s0."ColorTierKey", s0."IsActive", s0."PriceKes", s0."SortOrder", s1."Id", s1."CategoryId", s1."DiscountKind", s1."FixedOffPerPairKes", s1."IsActive", s1."Label", s1."PercentOff", s1."Priority", s1."ValidFrom", s1."ValidTo"
+FROM "ShoeServiceCategories" AS s
+LEFT JOIN "ShoeServiceTierPrices" AS s0 ON s."Id" = s0."CategoryId"
+LEFT JOIN "ShoeServicePromotions" AS s1 ON s."Id" = s1."CategoryId"
+ORDER BY s."SortOrder", s."Id", s0."Id"
+2026-05-31 14:36:24.133 +03:00 [INF] HTTP GET /api/catalog/shoe-services responded 200 in 177.5735 ms
+2026-05-31 14:36:24.148 +03:00 [INF] HTTP OPTIONS /api/catalog/preview-pricing responded 204 in 0.0815 ms
+2026-05-31 14:36:24.262 +03:00 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2026-05-31 14:36:24.459 +03:00 [INF] Executed DbCommand (163ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT s."Id", s."DisplayName", s."ImageAfterUrl", s."ImageBeforeUrl", s."Key", s."SortOrder", s."Tagline", s."ThemeColorHex", s0."Id", s0."CategoryId", s0."ColorTierKey", s0."IsActive", s0."PriceKes", s0."SortOrder", s1."Id", s1."CategoryId", s1."DiscountKind", s1."FixedOffPerPairKes", s1."IsActive", s1."Label", s1."PercentOff", s1."Priority", s1."ValidFrom", s1."ValidTo"
+FROM "ShoeServiceCategories" AS s
+LEFT JOIN "ShoeServiceTierPrices" AS s0 ON s."Id" = s0."CategoryId"
+LEFT JOIN "ShoeServicePromotions" AS s1 ON s."Id" = s1."CategoryId"
+ORDER BY s."Id", s0."Id"
+2026-05-31 14:36:24.524 +03:00 [INF] HTTP POST /api/catalog/preview-pricing responded 200 in 369.0923 ms
+2026-05-31 14:36:30.229 +03:00 [INF] HTTP OPTIONS /api/catalog/preview-pricing responded 204 in 0.5160 ms
+2026-05-31 14:36:30.401 +03:00 [INF] Executed DbCommand (160ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT s."Id", s."DisplayName", s."ImageAfterUrl", s."ImageBeforeUrl", s."Key", s."SortOrder", s."Tagline", s."ThemeColorHex", s0."Id", s0."CategoryId", s0."ColorTierKey", s0."IsActive", s0."PriceKes", s0."SortOrder", s1."Id", s1."CategoryId", s1."DiscountKind", s1."FixedOffPerPairKes", s1."IsActive", s1."Label", s1."PercentOff", s1."Priority", s1."ValidFrom", s1."ValidTo"
+FROM "ShoeServiceCategories" AS s
+LEFT JOIN "ShoeServiceTierPrices" AS s0 ON s."Id" = s0."CategoryId"
+LEFT JOIN "ShoeServicePromotions" AS s1 ON s."Id" = s1."CategoryId"
+ORDER BY s."Id", s0."Id"
+2026-05-31 14:36:30.415 +03:00 [INF] HTTP POST /api/catalog/preview-pricing responded 200 in 178.3784 ms
+2026-05-31 14:36:33.139 +03:00 [INF] Executed DbCommand (162ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT s."Id", s."DisplayName", s."ImageAfterUrl", s."ImageBeforeUrl", s."Key", s."SortOrder", s."Tagline", s."ThemeColorHex", s0."Id", s0."CategoryId", s0."ColorTierKey", s0."IsActive", s0."PriceKes", s0."SortOrder", s1."Id", s1."CategoryId", s1."DiscountKind", s1."FixedOffPerPairKes", s1."IsActive", s1."Label", s1."PercentOff", s1."Priority", s1."ValidFrom", s1."ValidTo"
+FROM "ShoeServiceCategories" AS s
+LEFT JOIN "ShoeServiceTierPrices" AS s0 ON s."Id" = s0."CategoryId"
+LEFT JOIN "ShoeServicePromotions" AS s1 ON s."Id" = s1."CategoryId"
+ORDER BY s."Id", s0."Id"
+2026-05-31 14:36:33.151 +03:00 [INF] HTTP POST /api/catalog/preview-pricing responded 200 in 177.4955 ms
+2026-05-31 14:36:41.601 +03:00 [INF] HTTP OPTIONS /api/catalog/preview-pricing responded 204 in 0.2768 ms
+2026-05-31 14:36:41.814 +03:00 [INF] Executed DbCommand (203ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT s."Id", s."DisplayName", s."ImageAfterUrl", s."ImageBeforeUrl", s."Key", s."SortOrder", s."Tagline", s."ThemeColorHex", s0."Id", s0."CategoryId", s0."ColorTierKey", s0."IsActive", s0."PriceKes", s0."SortOrder", s1."Id", s1."CategoryId", s1."DiscountKind", s1."FixedOffPerPairKes", s1."IsActive", s1."Label", s1."PercentOff", s1."Priority", s1."ValidFrom", s1."ValidTo"
+FROM "ShoeServiceCategories" AS s
+LEFT JOIN "ShoeServiceTierPrices" AS s0 ON s."Id" = s0."CategoryId"
+LEFT JOIN "ShoeServicePromotions" AS s1 ON s."Id" = s1."CategoryId"
+ORDER BY s."Id", s0."Id"
+2026-05-31 14:36:41.831 +03:00 [INF] HTTP POST /api/catalog/preview-pricing responded 200 in 221.9038 ms
+2026-05-31 14:36:48.044 +03:00 [INF] HTTP OPTIONS /api/catalog/preview-pricing responded 204 in 0.1184 ms
+2026-05-31 14:36:48.260 +03:00 [INF] Executed DbCommand (203ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT s."Id", s."DisplayName", s."ImageAfterUrl", s."ImageBeforeUrl", s."Key", s."SortOrder", s."Tagline", s."ThemeColorHex", s0."Id", s0."CategoryId", s0."ColorTierKey", s0."IsActive", s0."PriceKes", s0."SortOrder", s1."Id", s1."CategoryId", s1."DiscountKind", s1."FixedOffPerPairKes", s1."IsActive", s1."Label", s1."PercentOff", s1."Priority", s1."ValidFrom", s1."ValidTo"
+FROM "ShoeServiceCategories" AS s
+LEFT JOIN "ShoeServiceTierPrices" AS s0 ON s."Id" = s0."CategoryId"
+LEFT JOIN "ShoeServicePromotions" AS s1 ON s."Id" = s1."CategoryId"
+ORDER BY s."Id", s0."Id"
+2026-05-31 14:36:48.273 +03:00 [INF] HTTP POST /api/catalog/preview-pricing responded 200 in 219.7520 ms
+2026-05-31 14:36:51.029 +03:00 [INF] Executed DbCommand (166ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT s."Id", s."DisplayName", s."ImageAfterUrl", s."ImageBeforeUrl", s."Key", s."SortOrder", s."Tagline", s."ThemeColorHex", s0."Id", s0."CategoryId", s0."ColorTierKey", s0."IsActive", s0."PriceKes", s0."SortOrder", s1."Id", s1."CategoryId", s1."DiscountKind", s1."FixedOffPerPairKes", s1."IsActive", s1."Label", s1."PercentOff", s1."Priority", s1."ValidFrom", s1."ValidTo"
+FROM "ShoeServiceCategories" AS s
+LEFT JOIN "ShoeServiceTierPrices" AS s0 ON s."Id" = s0."CategoryId"
+LEFT JOIN "ShoeServicePromotions" AS s1 ON s."Id" = s1."CategoryId"
+ORDER BY s."Id", s0."Id"
+2026-05-31 14:36:51.044 +03:00 [INF] HTTP POST /api/catalog/preview-pricing responded 200 in 185.3981 ms
+2026-05-31 14:36:55.792 +03:00 [INF] HTTP OPTIONS /api/catalog/preview-pricing responded 204 in 0.1229 ms
+2026-05-31 14:36:55.957 +03:00 [INF] Executed DbCommand (157ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT s."Id", s."DisplayName", s."ImageAfterUrl", s."ImageBeforeUrl", s."Key", s."SortOrder", s."Tagline", s."ThemeColorHex", s0."Id", s0."CategoryId", s0."ColorTierKey", s0."IsActive", s0."PriceKes", s0."SortOrder", s1."Id", s1."CategoryId", s1."DiscountKind", s1."FixedOffPerPairKes", s1."IsActive", s1."Label", s1."PercentOff", s1."Priority", s1."ValidFrom", s1."ValidTo"
+FROM "ShoeServiceCategories" AS s
+LEFT JOIN "ShoeServiceTierPrices" AS s0 ON s."Id" = s0."CategoryId"
+LEFT JOIN "ShoeServicePromotions" AS s1 ON s."Id" = s1."CategoryId"
+ORDER BY s."Id", s0."Id"
+2026-05-31 14:36:55.974 +03:00 [INF] HTTP POST /api/catalog/preview-pricing responded 200 in 175.1792 ms
+2026-05-31 14:37:04.394 +03:00 [INF] HTTP OPTIONS /api/catalog/preview-pricing responded 204 in 0.0938 ms
+2026-05-31 14:37:04.648 +03:00 [INF] Executed DbCommand (246ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT s."Id", s."DisplayName", s."ImageAfterUrl", s."ImageBeforeUrl", s."Key", s."SortOrder", s."Tagline", s."ThemeColorHex", s0."Id", s0."CategoryId", s0."ColorTierKey", s0."IsActive", s0."PriceKes", s0."SortOrder", s1."Id", s1."CategoryId", s1."DiscountKind", s1."FixedOffPerPairKes", s1."IsActive", s1."Label", s1."PercentOff", s1."Priority", s1."ValidFrom", s1."ValidTo"
+FROM "ShoeServiceCategories" AS s
+LEFT JOIN "ShoeServiceTierPrices" AS s0 ON s."Id" = s0."CategoryId"
+LEFT JOIN "ShoeServicePromotions" AS s1 ON s."Id" = s1."CategoryId"
+ORDER BY s."Id", s0."Id"
+2026-05-31 14:37:04.663 +03:00 [INF] HTTP POST /api/catalog/preview-pricing responded 200 in 264.7753 ms
+2026-05-31 14:37:23.792 +03:00 [INF] HTTP OPTIONS /api/catalog/shoe-services responded 204 in 0.1550 ms
+2026-05-31 14:37:23.792 +03:00 [INF] HTTP OPTIONS /api/catalog/shoe-services responded 204 in 0.0275 ms
+2026-05-31 14:37:23.967 +03:00 [INF] Executed DbCommand (160ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT s."Id", s."DisplayName", s."ImageAfterUrl", s."ImageBeforeUrl", s."Key", s."SortOrder", s."Tagline", s."ThemeColorHex", s0."Id", s0."CategoryId", s0."ColorTierKey", s0."IsActive", s0."PriceKes", s0."SortOrder", s1."Id", s1."CategoryId", s1."DiscountKind", s1."FixedOffPerPairKes", s1."IsActive", s1."Label", s1."PercentOff", s1."Priority", s1."ValidFrom", s1."ValidTo"
+FROM "ShoeServiceCategories" AS s
+LEFT JOIN "ShoeServiceTierPrices" AS s0 ON s."Id" = s0."CategoryId"
+LEFT JOIN "ShoeServicePromotions" AS s1 ON s."Id" = s1."CategoryId"
+ORDER BY s."SortOrder", s."Id", s0."Id"
+2026-05-31 14:37:23.979 +03:00 [INF] HTTP GET /api/catalog/shoe-services responded 200 in 174.6405 ms
+2026-05-31 14:37:24.133 +03:00 [INF] Executed DbCommand (158ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT s."Id", s."DisplayName", s."ImageAfterUrl", s."ImageBeforeUrl", s."Key", s."SortOrder", s."Tagline", s."ThemeColorHex", s0."Id", s0."CategoryId", s0."ColorTierKey", s0."IsActive", s0."PriceKes", s0."SortOrder", s1."Id", s1."CategoryId", s1."DiscountKind", s1."FixedOffPerPairKes", s1."IsActive", s1."Label", s1."PercentOff", s1."Priority", s1."ValidFrom", s1."ValidTo"
+FROM "ShoeServiceCategories" AS s
+LEFT JOIN "ShoeServiceTierPrices" AS s0 ON s."Id" = s0."CategoryId"
+LEFT JOIN "ShoeServicePromotions" AS s1 ON s."Id" = s1."CategoryId"
+ORDER BY s."SortOrder", s."Id", s0."Id"
+2026-05-31 14:37:24.146 +03:00 [INF] HTTP GET /api/catalog/shoe-services responded 200 in 172.7061 ms
+2026-05-31 14:37:24.167 +03:00 [INF] HTTP OPTIONS /api/catalog/preview-pricing responded 204 in 0.0464 ms
+2026-05-31 14:37:24.352 +03:00 [INF] Executed DbCommand (175ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT s."Id", s."DisplayName", s."ImageAfterUrl", s."ImageBeforeUrl", s."Key", s."SortOrder", s."Tagline", s."ThemeColorHex", s0."Id", s0."CategoryId", s0."ColorTierKey", s0."IsActive", s0."PriceKes", s0."SortOrder", s1."Id", s1."CategoryId", s1."DiscountKind", s1."FixedOffPerPairKes", s1."IsActive", s1."Label", s1."PercentOff", s1."Priority", s1."ValidFrom", s1."ValidTo"
+FROM "ShoeServiceCategories" AS s
+LEFT JOIN "ShoeServiceTierPrices" AS s0 ON s."Id" = s0."CategoryId"
+LEFT JOIN "ShoeServicePromotions" AS s1 ON s."Id" = s1."CategoryId"
+ORDER BY s."Id", s0."Id"
+2026-05-31 14:37:24.364 +03:00 [INF] HTTP POST /api/catalog/preview-pricing responded 200 in 190.2571 ms
+2026-05-31 14:37:29.911 +03:00 [INF] HTTP OPTIONS /api/catalog/preview-pricing responded 204 in 0.2163 ms
+2026-05-31 14:37:30.085 +03:00 [INF] Executed DbCommand (165ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT s."Id", s."DisplayName", s."ImageAfterUrl", s."ImageBeforeUrl", s."Key", s."SortOrder", s."Tagline", s."ThemeColorHex", s0."Id", s0."CategoryId", s0."ColorTierKey", s0."IsActive", s0."PriceKes", s0."SortOrder", s1."Id", s1."CategoryId", s1."DiscountKind", s1."FixedOffPerPairKes", s1."IsActive", s1."Label", s1."PercentOff", s1."Priority", s1."ValidFrom", s1."ValidTo"
+FROM "ShoeServiceCategories" AS s
+LEFT JOIN "ShoeServiceTierPrices" AS s0 ON s."Id" = s0."CategoryId"
+LEFT JOIN "ShoeServicePromotions" AS s1 ON s."Id" = s1."CategoryId"
+ORDER BY s."Id", s0."Id"
+2026-05-31 14:37:30.098 +03:00 [INF] HTTP POST /api/catalog/preview-pricing responded 200 in 180.4167 ms
+2026-05-31 14:37:32.196 +03:00 [INF] Executed DbCommand (263ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT s."Id", s."DisplayName", s."ImageAfterUrl", s."ImageBeforeUrl", s."Key", s."SortOrder", s."Tagline", s."ThemeColorHex", s0."Id", s0."CategoryId", s0."ColorTierKey", s0."IsActive", s0."PriceKes", s0."SortOrder", s1."Id", s1."CategoryId", s1."DiscountKind", s1."FixedOffPerPairKes", s1."IsActive", s1."Label", s1."PercentOff", s1."Priority", s1."ValidFrom", s1."ValidTo"
+FROM "ShoeServiceCategories" AS s
+LEFT JOIN "ShoeServiceTierPrices" AS s0 ON s."Id" = s0."CategoryId"
+LEFT JOIN "ShoeServicePromotions" AS s1 ON s."Id" = s1."CategoryId"
+ORDER BY s."Id", s0."Id"
+2026-05-31 14:37:32.208 +03:00 [INF] HTTP POST /api/catalog/preview-pricing responded 200 in 276.2258 ms
+2026-05-31 14:37:33.323 +03:00 [INF] Executed DbCommand (229ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT s."Id", s."DisplayName", s."ImageAfterUrl", s."ImageBeforeUrl", s."Key", s."SortOrder", s."Tagline", s."ThemeColorHex", s0."Id", s0."CategoryId", s0."ColorTierKey", s0."IsActive", s0."PriceKes", s0."SortOrder", s1."Id", s1."CategoryId", s1."DiscountKind", s1."FixedOffPerPairKes", s1."IsActive", s1."Label", s1."PercentOff", s1."Priority", s1."ValidFrom", s1."ValidTo"
+FROM "ShoeServiceCategories" AS s
+LEFT JOIN "ShoeServiceTierPrices" AS s0 ON s."Id" = s0."CategoryId"
+LEFT JOIN "ShoeServicePromotions" AS s1 ON s."Id" = s1."CategoryId"
+ORDER BY s."Id", s0."Id"
+2026-05-31 14:37:33.337 +03:00 [INF] HTTP POST /api/catalog/preview-pricing responded 200 in 246.2937 ms
+2026-05-31 14:37:34.014 +03:00 [INF] Executed DbCommand (163ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT s."Id", s."DisplayName", s."ImageAfterUrl", s."ImageBeforeUrl", s."Key", s."SortOrder", s."Tagline", s."ThemeColorHex", s0."Id", s0."CategoryId", s0."ColorTierKey", s0."IsActive", s0."PriceKes", s0."SortOrder", s1."Id", s1."CategoryId", s1."DiscountKind", s1."FixedOffPerPairKes", s1."IsActive", s1."Label", s1."PercentOff", s1."Priority", s1."ValidFrom", s1."ValidTo"
+FROM "ShoeServiceCategories" AS s
+LEFT JOIN "ShoeServiceTierPrices" AS s0 ON s."Id" = s0."CategoryId"
+LEFT JOIN "ShoeServicePromotions" AS s1 ON s."Id" = s1."CategoryId"
+ORDER BY s."Id", s0."Id"
+2026-05-31 14:37:34.028 +03:00 [INF] HTTP POST /api/catalog/preview-pricing responded 200 in 180.2149 ms
+2026-05-31 14:37:36.723 +03:00 [INF] HTTP OPTIONS /api/catalog/preview-pricing responded 204 in 0.0545 ms
+2026-05-31 14:37:36.902 +03:00 [INF] Executed DbCommand (169ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT s."Id", s."DisplayName", s."ImageAfterUrl", s."ImageBeforeUrl", s."Key", s."SortOrder", s."Tagline", s."ThemeColorHex", s0."Id", s0."CategoryId", s0."ColorTierKey", s0."IsActive", s0."PriceKes", s0."SortOrder", s1."Id", s1."CategoryId", s1."DiscountKind", s1."FixedOffPerPairKes", s1."IsActive", s1."Label", s1."PercentOff", s1."Priority", s1."ValidFrom", s1."ValidTo"
+FROM "ShoeServiceCategories" AS s
+LEFT JOIN "ShoeServiceTierPrices" AS s0 ON s."Id" = s0."CategoryId"
+LEFT JOIN "ShoeServicePromotions" AS s1 ON s."Id" = s1."CategoryId"
+ORDER BY s."Id", s0."Id"
+2026-05-31 14:37:36.917 +03:00 [INF] HTTP POST /api/catalog/preview-pricing responded 200 in 187.0059 ms
+2026-05-31 14:37:37.853 +03:00 [INF] Executed DbCommand (159ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT s."Id", s."DisplayName", s."ImageAfterUrl", s."ImageBeforeUrl", s."Key", s."SortOrder", s."Tagline", s."ThemeColorHex", s0."Id", s0."CategoryId", s0."ColorTierKey", s0."IsActive", s0."PriceKes", s0."SortOrder", s1."Id", s1."CategoryId", s1."DiscountKind", s1."FixedOffPerPairKes", s1."IsActive", s1."Label", s1."PercentOff", s1."Priority", s1."ValidFrom", s1."ValidTo"
+FROM "ShoeServiceCategories" AS s
+LEFT JOIN "ShoeServiceTierPrices" AS s0 ON s."Id" = s0."CategoryId"
+LEFT JOIN "ShoeServicePromotions" AS s1 ON s."Id" = s1."CategoryId"
+ORDER BY s."Id", s0."Id"
+2026-05-31 14:37:37.867 +03:00 [INF] HTTP POST /api/catalog/preview-pricing responded 200 in 176.9652 ms
+2026-05-31 14:37:38.743 +03:00 [INF] Executed DbCommand (162ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT s."Id", s."DisplayName", s."ImageAfterUrl", s."ImageBeforeUrl", s."Key", s."SortOrder", s."Tagline", s."ThemeColorHex", s0."Id", s0."CategoryId", s0."ColorTierKey", s0."IsActive", s0."PriceKes", s0."SortOrder", s1."Id", s1."CategoryId", s1."DiscountKind", s1."FixedOffPerPairKes", s1."IsActive", s1."Label", s1."PercentOff", s1."Priority", s1."ValidFrom", s1."ValidTo"
+FROM "ShoeServiceCategories" AS s
+LEFT JOIN "ShoeServiceTierPrices" AS s0 ON s."Id" = s0."CategoryId"
+LEFT JOIN "ShoeServicePromotions" AS s1 ON s."Id" = s1."CategoryId"
+ORDER BY s."Id", s0."Id"
+2026-05-31 14:37:38.755 +03:00 [INF] HTTP POST /api/catalog/preview-pricing responded 200 in 177.0831 ms
+2026-05-31 14:37:41.643 +03:00 [INF] Executed DbCommand (158ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT s."Id", s."DisplayName", s."ImageAfterUrl", s."ImageBeforeUrl", s."Key", s."SortOrder", s."Tagline", s."ThemeColorHex", s0."Id", s0."CategoryId", s0."ColorTierKey", s0."IsActive", s0."PriceKes", s0."SortOrder", s1."Id", s1."CategoryId", s1."DiscountKind", s1."FixedOffPerPairKes", s1."IsActive", s1."Label", s1."PercentOff", s1."Priority", s1."ValidFrom", s1."ValidTo"
+FROM "ShoeServiceCategories" AS s
+LEFT JOIN "ShoeServiceTierPrices" AS s0 ON s."Id" = s0."CategoryId"
+LEFT JOIN "ShoeServicePromotions" AS s1 ON s."Id" = s1."CategoryId"
+ORDER BY s."Id", s0."Id"
+2026-05-31 14:37:41.655 +03:00 [INF] HTTP POST /api/catalog/preview-pricing responded 200 in 174.1121 ms
+2026-05-31 14:37:43.847 +03:00 [INF] HTTP OPTIONS /api/catalog/preview-pricing responded 204 in 0.0524 ms
+2026-05-31 14:37:44.018 +03:00 [INF] Executed DbCommand (163ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT s."Id", s."DisplayName", s."ImageAfterUrl", s."ImageBeforeUrl", s."Key", s."SortOrder", s."Tagline", s."ThemeColorHex", s0."Id", s0."CategoryId", s0."ColorTierKey", s0."IsActive", s0."PriceKes", s0."SortOrder", s1."Id", s1."CategoryId", s1."DiscountKind", s1."FixedOffPerPairKes", s1."IsActive", s1."Label", s1."PercentOff", s1."Priority", s1."ValidFrom", s1."ValidTo"
+FROM "ShoeServiceCategories" AS s
+LEFT JOIN "ShoeServiceTierPrices" AS s0 ON s."Id" = s0."CategoryId"
+LEFT JOIN "ShoeServicePromotions" AS s1 ON s."Id" = s1."CategoryId"
+ORDER BY s."Id", s0."Id"
+2026-05-31 14:37:44.058 +03:00 [INF] HTTP POST /api/catalog/preview-pricing responded 200 in 205.2886 ms
+2026-05-31 14:37:45.605 +03:00 [INF] Executed DbCommand (216ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT s."Id", s."DisplayName", s."ImageAfterUrl", s."ImageBeforeUrl", s."Key", s."SortOrder", s."Tagline", s."ThemeColorHex", s0."Id", s0."CategoryId", s0."ColorTierKey", s0."IsActive", s0."PriceKes", s0."SortOrder", s1."Id", s1."CategoryId", s1."DiscountKind", s1."FixedOffPerPairKes", s1."IsActive", s1."Label", s1."PercentOff", s1."Priority", s1."ValidFrom", s1."ValidTo"
+FROM "ShoeServiceCategories" AS s
+LEFT JOIN "ShoeServiceTierPrices" AS s0 ON s."Id" = s0."CategoryId"
+LEFT JOIN "ShoeServicePromotions" AS s1 ON s."Id" = s1."CategoryId"
+ORDER BY s."Id", s0."Id"
+2026-05-31 14:37:45.618 +03:00 [INF] HTTP POST /api/catalog/preview-pricing responded 200 in 232.5594 ms
+2026-05-31 14:37:49.211 +03:00 [INF] HTTP OPTIONS /api/catalog/preview-pricing responded 204 in 0.0961 ms
+2026-05-31 14:37:49.393 +03:00 [INF] Executed DbCommand (172ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT s."Id", s."DisplayName", s."ImageAfterUrl", s."ImageBeforeUrl", s."Key", s."SortOrder", s."Tagline", s."ThemeColorHex", s0."Id", s0."CategoryId", s0."ColorTierKey", s0."IsActive", s0."PriceKes", s0."SortOrder", s1."Id", s1."CategoryId", s1."DiscountKind", s1."FixedOffPerPairKes", s1."IsActive", s1."Label", s1."PercentOff", s1."Priority", s1."ValidFrom", s1."ValidTo"
+FROM "ShoeServiceCategories" AS s
+LEFT JOIN "ShoeServiceTierPrices" AS s0 ON s."Id" = s0."CategoryId"
+LEFT JOIN "ShoeServicePromotions" AS s1 ON s."Id" = s1."CategoryId"
+ORDER BY s."Id", s0."Id"
+2026-05-31 14:37:49.407 +03:00 [INF] HTTP POST /api/catalog/preview-pricing responded 200 in 187.2131 ms
+2026-05-31 14:37:51.749 +03:00 [INF] Executed DbCommand (203ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT s."Id", s."DisplayName", s."ImageAfterUrl", s."ImageBeforeUrl", s."Key", s."SortOrder", s."Tagline", s."ThemeColorHex", s0."Id", s0."CategoryId", s0."ColorTierKey", s0."IsActive", s0."PriceKes", s0."SortOrder", s1."Id", s1."CategoryId", s1."DiscountKind", s1."FixedOffPerPairKes", s1."IsActive", s1."Label", s1."PercentOff", s1."Priority", s1."ValidFrom", s1."ValidTo"
+FROM "ShoeServiceCategories" AS s
+LEFT JOIN "ShoeServiceTierPrices" AS s0 ON s."Id" = s0."CategoryId"
+LEFT JOIN "ShoeServicePromotions" AS s1 ON s."Id" = s1."CategoryId"
+ORDER BY s."Id", s0."Id"
+2026-05-31 14:37:51.762 +03:00 [INF] HTTP POST /api/catalog/preview-pricing responded 200 in 217.1253 ms
+2026-05-31 14:37:54.206 +03:00 [INF] Executed DbCommand (281ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT s."Id", s."DisplayName", s."ImageAfterUrl", s."ImageBeforeUrl", s."Key", s."SortOrder", s."Tagline", s."ThemeColorHex", s0."Id", s0."CategoryId", s0."ColorTierKey", s0."IsActive", s0."PriceKes", s0."SortOrder", s1."Id", s1."CategoryId", s1."DiscountKind", s1."FixedOffPerPairKes", s1."IsActive", s1."Label", s1."PercentOff", s1."Priority", s1."ValidFrom", s1."ValidTo"
+FROM "ShoeServiceCategories" AS s
+LEFT JOIN "ShoeServiceTierPrices" AS s0 ON s."Id" = s0."CategoryId"
+LEFT JOIN "ShoeServicePromotions" AS s1 ON s."Id" = s1."CategoryId"
+ORDER BY s."Id", s0."Id"
+2026-05-31 14:37:54.220 +03:00 [INF] HTTP POST /api/catalog/preview-pricing responded 200 in 296.7142 ms
+2026-05-31 14:38:22.005 +03:00 [INF] HTTP OPTIONS /api/catalog/preview-pricing responded 204 in 0.1122 ms
+2026-05-31 14:38:22.173 +03:00 [INF] Executed DbCommand (158ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT s."Id", s."DisplayName", s."ImageAfterUrl", s."ImageBeforeUrl", s."Key", s."SortOrder", s."Tagline", s."ThemeColorHex", s0."Id", s0."CategoryId", s0."ColorTierKey", s0."IsActive", s0."PriceKes", s0."SortOrder", s1."Id", s1."CategoryId", s1."DiscountKind", s1."FixedOffPerPairKes", s1."IsActive", s1."Label", s1."PercentOff", s1."Priority", s1."ValidFrom", s1."ValidTo"
+FROM "ShoeServiceCategories" AS s
+LEFT JOIN "ShoeServiceTierPrices" AS s0 ON s."Id" = s0."CategoryId"
+LEFT JOIN "ShoeServicePromotions" AS s1 ON s."Id" = s1."CategoryId"
+ORDER BY s."Id", s0."Id"
+2026-05-31 14:38:22.187 +03:00 [INF] HTTP POST /api/catalog/preview-pricing responded 200 in 175.7991 ms
+2026-05-31 14:38:36.993 +03:00 [INF] HTTP OPTIONS /api/auth/google responded 204 in 0.0525 ms
+2026-05-31 14:38:38.747 +03:00 [INF] Executed DbCommand (184ms) [Parameters=[@__normalizedEmail_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT f."Id", f."AccessFailedCount", f."Address", f."ConcurrencyStamp", f."CreatedAt", f."CustomerReference", f."Email", f."EmailConfirmed", f."FullName", f."IsActive", f."LockoutEnabled", f."LockoutEnd", f."NormalizedEmail", f."NormalizedUserName", f."PasswordHash", f."PhoneNumber", f."PhoneNumberConfirmed", f."SecurityStamp", f."TwoFactorEnabled", f."UserName"
+FROM "FreshwalkUsers" AS f
+WHERE f."NormalizedEmail" = @__normalizedEmail_0
+LIMIT 2
+2026-05-31 14:38:38.961 +03:00 [INF] Executed DbCommand (166ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SELECT f0."Name"
+FROM "FreshwalkUserRoles" AS f
+INNER JOIN "FreshwalkRoles" AS f0 ON f."RoleId" = f0."Id"
+WHERE f."UserId" = @__userId_0
+2026-05-31 14:38:39.004 +03:00 [INF] HTTP POST /api/auth/google responded 200 in 2001.2058 ms
+2026-05-31 14:38:39.073 +03:00 [INF] HTTP OPTIONS /api/catalog/shoe-services responded 204 in 0.0484 ms
+2026-05-31 14:38:39.075 +03:00 [INF] HTTP OPTIONS /api/catalog/shoe-services responded 204 in 0.0324 ms
+2026-05-31 14:38:39.313 +03:00 [INF] Executed DbCommand (160ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT s."Id", s."DisplayName", s."ImageAfterUrl", s."ImageBeforeUrl", s."Key", s."SortOrder", s."Tagline", s."ThemeColorHex", s0."Id", s0."CategoryId", s0."ColorTierKey", s0."IsActive", s0."PriceKes", s0."SortOrder", s1."Id", s1."CategoryId", s1."DiscountKind", s1."FixedOffPerPairKes", s1."IsActive", s1."Label", s1."PercentOff", s1."Priority", s1."ValidFrom", s1."ValidTo"
+FROM "ShoeServiceCategories" AS s
+LEFT JOIN "ShoeServiceTierPrices" AS s0 ON s."Id" = s0."CategoryId"
+LEFT JOIN "ShoeServicePromotions" AS s1 ON s."Id" = s1."CategoryId"
+ORDER BY s."SortOrder", s."Id", s0."Id"
+2026-05-31 14:38:39.454 +03:00 [INF] HTTP OPTIONS /api/catalog/preview-pricing responded 204 in 0.0498 ms
+2026-05-31 14:38:39.481 +03:00 [INF] Executed DbCommand (157ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT s."Id", s."DisplayName", s."ImageAfterUrl", s."ImageBeforeUrl", s."Key", s."SortOrder", s."Tagline", s."ThemeColorHex", s0."Id", s0."CategoryId", s0."ColorTierKey", s0."IsActive", s0."PriceKes", s0."SortOrder", s1."Id", s1."CategoryId", s1."DiscountKind", s1."FixedOffPerPairKes", s1."IsActive", s1."Label", s1."PercentOff", s1."Priority", s1."ValidFrom", s1."ValidTo"
+FROM "ShoeServiceCategories" AS s
+LEFT JOIN "ShoeServiceTierPrices" AS s0 ON s."Id" = s0."CategoryId"
+LEFT JOIN "ShoeServicePromotions" AS s1 ON s."Id" = s1."CategoryId"
+ORDER BY s."SortOrder", s."Id", s0."Id"
+2026-05-31 14:38:39.536 +03:00 [INF] Executed DbCommand (159ms) [Parameters=[@__p_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SELECT f."Id", f."AccessFailedCount", f."Address", f."ConcurrencyStamp", f."CreatedAt", f."CustomerReference", f."Email", f."EmailConfirmed", f."FullName", f."IsActive", f."LockoutEnabled", f."LockoutEnd", f."NormalizedEmail", f."NormalizedUserName", f."PasswordHash", f."PhoneNumber", f."PhoneNumberConfirmed", f."SecurityStamp", f."TwoFactorEnabled", f."UserName"
+FROM "FreshwalkUsers" AS f
+WHERE f."Id" = @__p_0
+LIMIT 1
+2026-05-31 14:38:39.551 +03:00 [INF] HTTP GET /api/catalog/shoe-services responded 200 in 466.3431 ms
+2026-05-31 14:38:39.648 +03:00 [INF] Executed DbCommand (157ms) [Parameters=[@__p_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SELECT f."Id", f."AccessFailedCount", f."Address", f."ConcurrencyStamp", f."CreatedAt", f."CustomerReference", f."Email", f."EmailConfirmed", f."FullName", f."IsActive", f."LockoutEnabled", f."LockoutEnd", f."NormalizedEmail", f."NormalizedUserName", f."PasswordHash", f."PhoneNumber", f."PhoneNumberConfirmed", f."SecurityStamp", f."TwoFactorEnabled", f."UserName"
+FROM "FreshwalkUsers" AS f
+WHERE f."Id" = @__p_0
+LIMIT 1
+2026-05-31 14:38:39.662 +03:00 [INF] HTTP GET /api/catalog/shoe-services responded 200 in 340.0452 ms
+2026-05-31 14:38:40.797 +03:00 [INF] Executed DbCommand (207ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT s."Id", s."DisplayName", s."ImageAfterUrl", s."ImageBeforeUrl", s."Key", s."SortOrder", s."Tagline", s."ThemeColorHex", s0."Id", s0."CategoryId", s0."ColorTierKey", s0."IsActive", s0."PriceKes", s0."SortOrder", s1."Id", s1."CategoryId", s1."DiscountKind", s1."FixedOffPerPairKes", s1."IsActive", s1."Label", s1."PercentOff", s1."Priority", s1."ValidFrom", s1."ValidTo"
+FROM "ShoeServiceCategories" AS s
+LEFT JOIN "ShoeServiceTierPrices" AS s0 ON s."Id" = s0."CategoryId"
+LEFT JOIN "ShoeServicePromotions" AS s1 ON s."Id" = s1."CategoryId"
+ORDER BY s."Id", s0."Id"
+2026-05-31 14:38:41.001 +03:00 [INF] Executed DbCommand (197ms) [Parameters=[@__p_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SELECT f."Id", f."AccessFailedCount", f."Address", f."ConcurrencyStamp", f."CreatedAt", f."CustomerReference", f."Email", f."EmailConfirmed", f."FullName", f."IsActive", f."LockoutEnabled", f."LockoutEnd", f."NormalizedEmail", f."NormalizedUserName", f."PasswordHash", f."PhoneNumber", f."PhoneNumberConfirmed", f."SecurityStamp", f."TwoFactorEnabled", f."UserName"
+FROM "FreshwalkUsers" AS f
+WHERE f."Id" = @__p_0
+LIMIT 1
+2026-05-31 14:38:41.014 +03:00 [INF] HTTP POST /api/catalog/preview-pricing responded 200 in 1552.7811 ms
+2026-05-31 14:39:00.906 +03:00 [INF] HTTP OPTIONS /api/bookings responded 204 in 0.0463 ms
+2026-05-31 14:39:01.167 +03:00 [INF] Executed DbCommand (208ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT s."Id", s."DisplayName", s."ImageAfterUrl", s."ImageBeforeUrl", s."Key", s."SortOrder", s."Tagline", s."ThemeColorHex", s0."Id", s0."CategoryId", s0."ColorTierKey", s0."IsActive", s0."PriceKes", s0."SortOrder", s1."Id", s1."CategoryId", s1."DiscountKind", s1."FixedOffPerPairKes", s1."IsActive", s1."Label", s1."PercentOff", s1."Priority", s1."ValidFrom", s1."ValidTo"
+FROM "ShoeServiceCategories" AS s
+LEFT JOIN "ShoeServiceTierPrices" AS s0 ON s."Id" = s0."CategoryId"
+LEFT JOIN "ShoeServicePromotions" AS s1 ON s."Id" = s1."CategoryId"
+ORDER BY s."Id", s0."Id"
+2026-05-31 14:39:01.371 +03:00 [INF] Executed DbCommand (185ms) [Parameters=[@__code_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (
+    SELECT 1
+    FROM "Bookings" AS b
+    WHERE b."BookingReference" = @__code_0)
+2026-05-31 14:39:01.578 +03:00 [INF] Executed DbCommand (197ms) [Parameters=[@__code_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (
+    SELECT 1
+    FROM "Payments" AS p
+    WHERE p."PaymentReference" = @__code_0)
+2026-05-31 14:39:02.400 +03:00 [INF] Executed DbCommand (191ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (DbType = Object), @p2='?' (DbType = Object), @p3='?', @p4='?' (DbType = Decimal), @p5='?' (DbType = Object), @p6='?' (DbType = DateTime), @p7='?' (DbType = Guid), @p8='?' (DbType = Decimal), @p9='?' (DbType = Object), @p10='?', @p11='?' (DbType = Double), @p12='?', @p13='?' (DbType = Double), @p14='?' (DbType = Decimal), @p15='?' (DbType = Decimal), @p16='?' (DbType = Decimal), @p17='?' (DbType = Object), @p18='?', @p19='?' (DbType = Decimal), @p20='?' (DbType = Object), @p21='?' (DbType = Int32), @p22='?' (DbType = Guid), @p23='?' (DbType = Guid), @p24='?' (DbType = Guid), @p25='?' (DbType = DateTime), @p26='?' (DbType = DateTime), @p27='?' (DbType = Guid), @p28='?' (DbType = DateTime), @p29='?', @p30='?' (DbType = DateTime), @p31='?' (DbType = DateTime), @p32='?', @p33='?' (DbType = DateTime), @p34='?', @p35='?' (DbType = DateTime), @p36='?' (DbType = DateTime), @p37='?', @p38='?' (DbType = Guid), @p39='?' (DbType = Decimal), @p40='?' (DbType = Guid), @p41='?' (DbType = DateTime), @p42='?', @p43='?', @p44='?', @p45='?', @p46='?', @p47='?'], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "Bookings" ("Id", "AddOns", "AppliedPromotions", "BookingReference", "BundleDiscountPercent", "CanvasLines", "CreatedAt", "CustomerId", "DiscountAmountKes", "NubuckLines", "PickupAddress", "PickupLatitude", "PickupLocationUrl", "PickupLongitude", "PriceKes", "PromotionalDiscountKes", "ShoesSubtotalGrossKes", "SneakersLines", "Status", "SubtotalBeforeDiscountKes", "SuedeLines", "TotalPairs")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12, @p13, @p14, @p15, @p16, @p17, @p18, @p19, @p20, @p21);
+INSERT INTO "Orders" ("Id", "AgentId", "BookingId", "CleaningCompletedAt", "CleaningStartedAt", "CustomerId", "DeliveredAt", "DeliveryOtp", "DeliveryOtpExpiresAt", "DeliveryOtpVerifiedAt", "OrderReference", "PickedUpAt", "PickupOtp", "PickupOtpExpiresAt", "PickupOtpVerifiedAt", "Status")
+VALUES (@p22, @p23, @p24, @p25, @p26, @p27, @p28, @p29, @p30, @p31, @p32, @p33, @p34, @p35, @p36, @p37);
+INSERT INTO "Payments" ("Id", "Amount", "BookingId", "CreatedAt", "MpesaCheckoutRequestId", "MpesaMerchantRequestId", "MpesaReceipt", "PayerPhoneNumber", "PaymentReference", "Status")
+VALUES (@p38, @p39, @p40, @p41, @p42, @p43, @p44, @p45, @p46, @p47);
+2026-05-31 14:39:02.809 +03:00 [INF] Executed DbCommand (190ms) [Parameters=[@__p_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SELECT f."Id", f."AccessFailedCount", f."Address", f."ConcurrencyStamp", f."CreatedAt", f."CustomerReference", f."Email", f."EmailConfirmed", f."FullName", f."IsActive", f."LockoutEnabled", f."LockoutEnd", f."NormalizedEmail", f."NormalizedUserName", f."PasswordHash", f."PhoneNumber", f."PhoneNumberConfirmed", f."SecurityStamp", f."TwoFactorEnabled", f."UserName"
+FROM "FreshwalkUsers" AS f
+WHERE f."Id" = @__p_0
+LIMIT 1
+2026-05-31 14:39:02.882 +03:00 [INF] Start processing HTTP request POST https://api.resend.com/emails
+2026-05-31 14:39:02.892 +03:00 [INF] Sending HTTP request POST https://api.resend.com/emails
+2026-05-31 14:39:02.953 +03:00 [INF] HTTP POST /api/bookings responded 200 in 2042.5516 ms
+2026-05-31 14:39:04.384 +03:00 [INF] Received HTTP response headers after 1484.2476ms - 200
+2026-05-31 14:39:04.389 +03:00 [INF] End processing HTTP request after 1515.0696ms - 200
+2026-05-31 14:39:04.391 +03:00 [INF] Order acknowledgment email sent to kellyronny985@gmail.com for booking FW-20260531113901175-7693
+2026-05-31 14:43:29.385 +03:00 [INF] HTTP OPTIONS /api/catalog/preview-pricing responded 204 in 0.1006 ms
+2026-05-31 14:43:30.764 +03:00 [INF] HTTP OPTIONS /api/catalog/preview-pricing responded 204 in 0.0704 ms
+2026-05-31 14:43:31.379 +03:00 [INF] Executed DbCommand (195ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT s."Id", s."DisplayName", s."ImageAfterUrl", s."ImageBeforeUrl", s."Key", s."SortOrder", s."Tagline", s."ThemeColorHex", s0."Id", s0."CategoryId", s0."ColorTierKey", s0."IsActive", s0."PriceKes", s0."SortOrder", s1."Id", s1."CategoryId", s1."DiscountKind", s1."FixedOffPerPairKes", s1."IsActive", s1."Label", s1."PercentOff", s1."Priority", s1."ValidFrom", s1."ValidTo"
+FROM "ShoeServiceCategories" AS s
+LEFT JOIN "ShoeServiceTierPrices" AS s0 ON s."Id" = s0."CategoryId"
+LEFT JOIN "ShoeServicePromotions" AS s1 ON s."Id" = s1."CategoryId"
+ORDER BY s."Id", s0."Id"
+2026-05-31 14:43:31.559 +03:00 [INF] Executed DbCommand (170ms) [Parameters=[@__p_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SELECT f."Id", f."AccessFailedCount", f."Address", f."ConcurrencyStamp", f."CreatedAt", f."CustomerReference", f."Email", f."EmailConfirmed", f."FullName", f."IsActive", f."LockoutEnabled", f."LockoutEnd", f."NormalizedEmail", f."NormalizedUserName", f."PasswordHash", f."PhoneNumber", f."PhoneNumberConfirmed", f."SecurityStamp", f."TwoFactorEnabled", f."UserName"
+FROM "FreshwalkUsers" AS f
+WHERE f."Id" = @__p_0
+LIMIT 1
+2026-05-31 14:43:31.580 +03:00 [INF] HTTP POST /api/catalog/preview-pricing responded 200 in 2186.8638 ms
+2026-05-31 14:43:32.003 +03:00 [INF] Executed DbCommand (157ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT s."Id", s."DisplayName", s."ImageAfterUrl", s."ImageBeforeUrl", s."Key", s."SortOrder", s."Tagline", s."ThemeColorHex", s0."Id", s0."CategoryId", s0."ColorTierKey", s0."IsActive", s0."PriceKes", s0."SortOrder", s1."Id", s1."CategoryId", s1."DiscountKind", s1."FixedOffPerPairKes", s1."IsActive", s1."Label", s1."PercentOff", s1."Priority", s1."ValidFrom", s1."ValidTo"
+FROM "ShoeServiceCategories" AS s
+LEFT JOIN "ShoeServiceTierPrices" AS s0 ON s."Id" = s0."CategoryId"
+LEFT JOIN "ShoeServicePromotions" AS s1 ON s."Id" = s1."CategoryId"
+ORDER BY s."Id", s0."Id"
+2026-05-31 14:43:32.023 +03:00 [INF] HTTP POST /api/catalog/preview-pricing responded 200 in 1250.1509 ms
+2026-05-31 14:44:13.147 +03:00 [INF] HTTP OPTIONS /api/catalog/preview-pricing responded 204 in 0.0637 ms
+2026-05-31 14:44:13.321 +03:00 [INF] Executed DbCommand (168ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT s."Id", s."DisplayName", s."ImageAfterUrl", s."ImageBeforeUrl", s."Key", s."SortOrder", s."Tagline", s."ThemeColorHex", s0."Id", s0."CategoryId", s0."ColorTierKey", s0."IsActive", s0."PriceKes", s0."SortOrder", s1."Id", s1."CategoryId", s1."DiscountKind", s1."FixedOffPerPairKes", s1."IsActive", s1."Label", s1."PercentOff", s1."Priority", s1."ValidFrom", s1."ValidTo"
+FROM "ShoeServiceCategories" AS s
+LEFT JOIN "ShoeServiceTierPrices" AS s0 ON s."Id" = s0."CategoryId"
+LEFT JOIN "ShoeServicePromotions" AS s1 ON s."Id" = s1."CategoryId"
+ORDER BY s."Id", s0."Id"
+2026-05-31 14:44:13.545 +03:00 [INF] Executed DbCommand (218ms) [Parameters=[@__p_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SELECT f."Id", f."AccessFailedCount", f."Address", f."ConcurrencyStamp", f."CreatedAt", f."CustomerReference", f."Email", f."EmailConfirmed", f."FullName", f."IsActive", f."LockoutEnabled", f."LockoutEnd", f."NormalizedEmail", f."NormalizedUserName", f."PasswordHash", f."PhoneNumber", f."PhoneNumberConfirmed", f."SecurityStamp", f."TwoFactorEnabled", f."UserName"
+FROM "FreshwalkUsers" AS f
+WHERE f."Id" = @__p_0
+LIMIT 1
+2026-05-31 14:44:13.556 +03:00 [INF] HTTP POST /api/catalog/preview-pricing responded 200 in 403.8022 ms
+2026-05-31 14:44:13.763 +03:00 [INF] HTTP OPTIONS /api/catalog/preview-pricing responded 204 in 0.0511 ms
+2026-05-31 14:44:13.928 +03:00 [INF] Executed DbCommand (160ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT s."Id", s."DisplayName", s."ImageAfterUrl", s."ImageBeforeUrl", s."Key", s."SortOrder", s."Tagline", s."ThemeColorHex", s0."Id", s0."CategoryId", s0."ColorTierKey", s0."IsActive", s0."PriceKes", s0."SortOrder", s1."Id", s1."CategoryId", s1."DiscountKind", s1."FixedOffPerPairKes", s1."IsActive", s1."Label", s1."PercentOff", s1."Priority", s1."ValidFrom", s1."ValidTo"
+FROM "ShoeServiceCategories" AS s
+LEFT JOIN "ShoeServiceTierPrices" AS s0 ON s."Id" = s0."CategoryId"
+LEFT JOIN "ShoeServicePromotions" AS s1 ON s."Id" = s1."CategoryId"
+ORDER BY s."Id", s0."Id"
+2026-05-31 14:44:13.939 +03:00 [INF] HTTP POST /api/catalog/preview-pricing responded 200 in 171.6971 ms
+2026-05-31 14:44:19.395 +03:00 [INF] HTTP OPTIONS /api/catalog/preview-pricing responded 204 in 0.0389 ms
+2026-05-31 14:44:19.575 +03:00 [INF] Executed DbCommand (173ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT s."Id", s."DisplayName", s."ImageAfterUrl", s."ImageBeforeUrl", s."Key", s."SortOrder", s."Tagline", s."ThemeColorHex", s0."Id", s0."CategoryId", s0."ColorTierKey", s0."IsActive", s0."PriceKes", s0."SortOrder", s1."Id", s1."CategoryId", s1."DiscountKind", s1."FixedOffPerPairKes", s1."IsActive", s1."Label", s1."PercentOff", s1."Priority", s1."ValidFrom", s1."ValidTo"
+FROM "ShoeServiceCategories" AS s
+LEFT JOIN "ShoeServiceTierPrices" AS s0 ON s."Id" = s0."CategoryId"
+LEFT JOIN "ShoeServicePromotions" AS s1 ON s."Id" = s1."CategoryId"
+ORDER BY s."Id", s0."Id"
+2026-05-31 14:44:19.744 +03:00 [INF] Executed DbCommand (162ms) [Parameters=[@__p_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SELECT f."Id", f."AccessFailedCount", f."Address", f."ConcurrencyStamp", f."CreatedAt", f."CustomerReference", f."Email", f."EmailConfirmed", f."FullName", f."IsActive", f."LockoutEnabled", f."LockoutEnd", f."NormalizedEmail", f."NormalizedUserName", f."PasswordHash", f."PhoneNumber", f."PhoneNumberConfirmed", f."SecurityStamp", f."TwoFactorEnabled", f."UserName"
+FROM "FreshwalkUsers" AS f
+WHERE f."Id" = @__p_0
+LIMIT 1
+2026-05-31 14:44:19.751 +03:00 [INF] HTTP POST /api/catalog/preview-pricing responded 200 in 351.3211 ms
+2026-05-31 14:44:20.765 +03:00 [INF] HTTP OPTIONS /api/catalog/preview-pricing responded 204 in 0.0399 ms
+2026-05-31 14:44:20.944 +03:00 [INF] Executed DbCommand (170ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT s."Id", s."DisplayName", s."ImageAfterUrl", s."ImageBeforeUrl", s."Key", s."SortOrder", s."Tagline", s."ThemeColorHex", s0."Id", s0."CategoryId", s0."ColorTierKey", s0."IsActive", s0."PriceKes", s0."SortOrder", s1."Id", s1."CategoryId", s1."DiscountKind", s1."FixedOffPerPairKes", s1."IsActive", s1."Label", s1."PercentOff", s1."Priority", s1."ValidFrom", s1."ValidTo"
+FROM "ShoeServiceCategories" AS s
+LEFT JOIN "ShoeServiceTierPrices" AS s0 ON s."Id" = s0."CategoryId"
+LEFT JOIN "ShoeServicePromotions" AS s1 ON s."Id" = s1."CategoryId"
+ORDER BY s."Id", s0."Id"
+2026-05-31 14:44:20.956 +03:00 [INF] HTTP POST /api/catalog/preview-pricing responded 200 in 182.5933 ms
+2026-05-31 14:44:29.872 +03:00 [INF] HTTP OPTIONS /api/catalog/preview-pricing responded 204 in 0.0578 ms
+2026-05-31 14:44:30.056 +03:00 [INF] Executed DbCommand (167ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT s."Id", s."DisplayName", s."ImageAfterUrl", s."ImageBeforeUrl", s."Key", s."SortOrder", s."Tagline", s."ThemeColorHex", s0."Id", s0."CategoryId", s0."ColorTierKey", s0."IsActive", s0."PriceKes", s0."SortOrder", s1."Id", s1."CategoryId", s1."DiscountKind", s1."FixedOffPerPairKes", s1."IsActive", s1."Label", s1."PercentOff", s1."Priority", s1."ValidFrom", s1."ValidTo"
+FROM "ShoeServiceCategories" AS s
+LEFT JOIN "ShoeServiceTierPrices" AS s0 ON s."Id" = s0."CategoryId"
+LEFT JOIN "ShoeServicePromotions" AS s1 ON s."Id" = s1."CategoryId"
+ORDER BY s."Id", s0."Id"
+2026-05-31 14:44:30.369 +03:00 [INF] Executed DbCommand (304ms) [Parameters=[@__p_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SELECT f."Id", f."AccessFailedCount", f."Address", f."ConcurrencyStamp", f."CreatedAt", f."CustomerReference", f."Email", f."EmailConfirmed", f."FullName", f."IsActive", f."LockoutEnabled", f."LockoutEnd", f."NormalizedEmail", f."NormalizedUserName", f."PasswordHash", f."PhoneNumber", f."PhoneNumberConfirmed", f."SecurityStamp", f."TwoFactorEnabled", f."UserName"
+FROM "FreshwalkUsers" AS f
+WHERE f."Id" = @__p_0
+LIMIT 1
+2026-05-31 14:44:30.380 +03:00 [INF] HTTP POST /api/catalog/preview-pricing responded 200 in 492.9596 ms
+2026-05-31 14:44:30.768 +03:00 [INF] HTTP OPTIONS /api/catalog/preview-pricing responded 204 in 0.0381 ms
+2026-05-31 14:44:30.934 +03:00 [INF] Executed DbCommand (158ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT s."Id", s."DisplayName", s."ImageAfterUrl", s."ImageBeforeUrl", s."Key", s."SortOrder", s."Tagline", s."ThemeColorHex", s0."Id", s0."CategoryId", s0."ColorTierKey", s0."IsActive", s0."PriceKes", s0."SortOrder", s1."Id", s1."CategoryId", s1."DiscountKind", s1."FixedOffPerPairKes", s1."IsActive", s1."Label", s1."PercentOff", s1."Priority", s1."ValidFrom", s1."ValidTo"
+FROM "ShoeServiceCategories" AS s
+LEFT JOIN "ShoeServiceTierPrices" AS s0 ON s."Id" = s0."CategoryId"
+LEFT JOIN "ShoeServicePromotions" AS s1 ON s."Id" = s1."CategoryId"
+ORDER BY s."Id", s0."Id"
+2026-05-31 14:44:30.947 +03:00 [INF] HTTP POST /api/catalog/preview-pricing responded 200 in 172.5805 ms
+2026-05-31 14:44:58.012 +03:00 [INF] HTTP OPTIONS /api/gallery/hero responded 204 in 0.1455 ms
+2026-05-31 14:44:58.013 +03:00 [INF] HTTP OPTIONS /api/catalog/shoe-services responded 204 in 0.0442 ms
+2026-05-31 14:44:58.017 +03:00 [INF] HTTP OPTIONS /api/gallery/hero responded 204 in 0.0323 ms
+2026-05-31 14:44:58.018 +03:00 [INF] HTTP OPTIONS /api/catalog/shoe-services responded 204 in 0.0474 ms
+2026-05-31 14:44:58.188 +03:00 [INF] Executed DbCommand (157ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT s."Id", s."DisplayName", s."ImageAfterUrl", s."ImageBeforeUrl", s."Key", s."SortOrder", s."Tagline", s."ThemeColorHex", s0."Id", s0."CategoryId", s0."ColorTierKey", s0."IsActive", s0."PriceKes", s0."SortOrder", s1."Id", s1."CategoryId", s1."DiscountKind", s1."FixedOffPerPairKes", s1."IsActive", s1."Label", s1."PercentOff", s1."Priority", s1."ValidFrom", s1."ValidTo"
+FROM "ShoeServiceCategories" AS s
+LEFT JOIN "ShoeServiceTierPrices" AS s0 ON s."Id" = s0."CategoryId"
+LEFT JOIN "ShoeServicePromotions" AS s1 ON s."Id" = s1."CategoryId"
+ORDER BY s."SortOrder", s."Id", s0."Id"
+2026-05-31 14:44:58.188 +03:00 [INF] Executed DbCommand (164ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT g."Id", g."AccentColor", g."AfterUrl", g."BeforeUrl", g."Category", g."CloudinaryPublicIdAfter", g."CloudinaryPublicIdBefore", g."CreatedAt", g."IsActive", g."IsHero", g."Label", g."MediaType", g."SortOrder", g."UpdatedAt"
+FROM "GalleryMediaItems" AS g
+WHERE g."IsActive" AND g."IsHero" AND g."MediaType" = 'Image'
+ORDER BY g."SortOrder", g."CreatedAt" DESC
+2026-05-31 14:44:58.203 +03:00 [INF] HTTP GET /api/catalog/shoe-services responded 200 in 177.3963 ms
+2026-05-31 14:44:58.208 +03:00 [INF] HTTP GET /api/gallery/hero responded 200 in 187.3197 ms
+2026-05-31 14:44:58.360 +03:00 [INF] Executed DbCommand (163ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT s."Id", s."DisplayName", s."ImageAfterUrl", s."ImageBeforeUrl", s."Key", s."SortOrder", s."Tagline", s."ThemeColorHex", s0."Id", s0."CategoryId", s0."ColorTierKey", s0."IsActive", s0."PriceKes", s0."SortOrder", s1."Id", s1."CategoryId", s1."DiscountKind", s1."FixedOffPerPairKes", s1."IsActive", s1."Label", s1."PercentOff", s1."Priority", s1."ValidFrom", s1."ValidTo"
+FROM "ShoeServiceCategories" AS s
+LEFT JOIN "ShoeServiceTierPrices" AS s0 ON s."Id" = s0."CategoryId"
+LEFT JOIN "ShoeServicePromotions" AS s1 ON s."Id" = s1."CategoryId"
+ORDER BY s."SortOrder", s."Id", s0."Id"
+2026-05-31 14:44:58.360 +03:00 [INF] Executed DbCommand (160ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT g."Id", g."AccentColor", g."AfterUrl", g."BeforeUrl", g."Category", g."CloudinaryPublicIdAfter", g."CloudinaryPublicIdBefore", g."CreatedAt", g."IsActive", g."IsHero", g."Label", g."MediaType", g."SortOrder", g."UpdatedAt"
+FROM "GalleryMediaItems" AS g
+WHERE g."IsActive" AND g."IsHero" AND g."MediaType" = 'Image'
+ORDER BY g."SortOrder", g."CreatedAt" DESC
+2026-05-31 14:44:58.377 +03:00 [INF] HTTP GET /api/catalog/shoe-services responded 200 in 181.5230 ms
+2026-05-31 14:44:58.379 +03:00 [INF] HTTP GET /api/gallery/hero responded 200 in 179.9223 ms
+2026-05-31 14:45:02.761 +03:00 [INF] HTTP OPTIONS /api/catalog/preview-pricing responded 204 in 0.0361 ms
+2026-05-31 14:45:03.245 +03:00 [INF] Executed DbCommand (472ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT s."Id", s."DisplayName", s."ImageAfterUrl", s."ImageBeforeUrl", s."Key", s."SortOrder", s."Tagline", s."ThemeColorHex", s0."Id", s0."CategoryId", s0."ColorTierKey", s0."IsActive", s0."PriceKes", s0."SortOrder", s1."Id", s1."CategoryId", s1."DiscountKind", s1."FixedOffPerPairKes", s1."IsActive", s1."Label", s1."PercentOff", s1."Priority", s1."ValidFrom", s1."ValidTo"
+FROM "ShoeServiceCategories" AS s
+LEFT JOIN "ShoeServiceTierPrices" AS s0 ON s."Id" = s0."CategoryId"
+LEFT JOIN "ShoeServicePromotions" AS s1 ON s."Id" = s1."CategoryId"
+ORDER BY s."Id", s0."Id"
+2026-05-31 14:45:03.256 +03:00 [INF] HTTP POST /api/catalog/preview-pricing responded 200 in 485.9473 ms
